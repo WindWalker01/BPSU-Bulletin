@@ -6,6 +6,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-teal-400: oklch(77.7% 0.152 181.912);
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
     --default-font-family: var(--font-sans);
@@ -163,6 +164,9 @@
 @layer utilities {
   .contents {
     display: contents;
+  }
+  .bg-teal-400 {
+    background-color: var(--color-teal-400);
   }
   .text-2xl {
     font-size: var(--text-2xl);
