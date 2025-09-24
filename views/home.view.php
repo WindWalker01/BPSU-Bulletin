@@ -1,4 +1,4 @@
-<?php require "partials/head.php";?>
+<?php require "partials/head.php"; ?>
 
 
 <div class="text-2xl bg-teal-400">
@@ -8,5 +8,5 @@
 
 
 
-<?php require "partials/footer.php";?>
+<?php require "partials/footer.php"; ?>
 
