@@ -9,4 +9,5 @@ return [
         "user" => "",
         "password" => "",
     ],
+    "service" => [],
 ];

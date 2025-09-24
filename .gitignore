@@ -8,5 +8,3 @@ coverage/
 dist/
 build/
 tmp/
-
-config.php
