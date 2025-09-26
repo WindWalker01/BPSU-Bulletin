@@ -9,6 +9,14 @@ function dd($value)
     die();
 }
 
+function routeToController($uri, $routes)
+{
+    if (array_key_exists($uri, $routes)) {
+        require base_path($routes[$uri]);
+    } else {
+    }
+}
+
 function base_path($path)
 {
     return BASE_PATH . $path;
