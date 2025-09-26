@@ -13,6 +13,7 @@ class Database
             `id` int NOT NULL AUTO_INCREMENT,
             `role` enum('USER','AUTHOR','ADMIN') DEFAULT NULL,
             `username` varchar(255) DEFAULT NULL,
+            `email` varchar(255) DEFAULT NULL,
             `password` varchar(255) DEFAULT NULL,
             `account_status` enum('ACTIVE','DELETED') DEFAULT NULL,
             `created_at` timestamp NULL DEFAULT NULL,
