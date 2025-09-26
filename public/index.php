@@ -1,4 +1,7 @@
 <?php
+
+use Core\App;
+use Core\Container;
 use Core\Database;
 use Core\Router;
 
@@ -11,14 +14,21 @@ spl_autoload_register(function ($class) {
     require base_path("{$class}.php");
 });
 
-$db = new Database(require base_path("config/config.php"));
+//Set up the service container
+$container = new Container();
+App::setContainer($container);
 
-// require base_path("core/router.php");
+// bind the database class
+App::bind("Core\Database", function () {
+    return new Database(require base_path("config/config.php"));
+});
+
+// get the instance of the db class in the service container
+$db = App::resolve(Database::class);
+
 $router = new Router();
 
 $routes = require base_path("public/routes.php");
-
-// routeToController($_SERVER["REQUEST_URI"], $routes);
 
 $method = $_POST["_method"] ?? $_SERVER["REQUEST_METHOD"];
 
