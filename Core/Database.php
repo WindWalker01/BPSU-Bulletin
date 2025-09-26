@@ -265,6 +265,4 @@ class Database
 
         echo "<script>console.log('DB Created 😍');</script>";
     }
-
-    protected function set_up_tables($connection) {}
 }
