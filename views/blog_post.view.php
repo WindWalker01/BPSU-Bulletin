@@ -2,7 +2,7 @@
 
 
 <div>
-    Put the contents here
+    You should be authorized to see this page
 </div>
 
 

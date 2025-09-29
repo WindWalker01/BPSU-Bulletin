@@ -217,7 +217,7 @@ class Database
 
     public function create_db_connection($config)
     {
-        $dsn = "mysql:" . http_build_query($config, "", ";");
+        $dsn = "mysql:" . http_build_query($config["database"], "", ";");
 
         return new PDO(
             $dsn,

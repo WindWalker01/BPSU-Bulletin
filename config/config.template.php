@@ -12,4 +12,5 @@ return [
         "password" => "your_password",
     ],
     "service" => [],
+    "jwt-secret-key" => "secret-key",
 ];

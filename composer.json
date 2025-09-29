@@ -1,0 +1,6 @@
+{
+    "name": "rent/bpsu-bulletin",
+    "require": {
+        "firebase/php-jwt": "^6.11"
+    }
+}
