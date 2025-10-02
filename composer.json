@@ -1,7 +1,10 @@
 {
-    "name": "rent/bpsu-bulletin",
-    "require": {
-        "firebase/php-jwt": "^6.11",
-        "google/apiclient": "^2.18"
-    }
+  "name": "rent/bpsu-bulletin",
+  "require": {
+    "firebase/php-jwt": "^6.11",
+    "google/apiclient": "^2.18"
+  },
+  "scripts": {
+    "dev": "php -S localhost:8069 -t public"
+  }
 }
