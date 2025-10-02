@@ -53,4 +53,20 @@ class Authenticator
             ],
         );
     }
+
+    public function deleteToken()
+    {
+        setcookie(
+            "auth_token", // cookie name
+            "", // the token
+            [
+                "expires" => time() - 3600, // 1 hour
+                "path" => "/", // available across the site
+                "domain" => "bpsu-bulletin.test", // set your domain
+                // "secure" => true, // only send over HTTPS
+                "httponly" => true, // JavaScript can't access it
+                "samesite" => "Strict", // protects from CSRF
+            ],
+        );
+    }
 }
