@@ -5,6 +5,6 @@ $auth = new Authenticator();
 
 $auth->deleteToken();
 
-header("location: /");
+redirect("/");
 
 exit();

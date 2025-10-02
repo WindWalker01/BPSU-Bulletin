@@ -10,10 +10,11 @@ $auth = new Authenticator();
 $signedIn = $auth->attempt($email, $password);
 
 if (!$signedIn) {
-    header("location: /login");
+    redirect("/login");
+
     exit();
 }
 
 $auth->generateToken($email);
 
-header("location: /");
+redirect("/");

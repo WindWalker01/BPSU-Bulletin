@@ -27,3 +27,9 @@ function view($path, $attributes = [])
     extract($attributes);
     require base_path("views/" . $path);
 }
+
+function redirect($path, $components = [])
+{
+    $query = http_build_query($components);
+    header("location: {$path}?{$query}");
+}

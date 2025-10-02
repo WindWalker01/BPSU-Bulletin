@@ -23,5 +23,5 @@ $auth = new Authenticator();
 
 $auth->generateToken($email);
 
-header("location: /");
+redirect("/");
 exit();
