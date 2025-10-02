@@ -1,11 +1,7 @@
 <?php view("partials/head.php"); ?>
 
 
-<div>
-    You should be authorized to see this page
-</div>
-
-
+<h1>Hello World</h1>
 
 <?php view("partials/footer.php"); ?>
 

@@ -1,5 +1,9 @@
 <?php
 
+namespace Core\Middleware;
+
+use Exception;
+
 class Middleware
 {
     private const MAP = [

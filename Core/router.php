@@ -1,6 +1,7 @@
 <?php
 
 namespace Core;
+use Core\Middleware\Middleware;
 
 class Router
 {
@@ -45,6 +46,7 @@ class Router
                 $route["uri"] === $uri &&
                 strtoupper($method) === $route["method"]
             ) {
+                Middleware::resolve($route["middleware"]);
                 return require base_path($route["controller"]);
             }
         }

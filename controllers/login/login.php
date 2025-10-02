@@ -1,24 +1,17 @@
 <?php
-
-use Core\App;
-use Core\Database;
-
+use Core\Authenticator;
 use Firebase\JWT\JWT;
 
-$db = App::resolve(Database::class);
 $email = $_POST["email"];
 $password = $_POST["password"];
 
-$hashed_pasword = password_hash($password, PASSWORD_ARGON2ID);
+// check if the credentials are in the database
+$signedIn = new Authenticator()->attempt($email, $password);
 
-$user = $db->query(
-    "INSERT INTO users (role, username, email, password, account_status, created_at) VALUES
-('USER', 'ruzzel', :email, :password, 'ACTIVE', NOW());",
-    [
-        "email" => $email,
-        "password" => $hashed_pasword,
-    ],
-);
+if (!$signedIn) {
+    header("location: /login");
+    exit();
+}
 
 // create a jwt token/payload
 $config = require base_path("config/config.php");
@@ -51,4 +44,3 @@ setcookie(
 );
 
 header("location: /");
-exit();
