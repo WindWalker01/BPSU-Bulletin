@@ -10,15 +10,16 @@ class Database
 
     private $sql = [
         "CREATE TABLE `users` (
-            `id` int NOT NULL AUTO_INCREMENT,
-            `role` enum('USER','AUTHOR','ADMIN') DEFAULT NULL,
-            `username` varchar(255) DEFAULT NULL,
-            `email` varchar(255) DEFAULT NULL,
-            `password` varchar(255) DEFAULT NULL,
-            `account_status` enum('ACTIVE','DELETED') DEFAULT NULL,
-            `created_at` timestamp NULL DEFAULT NULL,
-            PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
+        `id` int NOT NULL AUTO_INCREMENT,
+        `role` enum('USER','AUTHOR','ADMIN') DEFAULT NULL,
+        `username` varchar(255) DEFAULT NULL,
+        `email` varchar(255) DEFAULT NULL,
+        `password` varchar(255) DEFAULT NULL,
+        `account_status` enum('ACTIVE','DELETED') DEFAULT NULL,
+        `created_at` timestamp NULL DEFAULT NULL,
+        `auth_provider` enum('LOCAL','GOOGLE') NOT NULL DEFAULT 'LOCAL',
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `blogs` (
             `id` int NOT NULL AUTO_INCREMENT,

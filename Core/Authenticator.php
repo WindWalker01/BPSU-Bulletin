@@ -5,6 +5,7 @@ namespace Core;
 use Core\App;
 use Core\Database;
 use Firebase\JWT\JWT;
+use Google\Service\AlertCenter\User;
 
 class Authenticator
 {
@@ -17,12 +18,25 @@ class Authenticator
             ->find();
 
         if ($user) {
-            // TODO: verify the password
             password_verify($password, $user["password"]);
             return true;
         }
 
         return false;
+    }
+
+    public function isUserExist($email)
+    {
+        $user = App::resolve(Database::class)
+            ->query("SELECT * FROM users WHERE email = :email", [
+                "email" => $email,
+            ])
+            ->find();
+
+        if (!$user) {
+            return false;
+        }
+        return true;
     }
 
     public function generateToken($email)
@@ -31,8 +45,8 @@ class Authenticator
         $config = require base_path("config/config.php");
 
         $payload = [
-            "iss" => "http://bpsu.bulletin.test", // Issuer
-            "aud" => "http://bpsu-bulletin.test", // Audience
+            "iss" => $config["domain"], // Issuer
+            "aud" => $config["domain"], // Audience
             "iat" => time(), // Issued at
             "exp" => time() + 60 * 60, // Expiration (1 hour)
             "email" => $email, // Custom claim
@@ -46,7 +60,7 @@ class Authenticator
             [
                 "expires" => time() + 3600, // 1 hour
                 "path" => "/", // available across the site
-                "domain" => "bpsu-bulletin.test", // set your domain
+                "domain" => $config["domain"], // set your domain
                 // "secure" => true, // only send over HTTPS
                 "httponly" => true, // JavaScript can't access it
                 "samesite" => "Strict", // protects from CSRF
@@ -56,13 +70,15 @@ class Authenticator
 
     public function deleteToken()
     {
+        $config = require base_path("config/config.php");
+
         setcookie(
             "auth_token", // cookie name
             "", // the token
             [
                 "expires" => time() - 3600, // 1 hour
                 "path" => "/", // available across the site
-                "domain" => "bpsu-bulletin.test", // set your domain
+                "domain" => $config["domain"], // set your domain
                 // "secure" => true, // only send over HTTPS
                 "httponly" => true, // JavaScript can't access it
                 "samesite" => "Strict", // protects from CSRF

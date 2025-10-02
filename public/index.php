@@ -25,6 +25,8 @@ App::bind("Core\Database", function () {
     return new Database(require base_path("config/config.php"));
 });
 
+App::resolve(Database::class);
+
 $router = new Router();
 
 // get all the routes of the application

@@ -10,4 +10,8 @@ $router
     ->post("/register", "controllers/registration/create.php")
     ->only("guest");
 $router->post("/login", "controllers/login/login.php")->only("guest");
+$router->get("/login_google", "controllers/oauth/login.php")->only("guest");
+$router
+    ->get("/google_callback", "controllers/oauth/google-callback.php")
+    ->only("guest");
 $router->post("/logout", "controllers/login/logout.php")->only("auth");
