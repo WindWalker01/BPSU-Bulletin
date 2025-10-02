@@ -6,6 +6,8 @@ $router->get("/login", "controllers/login/show.php")->only("guest");
 $router->get("/logout", "controllers/login/logout.php")->only("auth");
 
 //POST
-$router->post("/register", "controllers/registration/store.php")->only("guest");
+$router
+    ->post("/register", "controllers/registration/create.php")
+    ->only("guest");
 $router->post("/login", "controllers/login/login.php")->only("guest");
 $router->post("/logout", "controllers/login/logout.php")->only("auth");
