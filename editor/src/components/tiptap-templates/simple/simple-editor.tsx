@@ -77,7 +77,7 @@ import content from "@/components/tiptap-templates/simple/data/content.json";
 
 import Youtube from "@tiptap/extension-youtube";
 
-import { YoutubeButton } from "@/components/tiptap-templates/simple/youtube-button";
+import { YoutubePopover } from "@/components/tiptap-templates/simple/youtube-popover";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -145,7 +145,7 @@ const MainToolbarContent = ({
 
       <ToolbarGroup>
         <ImageUploadButton text="Add" />
-        <YoutubeButton />
+        <YoutubePopover />
       </ToolbarGroup>
 
       <Spacer />
@@ -237,9 +237,10 @@ export function SimpleEditor() {
         onError: (error) => console.error("Upload failed:", error),
       }),
     ],
+    // @ts-expect-error - 'onDelete' is not a standard option in useEditor, but used for custom image deletion handling
     onDelete: ({ editor, node }) => {
       if (node.type.name === "image") {
-        console.log("an image dissapered");
+        console.log("an image dissapered", editor);
       }
     },
     content,
