@@ -2,7 +2,8 @@
   "name": "rent/bpsu-bulletin",
   "require": {
     "firebase/php-jwt": "^6.11",
-    "google/apiclient": "^2.18"
+    "google/apiclient": "^2.18",
+    "ueberdosis/tiptap-php": "^2.0"
   },
   "scripts": {
     "dev": "php -S localhost:8069 -t public"
