@@ -22,6 +22,11 @@ return [
             "client_secret" => "secret",
             "redirect_uris" => "uri",
         ],
+        "cloudinary" => [
+            "cloud_name" => "",
+            "api_key" => "",
+            "api_secret" => "",
+        ],
     ],
     "jwt-secret-key" => "secret-key",
     "domain" => "localhost",

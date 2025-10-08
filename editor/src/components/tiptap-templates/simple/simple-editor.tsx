@@ -68,12 +68,18 @@ import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 // import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
 
 // --- Lib ---
-import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
+import {
+  handleImageUpload,
+  MAX_FILE_SIZE,
+  whenEditorCreated,
+  whenEditorDeletes,
+  whenEditorUpdates,
+} from "@/lib/tiptap-utils";
 
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss";
 
-import content from "@/components/tiptap-templates/simple/data/content.json";
+// import content from "@/components/tiptap-templates/simple/data/content.json";
 
 import Youtube from "@tiptap/extension-youtube";
 
@@ -238,12 +244,11 @@ export function SimpleEditor() {
       }),
     ],
     // @ts-expect-error - 'onDelete' is not a standard option in useEditor, but used for custom image deletion handling
-    onDelete: ({ editor, node }) => {
-      if (node.type.name === "image") {
-        console.log("an image dissapered", editor);
-      }
-    },
-    content,
+    onDelete: ({ editor, node }) => whenEditorDeletes(editor, node),
+
+    onUpdate: ({ editor }) => whenEditorUpdates(editor),
+
+    onCreate: ({ editor }) => whenEditorCreated(editor),
   });
 
   const rect = useCursorVisibility({
