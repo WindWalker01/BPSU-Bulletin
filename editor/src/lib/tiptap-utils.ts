@@ -310,6 +310,9 @@ export const handleImageUpload = async (
 
   const data = await uploadImage(file);
 
+  const progress = 100;
+  onProgress?.({ progress });
+
   return data.url;
 };
 
@@ -396,7 +399,8 @@ export function sanitizeUrl(
 export async function whenEditorDeletes(editor: Editor, node: Node) {
   if (node.type.name === "image") {
     console.log("an image dissapered", node.attrs.src);
-    removeImageDraft(node.attrs.src);
+
+    console.log(node.attrs);
   }
 }
 
@@ -427,13 +431,7 @@ async function uploadImage(file: File) {
 
   const data = await res.json();
 
-  console.log(data);
-
   return data;
-}
-
-async function removeImageDraft(file_name: string) {
-  await localforage.removeItem(`draft_image_${file_name}`);
 }
 
 async function loadContentsOnMount() {
