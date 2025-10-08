@@ -67,6 +67,8 @@ import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 // --- Components ---
 // import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
 
+import { Save, SaveIcon } from "lucide-react";
+
 // --- Lib ---
 import {
   handleImageUpload,
@@ -94,9 +96,26 @@ const MainToolbarContent = ({
   onLinkClick: () => void;
   isMobile: boolean;
 }) => {
+  const editor = React.useContext(EditorContext)?.editor;
+
+  const handleSave = async () => {
+    if (!editor) return;
+    const content = editor.getJSON();
+    // Example: save locally with localForage or send to backend
+    // await localforage.setItem("draft_content", content);
+    console.log("✅ Draft saved:", content);
+    // alert("Draft saved!");
+  };
+
   return (
     <>
       <Spacer />
+
+      <ToolbarGroup>
+        <Button data-style="ghost" onClick={handleSave} className="button">
+          <Save className="tiptap-button-icon" />
+        </Button>
+      </ToolbarGroup>
 
       <ToolbarGroup>
         <UndoRedoButton action="undo" />
