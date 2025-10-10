@@ -67,12 +67,13 @@ import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 // --- Components ---
 // import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
 
-import { Save, SaveIcon } from "lucide-react";
+import { Save } from "lucide-react";
 
 // --- Lib ---
 import {
   handleImageUpload,
   MAX_FILE_SIZE,
+  whenEditorBlur,
   whenEditorCreated,
   whenEditorDeletes,
   whenEditorUpdates,
@@ -213,7 +214,13 @@ const MobileToolbarContent = ({
   </>
 );
 
-export function SimpleEditor() {
+export function SimpleEditor({
+  data,
+  blogId,
+}: {
+  data: string;
+  blogId: number;
+}) {
   const isMobile = useIsMobile();
   const { height } = useWindowSize();
   const [mobileView, setMobileView] = React.useState<
@@ -263,11 +270,13 @@ export function SimpleEditor() {
       }),
     ],
     // @ts-expect-error - 'onDelete' is not a standard option in useEditor, but used for custom image deletion handling
-    onDelete: ({ editor, node }) => whenEditorDeletes(editor, node),
+    onDelete: ({ node }) => whenEditorDeletes(node),
 
     onUpdate: ({ editor }) => whenEditorUpdates(editor),
 
-    onCreate: ({ editor }) => whenEditorCreated(editor),
+    onCreate: ({ editor }) => whenEditorCreated(editor, data),
+
+    onBlur: ({ editor }) => whenEditorBlur(editor, blogId),
   });
 
   const rect = useCursorVisibility({

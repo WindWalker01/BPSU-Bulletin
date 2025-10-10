@@ -2,7 +2,7 @@ import type { Node, Node as TiptapNode } from "@tiptap/pm/model";
 import { NodeSelection, Selection, TextSelection } from "@tiptap/pm/state";
 import type { Editor } from "@tiptap/react";
 import localforage from "localforage";
-import content from "@/components/tiptap-templates/simple/data/content.json";
+// import content from "@/components/tiptap-templates/simple/data/content.json";
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -396,26 +396,35 @@ export function sanitizeUrl(
   return "#";
 }
 
-export async function whenEditorDeletes(editor: Editor, node: Node) {
+export async function whenEditorDeletes(node: Node) {
   if (node.type.name === "image") {
-    console.log("an image dissapered", node.attrs.src);
-
-    console.log(node.attrs);
+    // console.log("an image dissapered", node.attrs.src);
   }
 }
 
 export async function whenEditorUpdates(editor: Editor) {
-  console.log("UPDATE");
   const jsonContent = editor.getJSON();
   localforage.setItem("draft_content", jsonContent);
 }
 
-export async function whenEditorCreated(editor: Editor) {
-  await loadContentsOnMount().then((draft) => {
-    console.log("CREATE ", draft);
+export async function whenEditorBlur(editor: Editor, authorId: number) {
+  const jsonContent = editor.getJSON();
 
-    editor.commands.setContent(draft ?? content);
+  const formData = new FormData();
+
+  formData.append("_method", "PATCH");
+  formData.append("blog", authorId.toString());
+  formData.append("content", JSON.stringify(jsonContent));
+
+  await fetch("http://localhost:8069/blog/editor", {
+    method: "POST",
+    body: formData,
   });
+}
+
+export async function whenEditorCreated(editor: Editor, jsonData: string) {
+  const data = JSON.parse(jsonData);
+  editor.commands.setContent(data);
 }
 
 async function uploadImage(file: File) {
@@ -434,6 +443,6 @@ async function uploadImage(file: File) {
   return data;
 }
 
-async function loadContentsOnMount() {
-  return localforage.getItem("draft_content");
-}
+// async function loadContentsOnMount() {
+//   return localforage.getItem("draft_content");
+// }

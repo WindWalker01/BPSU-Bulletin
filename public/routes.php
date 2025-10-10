@@ -8,7 +8,7 @@ $router->get("/register", "controllers/registration/show.php")->only("guest");
 $router->get("/login", "controllers/login/show.php")->only("guest");
 $router->get("/logout", "controllers/login/logout.php")->only("auth");
 
-$router->get("/blog/editor", "controllers/blog/create.php");
+$router->get("/blog/editor", "controllers/blog/editor/show.php");
 
 //POST
 $router
@@ -22,11 +22,11 @@ $router
 $router->post("/logout", "controllers/login/logout.php")->only("auth");
 
 $router->post("/blog/editor/image/upload", "controllers/image/create.php");
-$router->post("/blog/editor/content/publish", "controllers/blog/content.php");
 
 // PUT
 
 // PATCH
+$router->patch("/blog/editor", "controllers/blog/edit.php");
 
 // DELETE
 $router->delete("/blog/editor/image/delete", "controllers/image/delete.php");
