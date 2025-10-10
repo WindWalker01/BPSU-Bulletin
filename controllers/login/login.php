@@ -15,6 +15,8 @@ if (!$signedIn) {
     exit();
 }
 
-$auth->generateToken($email);
+$role = $auth->getLoggedInRole($email)["role"];
+
+$auth->generateToken($email, $role);
 
 redirect("/");
