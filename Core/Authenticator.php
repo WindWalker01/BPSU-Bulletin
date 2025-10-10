@@ -5,7 +5,6 @@ namespace Core;
 use Core\App;
 use Core\Database;
 use Firebase\JWT\JWT;
-use Google\Service\AlertCenter\User;
 
 class Authenticator
 {
@@ -39,7 +38,7 @@ class Authenticator
         return true;
     }
 
-    public function generateToken($email)
+    public function generateToken($email, $role = "USER")
     {
         // create a jwt token/payload
         $config = require base_path("config/config.php");
@@ -49,14 +48,15 @@ class Authenticator
             "aud" => $config["domain"], // Audience
             "iat" => time(), // Issued at
             "exp" => time() + 60 * 60, // Expiration (1 hour)
-            "email" => $email, // Custom claim
+            "email" => $email, // Custom claim,
+            "role" => $role,
         ];
 
         $jwt = JWT::encode($payload, $config["jwt-secret-key"], "HS256");
 
         setcookie(
             "auth_token", // cookie name
-            $jwt, // the token
+            $jwt, // the token / value
             [
                 "expires" => time() + 3600, // 1 hour
                 "path" => "/", // available across the site
@@ -84,5 +84,26 @@ class Authenticator
                 "samesite" => "Strict", // protects from CSRF
             ],
         );
+    }
+
+    public function getLoggedInRole($email)
+    {
+        $user = App::resolve(Database::class)
+            ->query("SELECT * FROM users WHERE email = :email", [
+                "email" => $email,
+            ])
+            ->find();
+
+        return $user["role"];
+    }
+
+    public function getLoggedInUserId($email)
+    {
+        $user = App::resolve(Database::class)
+            ->query("SELECT * FROM users WHERE email = :email", [
+                "email" => $email,
+            ])
+            ->find();
+        return $user["id"];
     }
 }

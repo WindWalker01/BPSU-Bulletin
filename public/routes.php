@@ -9,7 +9,9 @@ $router->get("/login", "controllers/login/show.php")->only("guest");
 $router->get("/logout", "controllers/login/logout.php")->only("auth");
 $router->get("/home", "controllers/home/home.php");
 
-$router->get("/blog/editor", "controllers/blog/editor/show.php");
+$router
+    ->get("/blog/editor", "controllers/blog/editor/show.php")
+    ->only("author");
 
 //POST
 $router
