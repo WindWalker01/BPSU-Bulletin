@@ -22,17 +22,18 @@ class Database
         ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `blogs` (
-            `id` int NOT NULL AUTO_INCREMENT,
-            `author_id` int DEFAULT NULL,
-            `blog_status` enum('ACTIVE','DELETED','HIDDEN') DEFAULT NULL,
-            `content` json DEFAULT NULL,
-            `created_at` timestamp NULL DEFAULT NULL,
-            `scheduled_at` timestamp NULL DEFAULT NULL,
-            `updated_at` timestamp NULL DEFAULT NULL,
-            PRIMARY KEY (`id`),
-            KEY `author_id` (`author_id`),
-            CONSTRAINT `blogs_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
+        `id` int NOT NULL AUTO_INCREMENT,
+        `author_id` int DEFAULT NULL,
+        `blog_status` enum('ACTIVE','DELETED','HIDDEN') DEFAULT NULL,
+        `content` json DEFAULT NULL,
+        `created_at` timestamp NULL DEFAULT NULL,
+        `scheduled_at` timestamp NULL DEFAULT NULL,
+        `updated_at` timestamp NULL DEFAULT NULL,
+        `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+        PRIMARY KEY (`id`),
+        KEY `author_id` (`author_id`),
+        CONSTRAINT `blogs_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `user_reports` (
             `id` int NOT NULL AUTO_INCREMENT,
