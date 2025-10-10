@@ -67,16 +67,14 @@ import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 // --- Components ---
 // import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
 
-import { Save } from "lucide-react";
-
 // --- Lib ---
 import {
+  debounceSave,
   handleImageUpload,
   MAX_FILE_SIZE,
   whenEditorBlur,
   whenEditorCreated,
   whenEditorDeletes,
-  whenEditorUpdates,
 } from "@/lib/tiptap-utils";
 
 // --- Styles ---
@@ -97,26 +95,9 @@ const MainToolbarContent = ({
   onLinkClick: () => void;
   isMobile: boolean;
 }) => {
-  const editor = React.useContext(EditorContext)?.editor;
-
-  const handleSave = async () => {
-    if (!editor) return;
-    const content = editor.getJSON();
-    // Example: save locally with localForage or send to backend
-    // await localforage.setItem("draft_content", content);
-    console.log("✅ Draft saved:", content);
-    // alert("Draft saved!");
-  };
-
   return (
     <>
       <Spacer />
-
-      <ToolbarGroup>
-        <Button data-style="ghost" onClick={handleSave} className="button">
-          <Save className="tiptap-button-icon" />
-        </Button>
-      </ToolbarGroup>
 
       <ToolbarGroup>
         <UndoRedoButton action="undo" />
@@ -272,7 +253,7 @@ export function SimpleEditor({
     // @ts-expect-error - 'onDelete' is not a standard option in useEditor, but used for custom image deletion handling
     onDelete: ({ node }) => whenEditorDeletes(node),
 
-    onUpdate: ({ editor }) => whenEditorUpdates(editor),
+    onUpdate: ({ editor }) => debounceSave(editor, blogId),
 
     onCreate: ({ editor }) => whenEditorCreated(editor, data),
 
