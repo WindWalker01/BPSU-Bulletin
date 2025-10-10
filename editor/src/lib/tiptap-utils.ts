@@ -1,8 +1,8 @@
 import type { Node, Node as TiptapNode } from "@tiptap/pm/model";
 import { NodeSelection, Selection, TextSelection } from "@tiptap/pm/state";
 import type { Editor } from "@tiptap/react";
-import localforage from "localforage";
 // import content from "@/components/tiptap-templates/simple/data/content.json";
+import debounce from "lodash.debounce";
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -402,24 +402,15 @@ export async function whenEditorDeletes(node: Node) {
   }
 }
 
-export async function whenEditorUpdates(editor: Editor) {
+export const debounceSave = debounce((editor, blogId) => {
   const jsonContent = editor.getJSON();
-  localforage.setItem("draft_content", jsonContent);
-}
+  saveContent(blogId, jsonContent);
+  console.log("SAVE");
+}, 3500);
 
-export async function whenEditorBlur(editor: Editor, authorId: number) {
+export async function whenEditorBlur(editor: Editor, blogId: number) {
   const jsonContent = editor.getJSON();
-
-  const formData = new FormData();
-
-  formData.append("_method", "PATCH");
-  formData.append("blog", authorId.toString());
-  formData.append("content", JSON.stringify(jsonContent));
-
-  await fetch("http://localhost:8069/blog/editor", {
-    method: "POST",
-    body: formData,
-  });
+  saveContent(blogId, jsonContent);
 }
 
 export async function whenEditorCreated(editor: Editor, jsonData: string) {
@@ -443,6 +434,15 @@ async function uploadImage(file: File) {
   return data;
 }
 
-// async function loadContentsOnMount() {
-//   return localforage.getItem("draft_content");
-// }
+async function saveContent(blogId: number, jsonContent: unknown) {
+  const formData = new FormData();
+
+  formData.append("_method", "PATCH");
+  formData.append("blog_id", blogId.toString());
+  formData.append("content", JSON.stringify(jsonContent));
+
+  return await fetch("http://localhost:8069/blog/editor", {
+    method: "POST",
+    body: formData,
+  });
+}

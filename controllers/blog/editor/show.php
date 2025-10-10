@@ -14,5 +14,5 @@ $content = $db
 
 view("blog/editor/show.view.php", [
     "blog_id" => 1,
-    "draft_content" => $content ?? "{}",
+    "draft_content" => json_decode($content) ?? "{}",
 ]);
