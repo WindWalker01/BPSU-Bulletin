@@ -15,7 +15,7 @@ if (!$signedIn) {
     exit();
 }
 
-$role = $auth->getLoggedInRole($email)["role"];
+$role = $auth->getLoggedInRoleWithEmail($email);
 
 $auth->generateToken($email, $role);
 
