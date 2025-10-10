@@ -5,6 +5,7 @@ namespace Core;
 use Core\App;
 use Core\Database;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class Authenticator
 {
@@ -86,7 +87,24 @@ class Authenticator
         );
     }
 
-    public function getLoggedInRole($email)
+    public function getLoggedInRole()
+    {
+        $config = require base_path("config/config.php");
+        $jwt = (array) JWT::decode(
+            $_COOKIE["auth_token"],
+            new Key($config["jwt-secret-key"], "HS256"),
+        );
+
+        $user = App::resolve(Database::class)
+            ->query("SELECT * FROM users WHERE email = :email", [
+                "email" => $jwt["email"],
+            ])
+            ->find();
+
+        return $user["role"];
+    }
+
+    public function getLoggedInRoleWithEmail($email)
     {
         $user = App::resolve(Database::class)
             ->query("SELECT * FROM users WHERE email = :email", [
@@ -97,11 +115,16 @@ class Authenticator
         return $user["role"];
     }
 
-    public function getLoggedInUserId($email)
+    public function getLoggedInUserId()
     {
+        $config = require base_path("config/config.php");
+        $jwt = (array) JWT::decode(
+            $_COOKIE["auth_token"],
+            new Key($config["jwt-secret-key"], "HS256"),
+        );
         $user = App::resolve(Database::class)
             ->query("SELECT * FROM users WHERE email = :email", [
-                "email" => $email,
+                "email" => $jwt["email"],
             ])
             ->find();
         return $user["id"];
