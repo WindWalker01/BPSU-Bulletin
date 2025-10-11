@@ -4,7 +4,7 @@ $router->get("/blog", "controllers/blog_post.php")->only("auth");
 $router->get("/register", "controllers/registration/show.php")->only("guest");
 $router->get("/login", "controllers/login/show.php")->only("guest");
 $router->get("/logout", "controllers/login/logout.php")->only("auth");
-
+$router->get("/home", "controllers/home/home.php");
 //POST
 $router
     ->post("/register", "controllers/registration/create.php")

@@ -1,0 +1,1 @@
+<?php view("partials/head.php"); ?>
