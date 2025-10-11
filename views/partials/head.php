@@ -6,11 +6,13 @@
     <title>Document</title>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link href="css/tailwind.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit_square" />
 </head>
-<body class="bg-bg-dark">
+<body class="bg-bg-dark/80">
+    
      <!-- Header -->
-    <header class="bg-bg-dark border-b border-gray-800">
+    <header class="bg-bg-dark/80 border-b border-card-dark">
             <div class="flex items-center justify-between w-full h-16 px-4 sm:px-6 lg:px-8">
                 <!-- Left Section: Menu + Logo + Search -->
                 <div class="flex items-center gap-4 flex-1">
@@ -25,7 +27,7 @@
                         <img src="assets/logo.webp" class="w-23" alt="BPSU Bulletin">
                     </a>
 
-                    <div class="flex-1 max-w-md">
+                    <div class="flex-1 max-w-xs">
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,7 +37,7 @@
                             <input 
                                 type="text" 
                                 placeholder="Search" 
-                                class="block w-md pl-10 pr-3 py-2 bg-card-dark  border border-gray-700 rounded-full text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
+                                class="block w-xs pl-10 pr-3 py-2 bg-overlay-dark border-1 border-card-dark rounded-full text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
                             >
                         </div>
                     </div>

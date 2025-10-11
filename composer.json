@@ -5,6 +5,9 @@
     "google/apiclient": "^2.18"
   },
   "scripts": {
-    "dev": "php -S localhost:8069 -t public"
+     "dev": [
+      "Composer\\Config::disableProcessTimeout",
+      "php -S localhost:8069 -t public"
+    ]
   }
 }

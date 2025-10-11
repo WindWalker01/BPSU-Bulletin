@@ -4,26 +4,35 @@
 @source "../**/*.html";
 
 @theme {
-  /* BPSU Brand Colors */
-  --color-brand: #C00000;
-  --color-brand-hover: #D55454;
+  /* PRIMARY COLORS*/
+  --color-brand: #C00000;           /* Brand Color - Deep Red */
+  --color-brand-hover: #D55454;     /* Hover States - Light Red */
   
-  /* BPSU Background Colors */
-  --color-bg-dark: #0D0D0D;
-  --color-bg-light: #FFFFFF;
-  --color-card-dark: #2E2E2E;
-  --color-card-light: #E5E5E5;
+  /*BACKGROUND COLORS*/
   
-  /* BPSU Text Colors */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #A3A3A3;
-  --color-text-dark: #000000;
-  --color-text-gray: #737373;
+  /* Dark Mode */
+  --color-bg-dark: #0D0D0D;         /* Background - Pure Black */
+  --color-card-dark: #2E2E2E;       /* Card/Border - Dark Gray */
+  --color-overlay-dark: #1A1A1A;    /* Modal Overlay - Dark Gray (use with opacity) */
   
-  /* BPSU Accent Colors */
-  --color-accent-green: #22C55E;
-  --color-accent-light-green: #4ADE80;
-  --color-accent-dark-green: #248045;
-  --color-accent-blue: #3B82F6;
-  --color-accent-navy: #406A9D;
+  /* Light Mode */
+  --color-bg-light: #FFFFFF;        /* Background - Pure White */
+  --color-card-light: #E5E5E5;      /* Card/Border - Light Gray */
+  
+  /* TEXT COLORS */
+
+  /* Dark Mode */
+  --color-text-primary: #FFFFFF;    /* Primary Text - White */
+  --color-text-secondary: #A3A3A3;  /* Secondary Text - Light Gray */
+  
+  /* Light Mode */
+  --color-text-dark: #000000;       /* Primary Text - Black */
+  --color-text-gray: #737373;       /* Secondary Text - Medium Gray */
+  
+  /*ACCENT/UTILITY COLORS*/
+  --color-accent-green: #22C55E;         /* Success/Badges - Bright Green */
+  --color-accent-light-green: #4ADE80;   /* Success Light - Light Green */
+  --color-accent-dark-green: #248045;    /* Success Dark - Dark Green */
+  --color-accent-blue: #3B82F6;          /* Info/Action - Blue */
+  --color-accent-navy: #406A9D;          /* Info Dark - Navy Blue */
 }
