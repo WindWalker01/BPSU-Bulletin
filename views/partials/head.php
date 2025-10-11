@@ -8,7 +8,7 @@
     <link href="css/tailwind.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit_square" />
 </head>
-<body>
+<body class="bg-bg-dark">
      <!-- Header -->
     <header class="bg-bg-dark border-b border-gray-800">
             <div class="flex items-center justify-between w-full h-16 px-4 sm:px-6 lg:px-8">
@@ -68,6 +68,3 @@
                 </div>
             </div>
     </header>
-
-</body>
-</html>
