@@ -14,7 +14,7 @@
 <div class="flex flex-row w-screen h-screen">
 
   <!-- Blog Preview -->
-  <div class="w-screen h-screen text-text-primary">
+  <div class="w-screen h-screen text-text-primary overflow-y-auto bg-bg-dark">
     <article class="tiptap-content">
       <div class="flex flex-row justify-center">
         <h1 class="items-center"><?= $title ?></h1>
