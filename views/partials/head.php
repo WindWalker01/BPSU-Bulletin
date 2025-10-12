@@ -9,7 +9,7 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit_square" />
 </head>
-<body class="bg-bg-dark/80">
+<body class=" bg-bg-dark bg-background-dark text-foreground-dark [background-image:radial-gradient(circle_at_25%_15%,rgb(192_0_0/0.2),transparent_40%),radial-gradient(circle_at_75%_85%,rgb(192_0_0/0.15),transparent_40%)]">
     
      <!-- Header -->
     <header class="bg-bg-dark/80 border-b border-card-dark">

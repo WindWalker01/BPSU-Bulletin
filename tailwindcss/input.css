@@ -36,3 +36,9 @@
   --color-accent-blue: #3B82F6;          /* Info/Action - Blue */
   --color-accent-navy: #406A9D;          /* Info Dark - Navy Blue */
 }
+ @layer utilities {
+    .bg-gradient-dark {
+      background-image: radial-gradient(circle at 25% 15%, rgba(192, 0, 0, 0.2), transparent 40%),
+                        radial-gradient(circle at 75% 85%, rgba(192, 0, 0, 0.15), transparent 40%);
+    }
+  }
