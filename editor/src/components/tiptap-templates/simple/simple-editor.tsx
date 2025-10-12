@@ -65,7 +65,7 @@ import { useWindowSize } from "@/hooks/use-window-size";
 import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 
 // --- Components ---
-// import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
+import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
 
 // --- Lib ---
 import {
@@ -159,9 +159,9 @@ const MainToolbarContent = ({
 
       {isMobile && <ToolbarSeparator />}
 
-      {/* <ToolbarGroup>
+      <ToolbarGroup>
         <ThemeToggle />
-      </ToolbarGroup> */}
+      </ToolbarGroup>
     </>
   );
 };
