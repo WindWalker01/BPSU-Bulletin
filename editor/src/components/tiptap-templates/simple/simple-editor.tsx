@@ -75,6 +75,10 @@ import "@/components/tiptap-templates/simple/simple-editor.scss";
 
 import content from "@/components/tiptap-templates/simple/data/content.json";
 
+import Youtube from "@tiptap/extension-youtube";
+
+import { YoutubeButton } from "@/components/tiptap-templates/simple/youtube-button";
+
 const MainToolbarContent = ({
   onHighlighterClick,
   onLinkClick,
@@ -141,6 +145,7 @@ const MainToolbarContent = ({
 
       <ToolbarGroup>
         <ImageUploadButton text="Add" />
+        <YoutubeButton />
       </ToolbarGroup>
 
       <Spacer />
@@ -211,6 +216,9 @@ export function SimpleEditor() {
           enableClickSelection: true,
         },
       }),
+      Youtube.configure({
+        controls: true,
+      }),
       HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
@@ -229,6 +237,11 @@ export function SimpleEditor() {
         onError: (error) => console.error("Upload failed:", error),
       }),
     ],
+    onDelete: ({ editor, node }) => {
+      if (node.type.name === "image") {
+        console.log("an image dissapered");
+      }
+    },
     content,
   });
 
