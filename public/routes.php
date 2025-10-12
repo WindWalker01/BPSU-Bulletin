@@ -9,9 +9,7 @@ $router->get("/login", "controllers/login/show.php")->only("guest");
 $router->get("/logout", "controllers/login/logout.php")->only("auth");
 $router->get("/home", "controllers/home/home.php");
 
-$router
-    ->get("/blog/editor", "controllers/blog/editor/show.php")
-    ->only("author");
+$router->get("/blog/publish", "controllers/blog/publish.php");
 
 $router
     ->get("/blog/editor", "controllers/blog/editor/show.php")
@@ -33,9 +31,7 @@ $router->post("/blog/editor/image/upload", "controllers/image/create.php");
 // PUT
 
 // PATCH
-$router
-    ->patch("/blog/editor", "controllers/blog/editor/edit.php")
-    ->only("author");
+$router->patch("/blog/editor", "controllers/blog/edit.php")->only("author");
 
 // DELETE
 $router->delete("/blog/editor/image/delete", "controllers/image/delete.php");

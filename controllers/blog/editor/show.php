@@ -12,7 +12,7 @@ $content = $db
     ])
     ->find()["content"];
 
-view("blog/editor/show.view.php", [
+view("blog/editor.view.php", [
     "blog_id" => 1,
     "draft_content" => json_decode($content) ?? "{}",
 ]);
