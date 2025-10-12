@@ -13,6 +13,10 @@ $router
     ->get("/blog/editor", "controllers/blog/editor/show.php")
     ->only("author");
 
+$router
+    ->get("/blog/editor", "controllers/blog/editor/show.php")
+    ->only("author");
+
 //POST
 $router
     ->post("/register", "controllers/registration/create.php")
