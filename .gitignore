@@ -11,3 +11,4 @@ tmp/
 config/config.php
 
 /vendor/
+public/css/tailwind.css
