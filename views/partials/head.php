@@ -24,7 +24,7 @@
                     </button>
 
                     <a href="#" class="flex items-center">
-                        <img src="assets/logo.webp" class="w-23" alt="BPSU Bulletin">
+                        <img src="/assets/logo.webp" class="w-23" alt="BPSU Bulletin">
                     </a>
 
                     <div class="flex-1 max-w-xs">
