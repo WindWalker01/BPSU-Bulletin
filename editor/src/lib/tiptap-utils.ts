@@ -1,6 +1,8 @@
-import type { Node as TiptapNode } from "@tiptap/pm/model";
+import type { Node, Node as TiptapNode } from "@tiptap/pm/model";
 import { NodeSelection, Selection, TextSelection } from "@tiptap/pm/state";
 import type { Editor } from "@tiptap/react";
+import localforage from "localforage";
+import content from "@/components/tiptap-templates/simple/data/content.json";
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -302,17 +304,13 @@ export const handleImageUpload = async (
     );
   }
 
-  // For demo/testing: Simulate upload progress. In production, replace the following code
-  // with your own upload implementation.
-  for (let progress = 0; progress <= 100; progress += 10) {
-    if (abortSignal?.aborted) {
-      throw new Error("Upload cancelled");
-    }
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    onProgress?.({ progress });
+  if (abortSignal?.aborted) {
+    throw new Error("Upload cancelled");
   }
 
-  return "/images/bulletin.jpg";
+  const data = await uploadImage(file);
+
+  return data.url;
 };
 
 type ProtocolOptions = {
@@ -393,4 +391,51 @@ export function sanitizeUrl(
     // If URL creation fails, it's considered invalid
   }
   return "#";
+}
+
+export async function whenEditorDeletes(editor: Editor, node: Node) {
+  if (node.type.name === "image") {
+    console.log("an image dissapered", node.attrs.src);
+    removeImageDraft(node.attrs.src);
+  }
+}
+
+export async function whenEditorUpdates(editor: Editor) {
+  console.log("UPDATE");
+  const jsonContent = editor.getJSON();
+  localforage.setItem("draft_content", jsonContent);
+}
+
+export async function whenEditorCreated(editor: Editor) {
+  await loadContentsOnMount().then((draft) => {
+    console.log("CREATE ", draft);
+
+    editor.commands.setContent(draft ?? content);
+  });
+}
+
+async function uploadImage(file: File) {
+  const formData = new FormData();
+
+  formData.append("image", file);
+  formData.append("_method", "POST");
+
+  const res = await fetch("http://localhost:8069/blog/editor/image/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+
+  console.log(data);
+
+  return data;
+}
+
+async function removeImageDraft(file_name: string) {
+  await localforage.removeItem(`draft_image_${file_name}`);
+}
+
+async function loadContentsOnMount() {
+  return localforage.getItem("draft_content");
 }

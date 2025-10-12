@@ -7,7 +7,11 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+<<<<<<< HEAD
     --color-red-600: oklch(57.7% 0.245 27.325);
+=======
+    --color-red-400: oklch(70.4% 0.191 22.216);
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
     --color-teal-400: oklch(77.7% 0.152 181.912);
     --color-indigo-500: oklch(58.5% 0.233 277.117);
     --color-indigo-600: oklch(51.1% 0.262 276.966);
@@ -195,18 +199,26 @@
   }
 }
 @layer utilities {
+<<<<<<< HEAD
   .pointer-events-none {
     pointer-events: none;
   }
   .absolute {
     position: absolute;
+=======
+  .visible {
+    visibility: visible;
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
   }
   .fixed {
     position: fixed;
   }
+<<<<<<< HEAD
   .relative {
     position: relative;
   }
+=======
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
   .static {
     position: static;
   }
@@ -264,6 +276,7 @@
   .flex {
     display: flex;
   }
+<<<<<<< HEAD
   .grid {
     display: grid;
   }
@@ -278,6 +291,10 @@
   }
   .h-8 {
     height: calc(var(--spacing) * 8);
+=======
+  .hidden {
+    display: none;
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
   }
   .h-10 {
     height: calc(var(--spacing) * 10);
@@ -315,6 +332,7 @@
   .w-full {
     width: 100%;
   }
+<<<<<<< HEAD
   .w-sm {
     width: var(--container-sm);
   }
@@ -340,15 +358,20 @@
     --tw-translate-x: -100%;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
+=======
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
   .resize {
     resize: both;
   }
+<<<<<<< HEAD
   .grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+=======
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
   .flex-col {
     flex-direction: column;
   }
@@ -390,6 +413,7 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
+<<<<<<< HEAD
   .border-1 {
     border-style: var(--tw-border-style);
     border-width: 1px;
@@ -445,6 +469,8 @@
       background-color: color-mix(in oklab, var(--color-card-dark) 70%, transparent);
     }
   }
+=======
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
   .bg-indigo-600 {
     background-color: var(--color-indigo-600);
   }
@@ -575,6 +601,7 @@
   .text-white {
     color: var(--color-white);
   }
+<<<<<<< HEAD
   .underline {
     text-decoration-line: underline;
   }
@@ -583,6 +610,17 @@
       color: var(--color-text-secondary);
     }
   }
+=======
+  .capitalize {
+    text-transform: capitalize;
+  }
+  .italic {
+    font-style: italic;
+  }
+  .underline {
+    text-decoration-line: underline;
+  }
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
   .shadow-xs {
     --tw-shadow: 0 1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -601,6 +639,7 @@
   .outline-gray-300 {
     outline-color: var(--color-gray-300);
   }
+<<<<<<< HEAD
   .transition-transform {
     transition-property: transform, translate, scale, rotate;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -609,6 +648,11 @@
   .duration-300 {
     --tw-duration: 300ms;
     transition-duration: 300ms;
+=======
+  .blur {
+    --tw-blur: blur(8px);
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
   }
   .placeholder\:text-gray-400 {
     &::placeholder {
@@ -736,6 +780,7 @@
     }
   }
 }
+<<<<<<< HEAD
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
@@ -751,6 +796,8 @@
   inherits: false;
   initial-value: 0;
 }
+=======
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
 @property --tw-rotate-x {
   syntax: "*";
   inherits: false;
@@ -781,6 +828,7 @@
   inherits: false;
   initial-value: solid;
 }
+<<<<<<< HEAD
 @property --tw-gradient-position {
   syntax: "*";
   inherits: false;
@@ -823,6 +871,8 @@
   inherits: false;
   initial-value: 100%;
 }
+=======
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
 @property --tw-font-weight {
   syntax: "*";
   inherits: false;
@@ -901,16 +951,72 @@
   inherits: false;
   initial-value: solid;
 }
+<<<<<<< HEAD
 @property --tw-duration {
+=======
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-drop-shadow-size {
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
   syntax: "*";
   inherits: false;
 }
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
+<<<<<<< HEAD
       --tw-translate-x: 0;
       --tw-translate-y: 0;
       --tw-translate-z: 0;
+=======
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
       --tw-rotate-x: initial;
       --tw-rotate-y: initial;
       --tw-rotate-z: initial;
@@ -918,6 +1024,7 @@
       --tw-skew-y: initial;
       --tw-space-y-reverse: 0;
       --tw-border-style: solid;
+<<<<<<< HEAD
       --tw-gradient-position: initial;
       --tw-gradient-from: #0000;
       --tw-gradient-via: #0000;
@@ -927,6 +1034,8 @@
       --tw-gradient-from-position: 0%;
       --tw-gradient-via-position: 50%;
       --tw-gradient-to-position: 100%;
+=======
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
       --tw-font-weight: initial;
       --tw-tracking: initial;
       --tw-shadow: 0 0 #0000;
@@ -944,7 +1053,23 @@
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
       --tw-outline-style: solid;
+<<<<<<< HEAD
       --tw-duration: initial;
+=======
+      --tw-blur: initial;
+      --tw-brightness: initial;
+      --tw-contrast: initial;
+      --tw-grayscale: initial;
+      --tw-hue-rotate: initial;
+      --tw-invert: initial;
+      --tw-opacity: initial;
+      --tw-saturate: initial;
+      --tw-sepia: initial;
+      --tw-drop-shadow: initial;
+      --tw-drop-shadow-color: initial;
+      --tw-drop-shadow-alpha: 100%;
+      --tw-drop-shadow-size: initial;
+>>>>>>> 324a3ec (add a way to upload image files to cloudinary)
     }
   }
 }

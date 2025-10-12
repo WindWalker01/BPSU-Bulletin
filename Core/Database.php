@@ -249,7 +249,6 @@ class Database
         $stmt->execute([$config["database"]["dbname"]]);
 
         if ($stmt->fetch()) {
-            echo "<script>console.log('db already exist');</script>";
             return;
         }
 
@@ -264,7 +263,5 @@ class Database
         foreach ($this->sql as $query) {
             $testDBConnection->exec($query);
         }
-
-        echo "<script>console.log('DB Created 😍');</script>";
     }
 }
