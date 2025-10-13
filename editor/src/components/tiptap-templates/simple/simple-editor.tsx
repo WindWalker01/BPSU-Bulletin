@@ -198,9 +198,11 @@ const MobileToolbarContent = ({
 export function SimpleEditor({
   data,
   blogId,
+  authorId,
 }: {
   data: string;
   blogId: number;
+  authorId: number;
 }) {
   const isMobile = useIsMobile();
   const { height } = useWindowSize();
@@ -253,11 +255,11 @@ export function SimpleEditor({
     // @ts-expect-error - 'onDelete' is not a standard option in useEditor, but used for custom image deletion handling
     onDelete: ({ node }) => whenEditorDeletes(node),
 
-    onUpdate: ({ editor }) => debounceSave(editor, blogId),
+    onUpdate: ({ editor }) => debounceSave(editor, authorId, blogId),
 
     onCreate: ({ editor }) => whenEditorCreated(editor, data),
 
-    onBlur: ({ editor }) => whenEditorBlur(editor, blogId),
+    onBlur: ({ editor }) => whenEditorBlur(editor, authorId, blogId),
   });
 
   const rect = useCursorVisibility({

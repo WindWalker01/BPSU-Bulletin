@@ -5,8 +5,9 @@ use Core\Database;
 $new_content = $_POST["content"];
 $blog_id = $_POST["blog_id"] ?? null;
 $title = $_POST["title"] ?? null;
+$author_id = $_POST["author_id"] ?? null;
 
-if (!isset($blog_id)) {
+if (!isset($blog_id) || !isset($author_id)) {
     http_response_code(500);
     echo json_encode(["error" => "blog id not set"]);
     exit();
@@ -19,6 +20,17 @@ if (!isset($title) && !isset($new_content)) {
 }
 
 $db = App::resolve(Database::class);
+$owner_id = $db
+    ->query("SELECT author_id from blogs WHERE id = :id", ["id" => $blog_id])
+    ->find();
+
+if ($author_id !== $owner_id) {
+    // not authorized
+    // TODO: create a not authorized page
+    redirect("/");
+    http_response_code(401);
+    exit();
+}
 
 if (!isset($title)) {
     $db->query("UPDATE blogs SET content = :content WHERE id = :id", [

@@ -60,7 +60,8 @@
 <script>
       window.__APP_DATA__ = {
         blogId: <?php echo json_encode($blog_id); ?>,
-        draftContent: <?php echo json_encode($draft_content); ?>
+        draftContent: <?php echo json_encode($draft_content); ?>,
+        authorId: <?php echo json_encode($author_id); ?>
       };
       
       let titleInput = document.getElementById("title");
@@ -74,11 +75,12 @@
         formData.append("_method", "PATCH");
         formData.append("blog_id", <?php echo $blog_id; ?>);
         formData.append("title", title);
+        formData.append("author_id", <?php echo $author_id; ?>);
 
         await fetch("http://localhost:8069/blog/editor", {
           method: "POST",
           body: formData,
-        });
+          });
 
       }
       

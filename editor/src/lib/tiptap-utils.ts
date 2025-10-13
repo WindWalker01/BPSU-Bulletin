@@ -402,15 +402,19 @@ export async function whenEditorDeletes(node: Node) {
   }
 }
 
-export const debounceSave = debounce((editor, blogId) => {
+export const debounceSave = debounce((editor, authorId, blogId) => {
   const jsonContent = editor.getJSON();
-  saveContent(blogId, jsonContent);
+  saveContent(blogId, authorId, jsonContent);
   console.log("SAVE");
-}, 3500);
+}, 1500);
 
-export async function whenEditorBlur(editor: Editor, blogId: number) {
+export async function whenEditorBlur(
+  editor: Editor,
+  authorId: number,
+  blogId: number,
+) {
   const jsonContent = editor.getJSON();
-  saveContent(blogId, jsonContent);
+  saveContent(blogId, authorId, jsonContent);
 }
 
 export async function whenEditorCreated(editor: Editor, jsonData: string) {
@@ -434,15 +438,17 @@ async function uploadImage(file: File) {
   return data;
 }
 
-async function saveContent(blogId: number, jsonContent: unknown) {
+async function saveContent(
+  blogId: number,
+  authorId: number,
+  jsonContent: unknown,
+) {
   const formData = new FormData();
-
-  const title = document.getElementById("title");
 
   formData.append("_method", "PATCH");
   formData.append("blog_id", blogId.toString());
   formData.append("content", JSON.stringify(jsonContent));
-  formData.append("title", title?.textContent as string);
+  formData.append("author_id", authorId.toString());
 
   return await fetch("http://localhost:8069/blog/editor", {
     method: "POST",
