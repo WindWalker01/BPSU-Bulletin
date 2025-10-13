@@ -14,23 +14,30 @@
 <div class="flex flex-row w-screen h-screen">
 
   <!-- Blog Preview -->
-  <div class="w-screen h-screen text-text-primary overflow-y-auto bg-bg-dark">
-    <article class="tiptap-content">
-      <div class="flex flex-row justify-center">
-        <h1 class="items-center"><?= $title ?></h1>
-      </div>
-      <?= $tiptap_html ?>
-    </article>
+  <div class="ml-16 flex flex-col h-screen w-screen">
+
+    <h1 class="text-xl mt-6 mb-4 font-bold text-text-primary">Blog Preview</h1>
+    
+    <div class="h-9/10 text-text-primary overflow-y-auto rounded-xl">
+      <article class="tiptap-content">
+        <div class="flex flex-row justify-center">
+          <h1 class="items-center"><?= $title ?></h1>
+        </div>
+        <?= $tiptap_html ?>
+      </article>
+    
+    </div>
   </div>
+
 
   <div class="w-screen h-screen flex flex-col justify-center pl-8">
     
     <h1 class="text-xl mb-6 text-text-primary">Publishing to: <span class="font-bold"><?= $username ??
         "Ruzzel Mendoza" ?></span></h1>
 
-    <p class="mb-1.5 text-text-primary">Add some tags for better discoverability and so that readers know what your blog is about.</p>
+    <p class="mb-4 text-text-primary">Add some tags for better discoverability and so that readers know what your blog is about.</p>
 
-    <!-- Form for publishing-->
+      <!-- Form for publishing-->
     <form action="" method="POST">
       <input type="hidden" name="_method" value="POST">
       
@@ -53,6 +60,7 @@
       </div>
 
     </form>
+
   </div>
 </div>
 

@@ -27,6 +27,7 @@
                 name="blog_title"
                 type="text" 
                 placeholder="Insert Title" 
+                value="<?php echo htmlspecialchars($title); ?>"
                 class="block w-xs pl-3 pr-3 py-2 bg-bg-dark/80 rounded-xs text-text-primary placeholder-text-secondary focus:outline-none focus:border-transparent"
             >
           </div>
