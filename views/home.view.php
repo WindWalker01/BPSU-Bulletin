@@ -1,15 +1,17 @@
+<?php view("partials/head.php"); ?>
 
-  <div class="flex flex-col min-h-screen">
+<div class="flex flex-col min-h-screen">
 
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
         
+
       <div class="lg:col-span-8 space-y-8 order-2 lg:order-1">
         <?php
         $posts = [
           [
             'author' => 'Dr. Marcus Evans',
-            'avatar' => 'https://lh3.googleusercontent.com/...your-url...',
+            'avatar' => "https://lh3.googleusercontent.com/aida-public/AB6AXuC9NMh9sGihLlPg4qW0ZVugJwTHWCfx4R7RDdwO_d7fx76hgkqLOmmyzKtt2O1O8PILHK6uoqPNHxjAU1sgIrqeFIT7bwAq8W_h4fUhIjugKbitv6Hfx5fzsP_hHija_6jkQLolfI1gz4YmjBHeRB5kN9DIndJ_nULBMJDkwrNYq2Xq-y97KmDpiVewKZOgl9vJ7lZKVqbnDVZSaZUsbUMZpw98_SEf69VB6JVbLPMOYx3yi33r6BEz33cnDryThk-3Yuno-ul4CfWL",
             'date' => 'October 26, 2023',
             'category' => 'University Updates',
             'badgeColor' => 'bg-brand/20 text-brand',
@@ -21,7 +23,7 @@
           ],
           [
             'author' => 'Sophia Rodriguez',
-            'avatar' => 'https://lh3.googleusercontent.com/...your-url...',
+            'avatar' => "https://lh3.googleusercontent.com/aida-public/AB6AXuDY6v6w9gHTKHGYuFv2JPuHHbLOqAq8DnEWCOPJxTakAZ43mEZNwIGWjdBcotJrCG6HOiWVbqWJWp72CWhr28OXQfWjd756bzaky4-JMFy152phSR33T7KD4LgXk0Je6362EZYW7oqC7CqbZy8ihOLFMAKXBP0DkSQZzkRv6pRGWzIMIG_SL6usNPlr4E-iGEbZ8mNCPQToR8kRieRmWqOFF8swtwqIR8lPvZOkc3d_-y2LJDZS-_osKjmzCsNubCLIrUGabXiCiquV",
             'date' => 'October 24, 2023',
             'category' => 'Student Life',
             'badgeColor' => 'bg-accent-green/20 text-accent-green',
@@ -33,24 +35,26 @@
           ],
           [
             'author' => 'Computer Science Society',
-            'avatar' => 'https://lh3.googleusercontent.com/...your-url...',
+            'avatar' => "https://lh3.googleusercontent.com/aida-public/AB6AXuAQPnNFYPL28lmjM5b-HAkkYfz80BugzAALGEPqJoIjjhd1VcgFu1EcgaIP_45spTLQb-wbnKEzu_IsR1gmHHFhbYV1tbEJKtGyA06O3f6Xli6cSpc-MduoyE1bNPmohxvp-wGZayFapOP-kuElBIKyTu9pYj6tvvGnwIzqI9SpzdZzT0ujG8Yyn9iYosq5DK17Pcij-_oF8LKwygjrm3hmfWDpEMEV9WX7iL2GcwnDx16J4B81ZQDjefl_HNrK1WcGVUvgPihjtb8t",
             'date' => 'October 22, 2023',
             'category' => 'Organizations',
             'badgeColor' => 'bg-accent-blue/20 text-accent-blue',
             'title' => 'Upcoming Workshop: Intro to Web Development',
-            'excerpt' => "Join the Computer Science Society for a hands-on web development workshop this Friday! We'll cover the basics of HTML, CSS, and JavaScript. No prior experience needed. Limited slots available, so sign up now!",
+            'excerpt' =>   "Join the Computer Science Society for a hands-on web development workshop this Friday! We'll cover the basics of HTML, CSS, and JavaScript. No prior experience needed. Limited slots available, so sign up now!",
             'link' => '#',
             'likes' => 156,
             'comments' => 33
           ],
-          
         ];
 
         foreach ($posts as $post) {
-          extract($post); 
+          extract($post); // makes keys accessible as variables
           include __DIR__ . '/partials/post-card.php';
         }
         ?>
+
+
+
 
         </div>
         
