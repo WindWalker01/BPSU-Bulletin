@@ -437,9 +437,12 @@ async function uploadImage(file: File) {
 async function saveContent(blogId: number, jsonContent: unknown) {
   const formData = new FormData();
 
+  const title = document.getElementById("title");
+
   formData.append("_method", "PATCH");
   formData.append("blog_id", blogId.toString());
   formData.append("content", JSON.stringify(jsonContent));
+  formData.append("title", title?.textContent as string);
 
   return await fetch("http://localhost:8069/blog/editor", {
     method: "POST",

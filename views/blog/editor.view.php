@@ -14,46 +14,46 @@
 
 <!-- Header -->
 <header class="bg-bg-dark/80 border-b border-card-dark">
-  <form action="" method="GET">
-    <input type="hidden" name="_method" value="GET">
-    <div class="flex items-center justify-between w-full h-16 px-4 sm:px-6 lg:px-8">
-          <!-- Left Section: Logo + Title -->
-          <div class="flex items-center gap-4 flex-1">
-            <a href="#" class="flex items-center">
-                <img src="/assets/logo.webp" class="w-23" alt="BPSU Bulletin">
-            </a>
-            <input 
-                id="blog_title"
-                name="blog_title"
-                type="text" 
-                placeholder="Insert Title" 
-                value="<?php echo htmlspecialchars($title); ?>"
-                class="block w-xs pl-3 pr-3 py-2 bg-bg-dark/80 rounded-xs text-text-primary placeholder-text-secondary focus:outline-none focus:border-transparent"
-            >
-          </div>
-
-          <!-- Right Section: Publish + Profile -->
-          <div class="flex items-center gap-4">
-              <!-- Publish Button -->
-                <button type="submit" class="flex items-center gap-2 text-text-secondary hover:text-text-primary">
-                  <span class="material-symbols-outlined">
-                      publish
-                  </span>
-                  <span class="text-sm font-medium">Publish</span>
-
-                </button>
-              
-
-              <!-- Profile Picture -->
-              <button class="flex items-center">
-                  <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center text-text-primary font-semibold overflow-hidden">
-                      <img src="https://images.jammable.com/voices/f2e3aa8d-e446-4f3b-bce2-bf24c570d5a8.png" alt="Profile" class="w-full h-full object-cover">
-                  </div>
-              </button>
-          </div>
-    </div>
-  </form>
+  <div class="flex items-center justify-between w-full h-16 px-4 sm:px-6 lg:px-8">
+      <!-- Left Section: Logo + Title -->
+      <a href="#" class="flex items-center">
+          <img src="/assets/logo.webp" class="w-23" alt="BPSU Bulletin">
+      </a>
       
+      <div class="flex items-center gap-4 flex-1">
+        <input 
+            id="title"
+            name="title"
+            type="text" 
+            placeholder="Insert Blog Title" 
+            value="<?php echo htmlspecialchars($title); ?>"
+            class="block w-xs pl-3 pr-3 py-2 bg-bg-dark/80 text-text-primary placeholder-text-secondary focus:outline-none focus:border-transparent border-1 border-card-dark rounded-md"
+        >  
+      </div>
+
+        <!-- Right Section: Publish + Profile -->
+    <div class="flex items-center gap-4">
+      
+    <!-- Publish Button -->
+      <form action="/blog/publish" method="GET">
+        <input type="hidden" name="blog_id" value="<?= $blog_id ?>">
+
+        <button type="submit" class="flex items-center gap-2 text-text-secondary hover:text-text-primary">
+          <span class="material-symbols-outlined">
+              publish
+          </span>
+          <span class="text-sm font-medium">Publish</span>
+
+        </button>
+      </form>
+      <!-- Profile Picture -->
+      <button class="flex items-center">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center text-text-primary font-semibold overflow-hidden">
+              <img src="https://images.jammable.com/voices/f2e3aa8d-e446-4f3b-bce2-bf24c570d5a8.png" alt="Profile" class="w-full h-full object-cover">
+          </div>
+      </button>
+    </div>
+  </div> 
 </header>
 
 
@@ -62,9 +62,26 @@
         blogId: <?php echo json_encode($blog_id); ?>,
         draftContent: <?php echo json_encode($draft_content); ?>
       };
+      
+      let titleInput = document.getElementById("title");
 
-      console.log(<?= $blog_id ?>);
-      console.log(<?= $draft_content ?>);
+      titleInput.addEventListener("blur", () =>{
+        saveTitle(titleInput.value);
+      });
+
+      async function saveTitle(title){
+        const formData = new FormData();
+        formData.append("_method", "PATCH");
+        formData.append("blog_id", <?php echo $blog_id; ?>);
+        formData.append("title", title);
+
+        await fetch("http://localhost:8069/blog/editor", {
+          method: "POST",
+          body: formData,
+        });
+
+      }
+      
 </script>
 
 

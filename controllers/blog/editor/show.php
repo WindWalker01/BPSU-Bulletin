@@ -8,12 +8,12 @@ $auth = new Authenticator();
 
 $blog = $db
     ->query("SELECT * FROM blogs WHERE id = :id", [
-        "id" => 1,
+        "id" => (int) $_GET["blog_id"],
     ])
     ->find();
 
 view("blog/editor.view.php", [
-    "blog_id" => 1,
+    "blog_id" => (int) $_GET["blog_id"],
     "draft_content" => json_decode($blog["content"]) ?? "{}",
     "title" => $blog["title"] ?? "Enter Title",
 ]);

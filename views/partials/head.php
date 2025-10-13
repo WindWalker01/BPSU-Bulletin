@@ -46,13 +46,16 @@
                 <!-- Right Section: Write + Notifications + Profile -->
                 <div class="flex items-center gap-4">
                     <!-- Write Button -->
-                    <button class="flex items-center gap-2 text-text-secondary hover:text-text-primary">
-                        <span class="material-symbols-outlined">
-                            edit_square
-                        </span>
-                        <span class="text-sm font-medium">Write</span>
+                     <form action="/blog" method="post">
+                        <input type="hidden" name="_method" value="POST">
 
-                    </button>
+                        <button type="submit" class="flex items-center gap-2 text-text-secondary hover:text-text-primary">
+                            <span class="material-symbols-outlined">
+                                edit_square
+                            </span>
+                            <span class="text-sm font-medium">Write</span>
+                        </button>
+                     </form>
 
                     <!-- Notifications -->
                     <button class="text-text-secondary hover:text-text-primary p-2 relative">

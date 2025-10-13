@@ -7,7 +7,10 @@ use Core\TiptapExtension\Youtube;
 date_default_timezone_set("Asia/Manila");
 
 $db = App::resolve(Database::class);
-$content = $db->query("SELECT * FROM blogs WHERE id = 1")->find();
+
+$content = $db
+    ->query("SELECT * FROM blogs WHERE id = :id", ["id" => $_GET["blog_id"]])
+    ->find();
 
 $html = new \Tiptap\Editor([
     "extensions" => [

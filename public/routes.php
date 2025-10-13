@@ -26,13 +26,13 @@ $router
     ->only("guest");
 $router->post("/logout", "controllers/login/logout.php")->only("auth");
 
-$router->post("/blog", "controllers/blog/create.php");
+$router->post("/blog", "controllers/blog/create.php")->only("author");
 $router->post("/blog/editor/image/upload", "controllers/image/create.php");
 
 // PUT
 
 // PATCH
-$router->patch("/blog/editor", "controllers/blog/edit.php")->only("author");
+$router->patch("/blog/editor", "controllers/blog/edit.php");
 
 // DELETE
 $router->delete("/blog/editor/image/delete", "controllers/image/delete.php");
