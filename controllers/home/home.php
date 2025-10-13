@@ -1,2 +1,4 @@
 <?php
-view("home.view.php");
+render('home.view.php', [
+    "title" => "Home Page"
+]);

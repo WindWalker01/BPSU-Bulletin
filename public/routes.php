@@ -15,3 +15,14 @@ $router
     ->get("/google_callback", "controllers/oauth/google-callback.php")
     ->only("guest");
 $router->post("/logout", "controllers/login/logout.php")->only("auth");
+
+// helpers.php or functions.php
+function render($view, $data = [], $showHeader = true)
+{
+    ob_start();
+    view($view, $data);
+    $slot = ob_get_clean();
+
+    // Pass $showHeader to head.php
+    view('partials/head.php', compact('slot', 'data', 'showHeader'));
+}
