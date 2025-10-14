@@ -39,18 +39,24 @@ if ((int) $author_id !== (int) $owner_id["author_id"]) {
 }
 
 if (!isset($title)) {
-    $db->query("UPDATE blogs SET content = :content WHERE id = :id", [
-        "content" => json_encode($new_content),
-        "id" => $blog_id,
-    ]);
+    $db->query(
+        "UPDATE blogs SET content = :content, updated_at = NOW() WHERE id = :id",
+        [
+            "content" => json_encode($new_content),
+            "id" => $blog_id,
+        ],
+    );
 } elseif (!isset($new_content)) {
-    $db->query("UPDATE blogs SET title = :title WHERE id = :id", [
-        "title" => $title,
-        "id" => $blog_id,
-    ]);
+    $db->query(
+        "UPDATE blogs SET title = :title, updated_at = NOW() WHERE id = :id",
+        [
+            "title" => $title,
+            "id" => $blog_id,
+        ],
+    );
 } else {
     $db->query(
-        "UPDATE blogs SET content = :content, title = :title WHERE id = :id",
+        "UPDATE blogs SET content = :content, title = :title, updated_at = NOW() WHERE id = :id",
         [
             "content" => json_encode($new_content),
             "title" => $title,

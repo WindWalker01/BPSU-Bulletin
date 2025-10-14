@@ -38,8 +38,11 @@
     <p class="mb-4 text-text-primary">Add some tags for better discoverability and so that readers know what your blog is about.</p>
 
       <!-- Form for publishing-->
-    <form action="" method="POST">
-      <input type="hidden" name="_method" value="POST">
+
+    <form action="/blog/publish" method="POST">
+      <input type="hidden" name="_method" value="PATCH">
+      <input type="hidden" name="is_schedule" value="" id="schedule-value">
+      <input type="hidden" name="blog_id" value="<?= $blog_id ?>" id="schedule-value">
       
       <!-- Tags Input -->
       <input type="text" name="tags" id="tags" placeholder="eg. #technology #education #ccst" class="block mb-4 w-xs pl-3 pr-3 py-2 bg-bg-dark/80 rounded-xs text-text-primary placeholder-text-secondary border-1 border-text-primary focus:outline-none focus:border-transparent">
@@ -48,14 +51,14 @@
       <div class="hidden" id="schedule-ui">
         <label for="schedule" class="text-text-primary">Schedule a time to publish: </label>
         <input type="datetime-local" value=<?= $date_now ??
-            "2018-06-12T19:30" ?> name="schedule" id="schedule"class="block w-xs pl-3 mb-4 pr-3 py-2 bg-bg-dark/80 rounded-xs text-text-primary placeholder-text-secondary border-1 border-text-primary focus:outline-none focus:border-transparent">
+            "2018-06-12T19:30" ?> name="schedule" class="block w-xs pl-3 mb-4 pr-3 py-2 bg-bg-dark/80 rounded-xs text-text-primary placeholder-text-secondary border-1 border-text-primary focus:outline-none focus:border-transparent">
 
-        <p class="mb-2 text-text-primary">This story will be published automatically within five minutes of the specified time</p>
+        <p class="mb-2 text-text-secondary">This story will be published automatically within five minutes of the specified time</p>
       </div>
       
       <!-- Publish Buttons -->
       <div class="flex flex-row gap-4">
-        <button type="submit" class="text-text-primary bg-brand p-2 rounded-md">Publish now</button>
+        <button type="submit" class="text-text-primary bg-brand p-2 rounded-md" id="publish">Publish now</button>
         <button id="schedule-for-later" type="button" onclick="ScheduleUI" class="text-sm text-text-secondary">Schedule for later</button>
       </div>
 
@@ -66,6 +69,8 @@
 
 <script>
   let scheduleButton = document.getElementById("schedule-for-later");
+  let schedule_input = document.getElementById("schedule-value");
+  let publish_button = document.getElementById("publish");
   scheduleButton.addEventListener("click", () =>  {
     scheduleUI();
   });
@@ -76,10 +81,18 @@
     if(schedule.classList.contains("hidden")){
       schedule.classList.remove("hidden");
       scheduleButton.textContent = "Cancel scheduling";
+      publish_button.textContent = "Schedule to publish"
+
+      schedule_input.value = "true";
     }else{
       schedule.classList.add("hidden");
       scheduleButton.textContent = "Schedule for later";
+      publish_button.textContent = "Publish now"
+
+      schedule_input.value = null;
+
     }
+    console.log(schedule_input);
   }
 
 </script>

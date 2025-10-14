@@ -8,7 +8,7 @@ date_default_timezone_set("Asia/Manila");
 
 $db = App::resolve(Database::class);
 
-$content = $db
+$blog = $db
     ->query("SELECT * FROM blogs WHERE id = :id", ["id" => $_GET["blog_id"]])
     ->find();
 
@@ -22,11 +22,12 @@ $html = new \Tiptap\Editor([
         new Youtube(),
     ],
 ])
-    ->setContent(json_decode($content["content"]))
+    ->setContent(json_decode($blog["content"]))
     ->getHTML();
 
 view("blog/publish.view.php", [
     "date_now" => date("'Y-m-d\TH:i'"),
     "tiptap_html" => $html,
-    "title" => $content["title"],
+    "title" => $blog["title"],
+    "blog_id" => $_GET["blog_id"],
 ]);

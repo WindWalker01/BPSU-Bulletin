@@ -33,6 +33,7 @@ $router->post("/blog/editor/image/upload", "controllers/image/create.php");
 
 // PATCH
 $router->patch("/blog/editor", "controllers/blog/edit.php");
+$router->patch("/blog/publish", "controllers/blog/schedule.php");
 
 // DELETE
 $router->delete("/blog/editor/image/delete", "controllers/image/delete.php");

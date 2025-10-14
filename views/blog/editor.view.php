@@ -16,7 +16,7 @@
 <header class="bg-bg-dark/80 border-b border-card-dark">
   <div class="flex items-center justify-between w-full h-16 px-4 sm:px-6 lg:px-8">
       <!-- Left Section: Logo + Title -->
-      <a href="#" class="flex items-center">
+      <a href="/" class="flex items-center">
           <img src="/assets/logo.webp" class="w-23" alt="BPSU Bulletin">
       </a>
       
@@ -29,23 +29,31 @@
             value="<?php echo htmlspecialchars($title); ?>"
             class="block w-xs pl-3 pr-3 py-2 bg-bg-dark/80 text-text-primary placeholder-text-secondary focus:outline-none focus:border-transparent border-1 border-card-dark rounded-md"
         >  
-      </div>
 
-        <!-- Right Section: Publish + Profile -->
-    <div class="flex items-center gap-4">
+        <p class="flex items-center gap-2 text-text-secondary text-xs">
+          Tip: The editor auto-saves your work!
+        </p>
+      </div>   
+  
+      <!-- Right Section: Publish + Profile -->
+  <div class="flex items-center gap-4">
       
     <!-- Publish Button -->
-      <form action="/blog/publish" method="GET">
-        <input type="hidden" name="blog_id" value="<?= $blog_id ?>">
+     <?php if ($editing !== "SCHEDULED" && $editing !== "ACTIVE"): ?>
+        <form action="/blog/publish" method="GET">
+          <input type="hidden" name="blog_id" value="<?= $blog_id ?>">
 
-        <button type="submit" class="flex items-center gap-2 text-text-secondary hover:text-text-primary">
-          <span class="material-symbols-outlined">
-              publish
-          </span>
-          <span class="text-sm font-medium">Publish</span>
+          <button type="submit" class="flex items-center gap-2 text-text-secondary hover:text-text-primary">
+            <span class="material-symbols-outlined">
+                publish
+            </span>
+            <span class="text-sm font-medium">Publish</span>
 
-        </button>
-      </form>
+          </button>
+        </form>
+      <?php endif; ?>
+    
+
       <!-- Profile Picture -->
       <button class="flex items-center">
           <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center text-text-primary font-semibold overflow-hidden">

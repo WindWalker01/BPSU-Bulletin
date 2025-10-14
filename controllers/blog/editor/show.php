@@ -24,4 +24,5 @@ view("blog/editor.view.php", [
     "draft_content" => json_decode($blog["content"]) ?? "{}",
     "title" => $blog["title"] ?? "Enter Title",
     "author_id" => $auth->getLoggedInUserId("AUTHOR"),
+    "editing" => $blog["blog_status"],
 ]);
