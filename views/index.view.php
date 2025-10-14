@@ -7,4 +7,4 @@
 
 
 
-
+<?php view("partials/footer.php"); ?>

@@ -1,5 +1,5 @@
 
-<article class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm space-y-4 blur-sm">
+<article class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm space-y-4 bg-blur-sm">
   <div class="flex items-center gap-3">
     <img
       alt="<?= htmlspecialchars($author ?? 'Unknown Author') ?> avatar"

@@ -15,50 +15,83 @@
 
 <!-- Header - Fixed and Full Width -->
 <?php if($showHeader ?? true): ?>
-<header class="bg-bg-dark/80  backdrop-blur-md border-b border-card-dark fixed top-0 left-0 right-0 z-30">
+<header class="bg-bg-dark/80 backdrop-blur-md border-b border-card-dark fixed top-0 left-0 right-0 z-30">
   <div class="flex items-center justify-between w-full h-16 px-4 sm:px-6 lg:px-8">
+
     <!-- Left Section: Menu + Logo + Search -->
-    <div class="flex items-center gap-4 flex-1">
+    <div class="flex items-center gap-2 sm:gap-4 flex-1">
+
       <!-- Menu Button -->
       <label for="sidebar-toggle" class="text-text-primary hover:text-text-secondary p-2 cursor-pointer">
         <i class="material-icons">menu</i>
       </label>
 
+      <!-- Logo -->
       <a href="#" class="flex items-center">
-        <img src="assets/logo.webp" class="w-23" alt="BPSU Bulletin">
+        <img src="assets/logo.webp" class="w-18 sm:w-23" alt="BPSU Bulletin">
       </a>
 
-      <div class="flex-1 max-w-xs">
-        <div class="relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <i class="material-icons text-text-secondary">search</i>
-          </div>
-          <input 
-            type="text" 
-            placeholder="Search" 
-            class="block w-3xs pl-10 pr-3 py-2 bg-overlay-dark border-1 border-card-dark rounded-full text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
-          >
-        </div>
+      <!-- Search bar for desktop only -->
+      <div class="hidden sm:block flex-1 max-w-xs relative">
+  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+    <i class="material-icons text-text-secondary">search</i>
+  </div>
+
+  <input 
+    type="text" 
+    id="searchInput"
+    placeholder="Search" 
+    class="block w-full pl-10 pr-3 py-2 bg-overlay-dark border border-card-dark rounded-full text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
+  >
+
+  <!-- Search Results Dropdown -->
+  <div 
+    id="searchResults" 
+    class="absolute mt-2 w-full bg-overlay-dark border border-card-dark rounded-lg shadow-lg hidden z-50"
+  ></div>
       </div>
+
+      <!-- Mobile search icon only -->
+<button id="mobileSearchBtn" class="sm:hidden text-text-secondary p-2 cursor-pointer">
+  <i class="material-icons">search</i>
+</button>
+
+<!-- Mobile search input -->
+<div id="mobileSearchContainer" class="absolute top-16 left-0 w-screen px-4 hidden z-50">
+  <input
+    type="text"
+    id="mobileSearchInput"
+    placeholder="Search"
+    class="w-full pl-10 pr-3 py-2 bg-overlay-dark border border-card-dark rounded-full text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
+  >
+  <div 
+    id="mobileSearchResults" 
+    class="absolute mt-2 w-full bg-overlay-dark border border-card-dark rounded-lg shadow-lg hidden z-50"
+  ></div>
+</div>
+
     </div>
 
     <!-- Right Section: Write + Notifications + Profile -->
     <div class="flex items-center gap-4">
-      <button class="flex items-center gap-2 text-text-secondary hover:text-text-primary cursor-pointer">
+      <button class="flex items-center gap-1 sm:gap-2 text-text-secondary hover:text-text-primary cursor-pointer">
         <span class="material-symbols-outlined">edit_square</span>
         <span class="text-sm font-medium hidden sm:inline">Write</span>
       </button>
 
-      <button class="text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
+      <!-- Notifications hidden on mobile -->
+      <button class="hidden sm:block text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
         <i class="material-symbols-outlined">notifications</i>
       </button>
 
+      <!-- Profile -->
       <button class="flex items-center">
         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center text-text-primary font-semibold overflow-hidden">
           <img src="https://images.jammable.com/voices/f2e3aa8d-e446-4f3b-bce2-bf24c570d5a8.png" alt="Profile" class="w-full h-full object-cover">
         </div>
       </button>
     </div>
+
   </div>
 </header>
 
@@ -109,35 +142,3 @@
     <?php endif; ?>
 
 
-<script>
-  const sidebarToggle = document.getElementById('sidebar-toggle');
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebar-overlay');
-  const mainContent = document.getElementById('main-content');
-
-  sidebarToggle.addEventListener('change', () => {
-    if(sidebarToggle.checked) {
-      // Open sidebar
-      sidebar.classList.remove('-translate-x-full');
-      overlay.classList.remove('hidden');
-      // Push only main content on desktop
-      if (window.innerWidth >= 1024) {
-        mainContent.style.marginLeft = '286px';
-      }
-    } else {
-      // Close sidebar
-      sidebar.classList.add('-translate-x-full');
-      overlay.classList.add('hidden');
-      mainContent.style.marginLeft = '0';
-    }
-  });
-
-  // Handle window resize
-  window.addEventListener('resize', () => {
-    if (window.innerWidth < 1024) {
-      mainContent.style.marginLeft = '0';
-    } else if (sidebarToggle.checked) {
-      mainContent.style.marginLeft = '256px';
-    }
-  });
-</script>

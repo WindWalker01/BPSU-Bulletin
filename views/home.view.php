@@ -1,11 +1,7 @@
-<?php view("partials/head.php"); ?>
-
 <div class="flex flex-col min-h-screen">
 
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        
-
       <div class="lg:col-span-8 space-y-8 order-2 lg:order-1">
         <?php
         $posts = [
@@ -53,9 +49,6 @@
         }
         ?>
 
-
-
-
         </div>
         
         <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-24 order-1 lg:order-2">
@@ -81,8 +74,13 @@
             </div>
           </div>
         </aside>
-
       </div>
     </main>
-
   </div>
+
+  <!-- pang test lang -->
+  <script>
+const posts = <?= json_encode($posts) ?>;
+ window.posts = <?= json_encode($posts, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+</script>
+  <?php view("partials/footer.php"); ?>
