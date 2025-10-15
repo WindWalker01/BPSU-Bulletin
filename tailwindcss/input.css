@@ -8,30 +8,30 @@
 
   
   /* PRIMARY COLORS*/
-  --color-brand: #C00000;           /* Brand Color - Deep Red */
-  --color-brand-hover: #D55454;     /* Hover States - Light Red */
-  
+  --color-brand: #c00000; /* Brand Color - Deep Red */
+  --color-brand-hover: #d55454; /* Hover States - Light Red */
+
   /*BACKGROUND COLORS*/
-  
+
   /* Dark Mode */
-  --color-bg-dark: #0D0D0D;         /* Background - Pure Black */
-  --color-card-dark: #2E2E2E;       /* Card/Border - Dark Gray */
-  --color-overlay-dark: #1A1A1A;    /* Modal Overlay - Dark Gray (use with opacity) */
-  
+  --color-bg-dark: #0d0d0d; /* Background - Pure Black */
+  --color-card-dark: #2e2e2e; /* Card/Border - Dark Gray */
+  --color-overlay-dark: #1a1a1a; /* Modal Overlay - Dark Gray (use with opacity) */
+
   /* Light Mode */
-  --color-bg-light: #FFFFFF;        /* Background - Pure White */
-  --color-card-light: #E5E5E5;      /* Card/Border - Light Gray */
-  
+  --color-bg-light: #ffffff; /* Background - Pure White */
+  --color-card-light: #e5e5e5; /* Card/Border - Light Gray */
+
   /* TEXT COLORS */
 
   /* Dark Mode */
-  --color-text-primary: #FFFFFF;    /* Primary Text - White */
-  --color-text-secondary: #A3A3A3;  /* Secondary Text - Light Gray */
-  
+  --color-text-primary: #ffffff; /* Primary Text - White */
+  --color-text-secondary: #a3a3a3; /* Secondary Text - Light Gray */
+
   /* Light Mode */
-  --color-text-dark: #000000;       /* Primary Text - Black */
-  --color-text-gray: #737373;       /* Secondary Text - Medium Gray */
-  
+  --color-text-dark: #000000; /* Primary Text - Black */
+  --color-text-gray: #737373; /* Secondary Text - Medium Gray */
+
   /*ACCENT/UTILITY COLORS*/
   --color-accent-green: #22C55E;         /* Success/Badges - Bright Green */
   --color-accent-light-green: #4ADE80;   /* Success Light - Light Green */

@@ -31,5 +31,5 @@ function view($path, $attributes = [])
 function redirect($path, $components = [])
 {
     $query = http_build_query($components);
-    header("location: {$path}?{$query}");
+    header("location: {$path}{$query}");
 }

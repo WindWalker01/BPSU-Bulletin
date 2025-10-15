@@ -5,8 +5,10 @@ use PDO;
 
 class Database
 {
-    public $connection;
-    public $statement;
+    private $connection;
+    private $statement;
+
+    private $sample_content = "{\n  \"type\": \"doc\",\n  \"content\": [\n    {\n      \"type\": \"heading\",\n      \"attrs\": {\n        \"textAlign\": null,\n        \"level\": 1\n      },\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Getting started\"\n        }\n      ]\n    },\n    {\n      \"type\": \"paragraph\",\n      \"attrs\": {\n        \"textAlign\": null\n      },\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Welcome to the \"\n        },\n        {\n          \"type\": \"text\",\n          \"marks\": [\n            {\n              \"type\": \"italic\"\n            },\n            {\n              \"type\": \"highlight\",\n              \"attrs\": {\n                \"color\": \"var(--tt-color-highlight-yellow)\"\n              }\n            }\n          ],\n          \"text\": \"Simple Editor\"\n        },\n        {\n          \"type\": \"text\",\n          \"text\": \" template! This template integrates \"\n        },\n        {\n          \"type\": \"text\",\n          \"marks\": [\n            {\n              \"type\": \"bold\"\n            }\n          ],\n          \"text\": \"open source\"\n        },\n        {\n          \"type\": \"text\",\n          \"text\": \" UI components and Tiptap extensions licensed under \"\n        },\n        {\n          \"type\": \"text\",\n          \"marks\": [\n            {\n              \"type\": \"bold\"\n            }\n          ],\n          \"text\": \"MIT\"\n        },\n        {\n          \"type\": \"text\",\n          \"text\": \".\"\n        }\n      ]\n    },\n    {\n      \"type\": \"paragraph\",\n      \"attrs\": {\n        \"textAlign\": null\n      },\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Integrate it by following the \"\n        },\n        {\n          \"type\": \"text\",\n          \"marks\": [\n            {\n              \"type\": \"link\",\n              \"attrs\": {\n                \"href\": \"https://tiptap.dev/docs/ui-components/templates/simple-editor\",\n                \"target\": \"_blank\",\n                \"rel\": \"noopener noreferrer nofollow\",\n                \"class\": null\n              }\n            }\n          ],\n          \"text\": \"Tiptap UI Components docs\"\n        },\n        {\n          \"type\": \"text\",\n          \"text\": \" or using our CLI tool.\"\n        }\n      ]\n    },\n    {\n      \"type\": \"codeBlock\",\n      \"attrs\": {\n        \"language\": null\n      },\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"npx @tiptap/cli init\"\n        }\n      ]\n    },\n    {\n      \"type\": \"heading\",\n      \"attrs\": {\n        \"textAlign\": null,\n        \"level\": 2\n      },\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Features\"\n        }\n      ]\n    },\n    {\n      \"type\": \"blockquote\",\n      \"content\": [\n        {\n          \"type\": \"paragraph\",\n          \"attrs\": {\n            \"textAlign\": null\n          },\n          \"content\": [\n            {\n              \"type\": \"text\",\n              \"marks\": [\n                {\n                  \"type\": \"italic\"\n                }\n              ],\n              \"text\": \"A fully responsive rich text editor with built-in support for common formatting and layout tools. Type markdown \"\n            },\n            {\n              \"type\": \"text\",\n              \"marks\": [\n                {\n                  \"type\": \"code\"\n                }\n              ],\n              \"text\": \"**\"\n            },\n            {\n              \"type\": \"text\",\n              \"marks\": [\n                {\n                  \"type\": \"italic\"\n                }\n              ],\n              \"text\": \" or use keyboard shortcuts \"\n            },\n            {\n              \"type\": \"text\",\n              \"marks\": [\n                {\n                  \"type\": \"code\"\n                }\n              ],\n              \"text\": \"⌘+B\"\n            },\n            {\n              \"type\": \"text\",\n              \"text\": \" for \"\n            },\n            {\n              \"type\": \"text\",\n              \"marks\": [\n                {\n                  \"type\": \"strike\"\n                }\n              ],\n              \"text\": \"most\"\n            },\n            {\n              \"type\": \"text\",\n              \"text\": \" all common markdown marks. 🪄\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"type\": \"paragraph\",\n      \"attrs\": {\n        \"textAlign\": \"left\"\n      },\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Add images, customize alignment, and apply \"\n        },\n        {\n          \"type\": \"text\",\n          \"marks\": [\n            {\n              \"type\": \"highlight\",\n              \"attrs\": {\n                \"color\": \"var(--tt-color-highlight-blue)\"\n              }\n            }\n          ],\n          \"text\": \"advanced formatting\"\n        },\n        {\n          \"type\": \"text\",\n          \"text\": \" to make your writing more engaging and professional.\"\n        }\n      ]\n    },\n    {\n      \"type\": \"image\",\n      \"attrs\": {\n        \"src\": \"/images/tiptap-ui-placeholder-image.jpg\",\n        \"alt\": \"placeholder-image\",\n        \"title\": \"placeholder-image\"\n      }\n    },\n    {\n      \"type\": \"bulletList\",\n      \"content\": [\n        {\n          \"type\": \"listItem\",\n          \"content\": [\n            {\n              \"type\": \"paragraph\",\n              \"attrs\": {\n                \"textAlign\": \"left\"\n              },\n              \"content\": [\n                {\n                  \"type\": \"text\",\n                  \"marks\": [\n                    {\n                      \"type\": \"bold\"\n                    }\n                  ],\n                  \"text\": \"Superscript\"\n                },\n                {\n                  \"type\": \"text\",\n                  \"text\": \" (x\"\n                },\n                {\n                  \"type\": \"text\",\n                  \"marks\": [\n                    {\n                      \"type\": \"superscript\"\n                    }\n                  ],\n                  \"text\": \"2\"\n                },\n                {\n                  \"type\": \"text\",\n                  \"text\": \") and \"\n                },\n                {\n                  \"type\": \"text\",\n                  \"marks\": [\n                    {\n                      \"type\": \"bold\"\n                    }\n                  ],\n                  \"text\": \"Subscript\"\n                },\n                {\n                  \"type\": \"text\",\n                  \"text\": \" (H\"\n                },\n                {\n                  \"type\": \"text\",\n                  \"marks\": [\n                    {\n                      \"type\": \"subscript\"\n                    }\n                  ],\n                  \"text\": \"2\"\n                },\n                {\n                  \"type\": \"text\",\n                  \"text\": \"O) for precision.\"\n                }\n              ]\n            }\n          ]\n        },\n        {\n          \"type\": \"listItem\",\n          \"content\": [\n            {\n              \"type\": \"paragraph\",\n              \"attrs\": {\n                \"textAlign\": \"left\"\n              },\n              \"content\": [\n                {\n                  \"type\": \"text\",\n                  \"marks\": [\n                    {\n                      \"type\": \"bold\"\n                    }\n                  ],\n                  \"text\": \"Typographic conversion\"\n                },\n                {\n                  \"type\": \"text\",\n                  \"text\": \": automatically convert to \"\n                },\n                {\n                  \"type\": \"text\",\n                  \"marks\": [\n                    {\n                      \"type\": \"code\"\n                    }\n                  ],\n                  \"text\": \"->\"\n                },\n                {\n                  \"type\": \"text\",\n                  \"text\": \" an arrow \"\n                },\n                {\n                  \"type\": \"text\",\n                  \"marks\": [\n                    {\n                      \"type\": \"bold\"\n                    }\n                  ],\n                  \"text\": \"→\"\n                },\n                {\n                  \"type\": \"text\",\n                  \"text\": \".\"\n                }\n              ]\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"type\": \"paragraph\",\n      \"attrs\": {\n        \"textAlign\": \"left\"\n      },\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"marks\": [\n            {\n              \"type\": \"italic\"\n            }\n          ],\n          \"text\": \"→ \"\n        },\n        {\n          \"type\": \"text\",\n          \"marks\": [\n            {\n              \"type\": \"link\",\n              \"attrs\": {\n                \"href\": \"https://tiptap.dev/docs/ui-components/templates/simple-editor#features\",\n                \"target\": \"_blank\",\n                \"rel\": \"noopener noreferrer nofollow\",\n                \"class\": null\n              }\n            }\n          ],\n          \"text\": \"Learn more\"\n        }\n      ]\n    },\n    {\n      \"type\": \"horizontalRule\"\n    },\n    {\n      \"type\": \"heading\",\n      \"attrs\": {\n        \"textAlign\": \"left\",\n        \"level\": 2\n      },\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Make it your own\"\n        }\n      ]\n    },\n    {\n      \"type\": \"paragraph\",\n      \"attrs\": {\n        \"textAlign\": \"left\"\n      },\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Switch between light and dark modes, and tailor the editor's appearance with customizable CSS to match your style.\"\n        }\n      ]\n    },\n    {\n      \"type\": \"taskList\",\n      \"content\": [\n        {\n          \"type\": \"taskItem\",\n          \"attrs\": {\n            \"checked\": true\n          },\n          \"content\": [\n            {\n              \"type\": \"paragraph\",\n              \"attrs\": {\n                \"textAlign\": \"left\"\n              },\n              \"content\": [\n                {\n                  \"type\": \"text\",\n                  \"text\": \"Test template\"\n                }\n              ]\n            }\n          ]\n        },\n        {\n          \"type\": \"taskItem\",\n          \"attrs\": {\n            \"checked\": false\n          },\n          \"content\": [\n            {\n              \"type\": \"paragraph\",\n              \"attrs\": {\n                \"textAlign\": \"left\"\n              },\n              \"content\": [\n                {\n                  \"type\": \"text\",\n                  \"marks\": [\n                    {\n                      \"type\": \"link\",\n                      \"attrs\": {\n                        \"href\": \"https://tiptap.dev/docs/ui-components/templates/simple-editor\",\n                        \"target\": \"_blank\",\n                        \"rel\": \"noopener noreferrer nofollow\",\n                        \"class\": null\n                      }\n                    }\n                  ],\n                  \"text\": \"Integrate the free template\"\n                }\n              ]\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"type\": \"paragraph\",\n      \"attrs\": {\n        \"textAlign\": \"left\"\n      }\n    }\n  ]\n}\n";
 
     private $sql = [
         "CREATE TABLE `users` (
@@ -22,17 +24,19 @@ class Database
         ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `blogs` (
-            `id` int NOT NULL AUTO_INCREMENT,
-            `author_id` int DEFAULT NULL,
-            `blog_status` enum('ACTIVE','DELETED','HIDDEN') DEFAULT NULL,
-            `content` json DEFAULT NULL,
-            `created_at` timestamp NULL DEFAULT NULL,
-            `scheduled_at` timestamp NULL DEFAULT NULL,
-            `updated_at` timestamp NULL DEFAULT NULL,
-            PRIMARY KEY (`id`),
-            KEY `author_id` (`author_id`),
-            CONSTRAINT `blogs_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
+        `id` int NOT NULL AUTO_INCREMENT,
+        `author_id` int DEFAULT NULL,
+        `blog_status` enum('ACTIVE','DELETED','HIDDEN','SCHEDULED') DEFAULT NULL,
+        `content` json DEFAULT NULL,
+        `created_at` timestamp NULL DEFAULT NULL,
+        `scheduled_at` timestamp NULL DEFAULT NULL,
+        `updated_at` timestamp NULL DEFAULT NULL,
+        `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+        `published_at` timestamp NULL DEFAULT NULL,
+        PRIMARY KEY (`id`),
+        KEY `author_id` (`author_id`),
+        CONSTRAINT `blogs_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `user_reports` (
             `id` int NOT NULL AUTO_INCREMENT,
@@ -178,6 +182,9 @@ class Database
             KEY `admin_id` (`admin_id`),
             CONSTRAINT `admin_logs_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
+
+        "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
+        ('AUTHOR', 'test_author', 'testAuthor@gmail.com', '\$argon2id\$v=19\$m=65536,t=4,p=1\$NUhHTjVwY1gybzRMT1RKcQ\$svAFH9wXoxmYwFc1vidrXDYgypWuqiLMYIjVAjbiyQQ', 'ACTIVE', '2025-10-10 14:29:05', 'LOCAL');",
     ];
 
     public function __construct($config)
@@ -192,6 +199,11 @@ class Database
         $this->statement->execute($params);
 
         return $this;
+    }
+
+    public function getLastInsertID()
+    {
+        return $this->connection->lastInsertId();
     }
 
     public function get()
@@ -249,7 +261,6 @@ class Database
         $stmt->execute([$config["database"]["dbname"]]);
 
         if ($stmt->fetch()) {
-            echo "<script>console.log('db already exist');</script>";
             return;
         }
 
@@ -265,6 +276,10 @@ class Database
             $testDBConnection->exec($query);
         }
 
-        echo "<script>console.log('DB Created 😍');</script>";
+        $content = json_encode($this->sample_content);
+        $testDBConnection->exec(
+            "INSERT INTO `blogs` (`author_id`, `blog_status`, `content`, `created_at`, `scheduled_at`, `title`) VALUES
+        (2, 'HIDDEN', {$content}, '2025-10-10 14:29:05', '2025-10-10 14:29:05', 'Getting Started');",
+        );
     }
 }

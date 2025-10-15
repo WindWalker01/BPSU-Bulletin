@@ -1,6 +1,9 @@
 {
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.13"
+    "@cloudinary/react": "^1.14.3",
+    "@cloudinary/url-gen": "^1.22.0",
+    "@tailwindcss/cli": "^4.1.13",
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@prettier/plugin-php": "^0.24.0",
