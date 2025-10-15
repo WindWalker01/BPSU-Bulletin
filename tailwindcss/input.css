@@ -1,9 +1,12 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @source "../views/**/*.php";
 @source "../controllers/**/*.php";
 @source "../**/*.html";
 
 @theme {
+
+  
   /* PRIMARY COLORS*/
   --color-brand: #C00000;           /* Brand Color - Deep Red */
   --color-brand-hover: #D55454;     /* Hover States - Light Red */
