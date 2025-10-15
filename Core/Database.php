@@ -18,21 +18,27 @@ class Database
         `account_status` enum('ACTIVE','DELETED') DEFAULT NULL,
         `created_at` timestamp NULL DEFAULT NULL,
         `auth_provider` enum('LOCAL','GOOGLE') NOT NULL DEFAULT 'LOCAL',
+        `campus` enum('MAIN','BALANGA','ABUCAY','ORANI','DINALUPIHAN','BAGAC') DEFAULT NULL,
+        `bio` longtext,
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `blogs` (
-            `id` int NOT NULL AUTO_INCREMENT,
-            `author_id` int DEFAULT NULL,
-            `blog_status` enum('ACTIVE','DELETED','HIDDEN') DEFAULT NULL,
-            `content` json DEFAULT NULL,
-            `created_at` timestamp NULL DEFAULT NULL,
-            `scheduled_at` timestamp NULL DEFAULT NULL,
-            `updated_at` timestamp NULL DEFAULT NULL,
-            PRIMARY KEY (`id`),
-            KEY `author_id` (`author_id`),
-            CONSTRAINT `blogs_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
+        `id` int NOT NULL AUTO_INCREMENT,
+        `author_id` int DEFAULT NULL,
+        `blog_status` enum('ACTIVE','DELETED','HIDDEN','SCHEDULED') DEFAULT NULL,
+        `content` json DEFAULT NULL,
+        `created_at` timestamp NULL DEFAULT NULL,
+        `scheduled_at` timestamp NULL DEFAULT NULL,
+        `updated_at` timestamp NULL DEFAULT NULL,
+        `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+        `published_at` timestamp NULL DEFAULT NULL,
+        `categories` enum('ANNOUNCEMENT','ORGANIZATION','ACHIEVEMENT','SCHOLARSHIP','ENROLLMENT') DEFAULT NULL,
+        `campus` enum('MAIN','BALANGA','ABUCAY','ORANI','DINALUPIHAN','BAGAC') DEFAULT NULL,
+        PRIMARY KEY (`id`),
+        KEY `author_id` (`author_id`),
+        CONSTRAINT `blogs_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `user_reports` (
             `id` int NOT NULL AUTO_INCREMENT,
@@ -178,6 +184,26 @@ class Database
             KEY `admin_id` (`admin_id`),
             CONSTRAINT `admin_logs_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
+
+        "CREATE TABLE `profile_images` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `user_id` int DEFAULT NULL,
+        `secure_url` text,
+        `asset_id` text,
+        PRIMARY KEY (`id`),
+        KEY `user_id` (`user_id`),
+        CONSTRAINT `profile_images_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
+
+        "CREATE TABLE `blog_images` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `blog_id` int DEFAULT NULL,
+        `secure_url` text,
+        `asset_id` text,
+        PRIMARY KEY (`id`),
+        KEY `blog_id` (`blog_id`),
+        CONSTRAINT `blog_images_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
     ];
 
     public function __construct($config)
