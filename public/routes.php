@@ -10,6 +10,7 @@ $router->get("/account", "controllers/account_centre/user_activity_log.php");
 $router->get("/user_profile", "controllers/account_centre/user_edit_profile.php");
 
 //POST
+$router->post("/account", "controllers/account_centre/user_activity_log.php");
 
 $router
     ->post("/register", "controllers/registration/create.php")

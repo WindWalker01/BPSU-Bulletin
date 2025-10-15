@@ -2,35 +2,46 @@
 
 <div class="min-h-screen bg-bg-dark/80 flex justify-center items-center">
   <div class="h-[900px] w-[1200px] text-center flex-col justify-center bg-card-dark/20 rounded-lg p-[20px]">
-
     <!-- User Profile View -->
     <img 
       src="/assets/Hannie.jpg" 
       alt="Profile Picture"
       class="w-[128px] h-[128px] rounded-full object-cover mb-4 border-2 border-black-700 mx-auto"
     >
-
+    <?php
+      echo "<p class='text-white text-xl font-semibold'>".$_POST['fname']."</p>";
+      echo "<p class='text-gray-500 italic'>".$_POST['mname']."</p>";
+      echo "<p class='text-gray-500 underline'>".$_POST['lname']."</p>";
+    ?>
     <h1 class="text-white text-xl font-semibold">Nathaniel D. Sto Niño</h1>
-    <p class="text-gray-500 text-base">Sharp Blade, Sharp Mind</p>
-    <p class="text-gray-500 text-base">Joined September 1834</p>
-
+      <p class="text-gray-50  0 text-base">Sharp Blade, Sharp Mind</p>
+        <p class="text-gray-500 text-base">Joined September 1834</p>
     <a href="user_profile"
       class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
               bg-red-500 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
               flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto">
       Edit Profile
     </a>
-
-
-    <!-- Tab Layouts -->
-    <div class="  flex gap-[50px] border-b border-gray-200 mb-0 mt-20 text-white justify-left pl-[40px]">
-      <button id="post-btn" class="tab-btn py-2 px-6 border-b-4 border-red-500 text-red-500 font-semibold">My Post</button>
-      <button id="follow-btn" class="tab-btn py-2 px-6 hover:text-red-500">Followed Authors</button>
-    </div>
-
+<!-- Tab Layouts --> 
+<div class="flex gap-[50px] border-b border-gray-200 text-white pl-[40px]">
+  <div class="relative flex gap-8 border-b border-gray-600 text-white">
+  <button 
+    id="post-btn" class="tab-btn py-2 px-6 hover:text-red-500 pl-[30px]">
+    My Post
+  </button> 
+  <button 
+    id="follow-btn" class="tab-btn py-2 px-6 hover:text-red-500">
+    Followed Authors
+  </button>
+  
+    <span id="tab-underline" 
+      class="flex absolute bottom-0 left-0 h-[3px] bg-white transition-all duration-200 ease-linear">
+    </span>
+  </div>
+</div>
     <!-- Tab Contents -->
-    <div id="post-tab" class="tab-content mt-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-500 ml-[40px] text-left">Posted 2 days ago</h3>
+<div id="post-tab" class="tab-content mt-6">
+    <h3 class="text-lg font-semibold mb-4 text-gray-500 ml-[40px] text-left">Posted 2 days ago</h3>
       <h1 class="text-xl font-semibold mb-2 text-white ml-[40px] text-left">Title</h1>
       <!-- Example Content Material -->
       <div class="flex items-start ml-[40px] gap-6">
@@ -46,32 +57,62 @@
     </div>
 
     <div id="follow-tab" class="hidden mt-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-500 ml-[40px] text-left">No following Authors YEET.</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-500 ml-[40px] text-left">
+        No following Authors YEET.
+      </h3>
     </div>
 
   </div>
 </div>
-
-<!-- Tab Script Functions -->
+<!-- Tab Script Aesthetic Functions -->
 <script>
-  const postBtn = document.getElementById("post-btn");
-  const followBtn = document.getElementById("follow-btn");
-  const postTab = document.getElementById("post-tab");
-  const followTab = document.getElementById("follow-tab");
+  (function() {
+    const buttons = document.querySelectorAll('.tab-btn');
+    const underline = document.getElementById('tab-underline');
+    const postTab = document.getElementById('post-tab');
+    const followTab = document.getElementById('follow-tab');
 
-  postBtn.addEventListener("click", () => {
-    postTab.classList.remove("hidden");
-    followTab.classList.add("hidden");
-    postBtn.classList.add("text-red-500", "border-b-4", "border-red-500");
-    followBtn.classList.remove("text-red-500", "border-b-4", "border-red-500");
-  });
+    if (!underline || buttons.length === 0 || !postTab || !followTab) return;
 
-  followBtn.addEventListener("click", () => {
-    followTab.classList.remove("hidden");
-    postTab.classList.add("hidden");
-    followBtn.classList.add("text-red-500", "border-b-4", "border-red-500");
-    postBtn.classList.remove("text-red-500", "border-b-4", "border-red-500");
-  });
+    function moveUnderline(btn) {
+      underline.style.width = btn.offsetWidth + 'px';
+      underline.style.left = btn.offsetLeft + 'px';
+    }
+    function activate(btn) {
+      buttons.forEach(b => {
+        b.classList.remove('text-red-500');
+        b.classList.add('text-gray-300');
+        b.setAttribute('aria-pressed', 'false');
+      });
+
+      btn.classList.add('text-red-500');
+      btn.classList.remove('text-gray-300');
+      btn.setAttribute('aria-pressed', 'true');
+
+      if (btn.id === 'post-btn') {
+        postTab.classList.remove('hidden');
+        followTab.classList.add('hidden');
+      } else if (btn.id === 'follow-btn') {
+        followTab.classList.remove('hidden');
+        postTab.classList.add('hidden');
+      }
+
+      moveUnderline(btn);
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => activate(btn));
+    });
+
+    window.addEventListener('load', () => {
+      const defaultBtn = document.querySelector('.tab-btn.text-red-500') || buttons[0];
+      activate(defaultBtn);
+    });
+    // keep underline aligned when resizing
+    window.addEventListener('resize', () => {
+      const active = document.querySelector('.tab-btn.text-red-500') || buttons[0];
+      moveUnderline(active);
+    });
+  })();
 </script>
-
 <?php view("partials/footer.php"); ?>
