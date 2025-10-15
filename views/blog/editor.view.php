@@ -10,7 +10,7 @@
 </head>
 <body class="bg-bg-dark/80">
 
-<link rel="stylesheet" href="/dist/assets/index.css">
+<link rel="stylesheet" href="/tiptap/index.css">
 
 <!-- Header -->
 <header class="bg-bg-dark/80 border-b border-card-dark">
@@ -97,7 +97,7 @@
 
 <div id="root"></div>
 
-<script src="/dist/assets/index.js"></script>
+<script src="/tiptap/index.js"></script>
 
 <?php view("partials/footer.php"); ?>
 
