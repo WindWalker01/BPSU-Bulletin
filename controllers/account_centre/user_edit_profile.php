@@ -1,3 +1,17 @@
 <?php
+use Core\App;
+use Core\Authenticator;
+use Core\Database;
 
-view("user_edit_profile.view.php");
+$id = new Authenticator()->getLoggedInUserId();
+
+$db = App::resolve(Database::class);
+
+$image = $db
+    ->query("SELECT * FROM profile_images WHERE user_id = :id", ["id" => $id])
+    ->find();
+
+render("user_edit_profile.view.php", [
+    "image_url" => $image["secure_url"],
+    "id" => $id,
+]);

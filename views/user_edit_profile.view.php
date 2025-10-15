@@ -1,3 +1,6 @@
+
+
+
 <div class="min-h-screen bg-bg-dark/80 flex flex-col items-center pt-24 px-4 relative">
   <!-- Top Section -->
   <div class="w-full flex justify-between items-center max-w-6xl">
@@ -11,11 +14,14 @@
 
     <div class="relative">
       <img 
-        src="/assets/Hannie.jpg"
+        src="<?php echo $image_url; ?>"
         alt="Profile Picture"
         class="w-32 h-32 md:w-44 md:h-44 rounded-full object-cover border border-gray-700"
       />
-      <form id="uploadForm" action="upload.php" method="POST" enctype="multipart/form-data" class="absolute bottom-0 right-0">
+      <form id="uploadForm" action="/user_profile/image" method="POST" enctype="multipart/form-data" class="absolute bottom-0 right-0">
+        <input type="hidden" name="_method" value="PATCH">
+        <input type="hidden" name="user_id" value="<?php echo $id; ?>">
+
         <label for="file-upload"
           class="transition transform hover:-translate-y-1 hover:scale-110 bg-red-500 hover:bg-red-800 text-white font-semibold py-1 px-3 rounded-lg text-xs cursor-pointer">
           ✏ Edit
@@ -126,3 +132,15 @@
 </div>
 
 <?php view("partials/footer.php"); ?>
+
+
+<script>
+  const fileInput = document.getElementById("file-upload");
+  const uploadForm = document.getElementById("uploadForm");
+
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > 0) {
+      uploadForm.submit(); // triggers the form action
+    }
+  });
+</script>

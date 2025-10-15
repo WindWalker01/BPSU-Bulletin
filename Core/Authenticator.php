@@ -115,7 +115,7 @@ class Authenticator
         return $user["role"];
     }
 
-    public function getLoggedInUserId($role = "USER")
+    public function getLoggedInUserId()
     {
         $config = require base_path("config/config.php");
         $jwt = (array) JWT::decode(
@@ -123,13 +123,9 @@ class Authenticator
             new Key($config["jwt-secret-key"], "HS256"),
         );
         $user = App::resolve(Database::class)
-            ->query(
-                "SELECT * FROM users WHERE email = :email AND role = :role",
-                [
-                    "email" => $jwt["email"],
-                    "role" => $role,
-                ],
-            )
+            ->query("SELECT * FROM users WHERE email = :email", [
+                "email" => $jwt["email"],
+            ])
             ->find();
         return $user["id"];
     }

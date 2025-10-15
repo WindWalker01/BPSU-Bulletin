@@ -37,7 +37,10 @@ function redirect($path, $components = [])
 
 function isUserLoggedIn()
 {
-    return isset($_COOKIE["auth_token"]);
+    if ($_COOKIE["auth_token"] !== null) {
+        return true;
+    }
+    return false;
 }
 
 function getLoggedInRole()

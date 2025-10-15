@@ -22,8 +22,6 @@ $router->get(
 );
 
 //POST
-$router->post("/account", "controllers/account_centre/user_activity_log.php");
-
 $router
     ->post("/register", "controllers/registration/create.php")
     ->only("guest");
@@ -35,7 +33,7 @@ $router
 $router->post("/logout", "controllers/login/logout.php")->only("auth");
 
 $router->post("/blog", "controllers/blog/create.php")->only("author");
-$router->post("/blog/editor/image/upload", "controllers/image/create.php");
+$router->post("/blog/editor/image/upload", "controllers/image/blog/create.php");
 
 // PUT
 
@@ -43,5 +41,10 @@ $router->post("/blog/editor/image/upload", "controllers/image/create.php");
 $router->patch("/blog/editor", "controllers/blog/edit.php");
 $router->patch("/blog/publish", "controllers/blog/schedule.php");
 
+$router->patch("/user_profile/image", "controllers/image/profile/edit.php");
+
 // DELETE
-$router->delete("/blog/editor/image/delete", "controllers/image/delete.php");
+$router->delete(
+    "/blog/editor/image/delete",
+    "controllers/image/blog/delete.php",
+);
