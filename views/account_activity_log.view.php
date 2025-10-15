@@ -3,7 +3,7 @@
   <div class="h-[900px] w-[1200px] text-center flex-col justify-center bg-card-dark/20 rounded-lg p-[20px]">
     <!-- User Profile View -->
     <img 
-      src="/assets/Hannie.jpg" 
+      src="<?php echo $url; ?>" 
       alt="Profile Picture"
       class="w-[128px] h-[128px] rounded-full object-cover mb-4 border-2 border-black-700 mx-auto"
     >

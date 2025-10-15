@@ -1,6 +1,9 @@
 <?php
 use Core\App;
+use Core\Authenticator;
 use Core\Database;
+
+$id = new Authenticator()->getLoggedInUserId();
 
 $db = App::resolve(Database::class);
 
