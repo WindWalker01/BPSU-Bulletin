@@ -1,4 +1,5 @@
 <?php
+use Core\Authenticator;
 
 function dd($value)
 {
@@ -31,5 +32,15 @@ function view($path, $attributes = [])
 function redirect($path, $components = [])
 {
     $query = http_build_query($components);
-    header("location: {$path}?{$query}");
+    header("location: {$path}{$query}");
+}
+
+function isUserLoggedIn()
+{
+    return isset($_COOKIE["auth_token"]);
+}
+
+function getLoggedInRole()
+{
+    return new Authenticator()->getLoggedInRole();
 }
