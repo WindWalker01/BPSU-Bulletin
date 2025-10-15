@@ -304,5 +304,9 @@ class Database
             "INSERT INTO `blogs` (`author_id`, `blog_status`, `content`, `created_at`, `scheduled_at`, `title`) VALUES
         (2, 'HIDDEN', {$content}, '2025-10-10 14:29:05', '2025-10-10 14:29:05', 'Getting Started');",
         );
+
+        // add profile image to the sample author
+        $testDBConnection->exec("INSERT INTO `profile_images` (`id`, `user_id`, `secure_url`, `asset_id`) VALUES
+(2, 2, 'https://res.cloudinary.com/dz4qgnk5v/image/upload/v1760545299/bpsu_bulletin/profile_images/kcexgbeueowxfjecq9uu.jpg', 'bpsu_bulletin/profile_images/kcexgbeueowxfjecq9uu');");
     }
 }
