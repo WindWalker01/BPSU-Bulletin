@@ -1,9 +1,12 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @source "../views/**/*.php";
 @source "../controllers/**/*.php";
 @source "../**/*.html";
 
 @theme {
+
+  
   /* PRIMARY COLORS*/
   --color-brand: #c00000; /* Brand Color - Deep Red */
   --color-brand-hover: #d55454; /* Hover States - Light Red */
@@ -30,17 +33,15 @@
   --color-text-gray: #737373; /* Secondary Text - Medium Gray */
 
   /*ACCENT/UTILITY COLORS*/
-  --color-accent-green: #22c55e; /* Success/Badges - Bright Green */
-  --color-accent-light-green: #4ade80; /* Success Light - Light Green */
-  --color-accent-dark-green: #248045; /* Success Dark - Dark Green */
-  --color-accent-blue: #3b82f6; /* Info/Action - Blue */
-  --color-accent-navy: #406a9d; /* Info Dark - Navy Blue */
+  --color-accent-green: #22C55E;         /* Success/Badges - Bright Green */
+  --color-accent-light-green: #4ADE80;   /* Success Light - Light Green */
+  --color-accent-dark-green: #248045;    /* Success Dark - Dark Green */
+  --color-accent-blue: #3B82F6;          /* Info/Action - Blue */
+  --color-accent-navy: #406A9D;          /* Info Dark - Navy Blue */
 }
-
-@layer utilities {
-  .bg-gradient-dark {
-    background-image:
-      radial-gradient(circle at 25% 15%, rgba(192, 0, 0, 0.2), transparent 40%),
-      radial-gradient(circle at 75% 85%, rgba(192, 0, 0, 0.15), transparent 40%);
+ @layer utilities {
+    .bg-gradient-dark {
+      background-image: radial-gradient(circle at 25% 15%, rgba(192, 0, 0, 0.2), transparent 40%),
+                        radial-gradient(circle at 75% 85%, rgba(192, 0, 0, 0.15), transparent 40%);
+    }
   }
-}
