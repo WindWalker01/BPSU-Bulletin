@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $data['title'] ?? 'BPSU Bulletin' ?></title>
+    <title><?= $data["title"] ?? "BPSU Bulletin" ?></title>
     <link href="css/tailwind.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
@@ -14,7 +14,7 @@
 <input type="checkbox" id="sidebar-toggle" class="hidden">
 
 <!-- Header - Fixed and Full Width -->
-<?php if($showHeader ?? true): ?>
+<?php if ($showHeader ?? true): ?>
 <header class="bg-bg-dark/80 backdrop-blur-md border-b border-card-dark fixed top-0 left-0 right-0 z-30">
   <div class="flex items-center justify-between w-full h-16 px-4 sm:px-6 lg:px-8">
 
@@ -74,10 +74,22 @@
 
     <!-- Right Section: Write + Notifications + Profile -->
     <div class="flex items-center gap-4">
-      <button class="flex items-center gap-1 sm:gap-2 text-text-secondary hover:text-text-primary cursor-pointer">
-        <span class="material-symbols-outlined">edit_square</span>
-        <span class="text-sm font-medium hidden sm:inline">Write</span>
-      </button>
+      <?php if (isUserLoggedIn()): ?>
+        <?php if (
+            getLoggedInRole() === "AUTHOR" ||
+            getLoggedInRole() === "ADMIN"
+        ): ?>      
+          <form action="/blog" method="post">
+            <input type="hidden" name="_method" value="POST">
+            <button class="flex items-center gap-1 sm:gap-2 text-text-secondary hover:text-text-primary cursor-pointer">
+              <span class="material-symbols-outlined">edit_square</span>
+              <span class="text-sm font-medium hidden sm:inline">Write</span>
+            </button>
+          </form>
+        <?php endif; ?>
+      <?php endif; ?>
+
+    
 
       <!-- Notifications hidden on mobile -->
       <button class="hidden sm:block text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
@@ -137,8 +149,8 @@
 <div class="pt-16 min-h-screen transition-all duration-300" id="main-content">
     <?= $slot ?? "" ?>
 </div>
-    <?php else: ?>
-        <?= $slot ?? "" ?>
-    <?php endif; ?>
+<?php else: ?>
+    <?= $slot ?? "" ?>
+<?php endif; ?>
 
 
