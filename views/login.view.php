@@ -1,5 +1,3 @@
-<?php view("partials/head.php"); ?>
-
 
 <!--
   This example requires updating your template:

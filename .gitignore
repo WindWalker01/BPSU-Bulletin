@@ -11,4 +11,5 @@ tmp/
 config/config.php
 
 /vendor/
+.idea
 public/css/tailwind.css

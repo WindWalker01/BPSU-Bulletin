@@ -1,3 +1,3 @@
 <?php
 
-view("login.view.php");
+render("login.view.php");
