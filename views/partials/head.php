@@ -27,7 +27,7 @@
       </label>
 
       <!-- Logo -->
-      <a href="#" class="flex items-center">
+      <a href="#" class="flex items-center max-sm:absolute max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2">
         <img src="assets/logo.webp" class="w-18 sm:w-23" alt="BPSU Bulletin">
       </a>
 
