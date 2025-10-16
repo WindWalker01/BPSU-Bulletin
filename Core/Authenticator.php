@@ -62,9 +62,9 @@ class Authenticator
                 "expires" => time() + 3600, // 1 hour
                 "path" => "/", // available across the site
                 "domain" => $config["domain"], // set your domain
-                // "secure" => true, // only send over HTTPS
+                "secure" => false, // only send over HTTPS
                 "httponly" => true, // JavaScript can't access it
-                "samesite" => "Strict", // protects from CSRF
+                "samesite" => "Lax", // protects from CSRF
             ],
         );
     }
