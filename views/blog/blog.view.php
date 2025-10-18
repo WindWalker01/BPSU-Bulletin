@@ -108,7 +108,7 @@
 
              <!-- Comments -->
             <div>
-                <h2 class="text-2xl font-semibold mb-6 text-text-primary" id="comments">Comments</h2>
+                <h2 class="text-2xl font-semibold mb-6 text-text-primary" id="comments">Comments (<?= $comment_count ?>)</h2>
                 <?php renderComments(0, $comment_tree); ?>
             </div>
 

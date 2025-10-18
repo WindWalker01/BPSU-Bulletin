@@ -66,6 +66,7 @@ render("blog/blog.view.php", [
     "title" => $blog["title"],
     "comment_tree" => $comment_tree,
     "blog_id" => $id,
+    "comment_count" => count($comments),
 ]);
 
 // Helper to render time ago
