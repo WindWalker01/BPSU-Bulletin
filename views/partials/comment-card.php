@@ -1,16 +1,20 @@
 <div class="flex gap-3 <?= $indent ?>">
         <img src='<?= $avatar ?>' class='w-9 h-9 rounded-full' alt='Avatar'>
         <div class='flex-1'>
-            <div class='flex items-center gap-2 text-sm text-gray-400'>
-                <span class='font-semibold text-gray-100'><?= $username ?></span>
+            <div class='flex items-center gap-2 text-sm text-text-secondary'>
+                <span class='font-semibold text-text-primary'><?= $username ?></span>
                 <span>• <?= $created_at ?></span>
             </div>
-            <p class='mt-1 text-gray-200'><?= $content ?></p>
-            <div class='flex items-center gap-4 mt-2 text-sm text-gray-400'>
-                <button class='hover:text-brand-hover flex items-center gap-1'>
+            <p class='mt-1 text-text-secondary'><?= $content ?></p>
+            <div class='flex items-center gap-4 mt-2 text-sm text-text-secondary'>
+                <button class='hover:text-brand-hover flex items-center gap-1 <?= isUserLoggedIn()
+                    ? ""
+                    : "hidden" ?>'>
                     <span class='material-symbols-outlined text-base'>thumb_up</span> <?= $like_count ?>
                 </button>
-                <button onclick="this.closest('.flex-1').querySelector('form').classList.toggle('hidden')" class='hover:text-brand-hover'>
+                <button onclick="this.closest('.flex-1').querySelector('form').classList.toggle('hidden')" class='hover:text-brand-hover <?= isUserLoggedIn()
+                    ? ""
+                    : "hidden" ?>'>
                     Reply
                 </button>
             </div>

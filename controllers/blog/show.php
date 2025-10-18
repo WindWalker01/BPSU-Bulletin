@@ -94,7 +94,8 @@ function renderComments($parent_id, $tree, $level = 0)
     }
 
     foreach ($tree[$parent_id] as $c) {
-        $indent = $level > 0 ? "border-l border-gray-700 pl-6 mt-4" : "mt-4";
+        $indent =
+            $level > 0 ? "border-l border-card-dark pl-2 lg:pl-6 mt-4" : "mt-4";
         view("partials/comment-card.php", [
             "indent" => $indent,
             "username" => $c["username"],

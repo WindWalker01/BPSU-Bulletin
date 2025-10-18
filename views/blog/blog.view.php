@@ -3,8 +3,8 @@
 <div class="flex flex-row justify-center px-16">
 
     <!-- Main Content -->
-    <div class="grid grid-cols-4 mt-8 gap-4">
-        <div class="text-text-primary ml-4 col-span-3">
+    <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 gap-4">
+        <div class="text-text-primary ml-4 col-span-1 md:col-span-3">
             <!-- Category and Back button -->
             <div class="flex flex-row justify-between">
                 <span class="ml-1 text-xs font-medium bg-brand/20 text-brand px-2 py-1 rounded-full">
@@ -44,7 +44,9 @@
 
             <!-- Reactions and Share -->
             <div class="flex flex-row justify-between my-6">
-                <div class="flex flex-row gap-4">
+                <div class="flex flex-row gap-4 <?= isUserLoggedIn()
+                    ? ""
+                    : "hidden" ?>">
                     <p class="text-text-primary">Reactions: </p>
                     <button class= "text-text-secondary hover:text-brand transition">
                         <span class="material-symbols-outlined w-5 h-5" >favorite</span>                    
@@ -83,10 +85,9 @@
 
             <hr class="text-text-secondary my-6">
 
-            <form action='/comment' method='POST' class="mt-3 space-y-2 <?php echo isUserLoggedIn() ===
-            false
-                ? "hidden"
-                : ""; ?>">
+            <form action='/comment' method='POST' class="mt-3 space-y-2 <?php echo isUserLoggedIn()
+                ? ""
+                : "hidden"; ?>">
                 <input type='hidden' name='blog_id' value="<?= $blog_id ?>">
                 <input type='hidden' name='_method' value="POST">
                 
