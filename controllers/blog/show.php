@@ -46,6 +46,7 @@ $comments = $db
         c.content,
         c.like_count,
         c.created_at,
+        c.dislike_count,
         u.username,
         u.role,
         COALESCE(pi.secure_url, 'https://i.pravatar.cc/40') AS avatar_url
@@ -106,6 +107,7 @@ render("blog/blog.view.php", [
     "like_count" => $like_count,
     "dislike_count" => $dislike_count,
     "current_user_reaction" => (int) $current_user_reaction["reaction_id"],
+    "db" => $db,
 ]);
 
 // Helper to render time ago
@@ -126,7 +128,7 @@ function timeAgo($datetime)
 }
 
 // Recursive render
-function renderComments($parent_id, $tree, $level = 0)
+function renderComments($parent_id, $tree, $level = 0, $db)
 {
     if (empty($tree[$parent_id])) {
         return;
@@ -135,19 +137,32 @@ function renderComments($parent_id, $tree, $level = 0)
     foreach ($tree[$parent_id] as $c) {
         $indent =
             $level > 0 ? "border-l border-card-dark pl-2 lg:pl-6 mt-4" : "mt-4";
+
+        $reaction = $db
+            ->query(
+                "SELECT reaction_id FROM comment_reactions WHERE user_id = :user_id AND comment_id = :comment_id",
+                [
+                    "user_id" => new Authenticator()->getLoggedInUserId(),
+                    "comment_id" => $c["id"],
+                ],
+            )
+            ->findOrFail();
         view("partials/comment-card.php", [
+            "comment_id" => $c["id"],
             "indent" => $indent,
             "username" => $c["username"],
             "avatar" => $c["avatar_url"],
             "content" => $c["content"],
             "like_count" => $c["like_count"],
+            "dislike_count" => $c["dislike_count"],
             "created_at" => timeAgo($c["created_at"]),
             "blog_id" => $c["blog_id"],
             "reply_parent_id" => $c["id"],
+            "user_reaction" => $reaction["reaction_id"],
         ]);
 
         // Recursive call
-        renderComments($c["id"], $tree, $level + 1);
+        renderComments($c["id"], $tree, $level + 1, $db);
 
         echo "</div></div>"; // close both divs
     }

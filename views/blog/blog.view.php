@@ -89,7 +89,7 @@
              <!-- Comments -->
             <div>
                 <h2 class="text-2xl font-semibold mb-6 text-text-primary" id="comments">Comments (<?= $comment_count ?>)</h2>
-                <?php renderComments(0, $comment_tree); ?>
+                <?php renderComments(0, $comment_tree, 0, $db); ?>
             </div>
 
         </div>  
@@ -207,6 +207,115 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    document.body.addEventListener('click', (event) => {
+        const clickedButton = event.target.closest('.reaction-button');
+
+        if (clickedButton) {
+            const wrapper = clickedButton.closest('.reaction-wrapper');
+            
+            // ❌ FIX 1: Retrieve commentId correctly from the hidden element
+            const commentIdElement = wrapper.querySelector('.comment-id');
+            // If you used the data attribute method:
+            // const commentId = wrapper.dataset.commentId; 
+            
+            // If you used the hidden paragraph content:
+            const commentId = parseInt(commentIdElement.textContent.trim());
+
+            if (isNaN(commentId)) {
+                console.error("Error: Could not determine valid comment ID.");
+                return; 
+            }
+
+            // Get the elements specific to this wrapper
+            const clickedIcon = clickedButton.querySelector('.reaction-icon');
+            const otherButton = clickedButton.classList.contains('up-button') 
+                ? wrapper.querySelector('.down-button') 
+                : wrapper.querySelector('.up-button');
+            const otherIcon = otherButton.querySelector('.reaction-icon');
+            
+            const reactionType = clickedButton.classList.contains('up-button') ? 'like' : 'dislike';
+
+            handleReactionClick(clickedIcon, otherIcon, reactionType, commentId, wrapper);
+        }
+    });
+
+    async function handleReactionClick(clickedIcon, otherIcon, reactionType, commentId, wrapper) {
+        
+        // Ensure you are comparing against the string 'fill-1', not a boolean.
+        const isCurrentlyFilled = clickedIcon.classList.contains('fill-1');
+
+        // Find the count elements specific to this comment wrapper
+        const likeCountEl = wrapper.querySelector('.like-count');
+        const dislikeCountEl = wrapper.querySelector('.dislike-count');
+
+        // 1. Determine the ACTION and calculate changes (Optimistic Update)
+        let action;
+        let likeChange = 0;
+        let dislikeChange = 0;
+
+        if (isCurrentlyFilled) {
+            // SCENARIO C: UNDO (Clicking already filled icon)
+            action = 'undo'; 
+            clickedIcon.classList.remove('fill-1');
+            
+            if (reactionType === 'like') likeChange = -1;
+            else dislikeChange = -1;
+
+        } else if (otherIcon.classList.contains('fill-1')) {
+            // SCENARIO D: SWITCH (Changing from one reaction to the other)
+            action = 'switch';
+            otherIcon.classList.remove('fill-1'); // Unfill the other
+            clickedIcon.classList.add('fill-1');   // Fill the clicked one
+            
+            if (reactionType === 'like') {
+                likeChange = 1;      // +1 for like
+                dislikeChange = -1;  // -1 for dislike
+            } else { // reactionType is 'dislike'
+                likeChange = -1;     // -1 for like
+                dislikeChange = 1;   // +1 for dislike
+            }
+
+        } else {
+            // SCENARIO A/B: SET (Setting a new reaction)
+            action = 'set';
+            clickedIcon.classList.add('fill-1');
+
+            if (reactionType === 'like') likeChange = 1;
+            else dislikeChange = 1;
+        }
+        
+        // ❌ FIX 2: Apply the immediate (fake) count update correctly
+        likeCountEl.textContent = parseInt(likeCountEl.textContent) + likeChange;
+        dislikeCountEl.textContent = parseInt(dislikeCountEl.textContent) + dislikeChange;
+
+
+        // 2. Prepare and Send the Request
+        const formData = new FormData();
+        formData.append('_method', "POST");
+        formData.append('comment_id', commentId);
+        formData.append('reaction_type', reactionType);
+        formData.append('action', action);
+        
+        try {
+            const response = await fetch('http://localhost:8069/comment/react', {
+                method: 'POST',
+                body: formData
+            });
+
+           
+            const result = await response.json();
+            
+
+        } catch (error) {
+            
+        }
+    }
+});
 </script>
 
 <?php view("partials/footer.php"); ?>

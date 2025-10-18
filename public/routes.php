@@ -39,6 +39,7 @@ $router->post("/comment", "controllers/blog/comment/comment.php");
 $router->post("/reply", "controllers/blog/comment/reply.php");
 
 $router->post("/react", "controllers/blog/reaction.php");
+$router->post("/comment/react", "controllers/blog/comment/reaction.php");
 
 // PUT
 
