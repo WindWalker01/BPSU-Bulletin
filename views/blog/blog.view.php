@@ -48,39 +48,18 @@
                     ? ""
                     : "hidden" ?>">
                     <p class="text-text-primary">Reactions: </p>
-                    <button class= "text-text-secondary hover:text-brand transition">
-                        <span class="material-symbols-outlined w-5 h-5" >favorite</span>                    
-                    </button>
-
-                     <button class= "text-text-secondary hover:text-brand transition">
-                        <span class="material-symbols-outlined w-5 h-5" style="font-variation-settings: 'FILL' 1;">favorite</span>                    
+                    <button id="up-button" class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                        <span id="up-icon" class="material-symbols-outlined text-xl">thumb_up</span> <p id="like-count"><?= $like_count ?></p>
                     </button>
                     
-                    <button class="text-text-secondary hover:text-brand transition">
-                        <span class="material-symbols-outlined">sentiment_satisfied</span>
-                    </button>
-                    
-                    <button class="text-text-secondary hover:text-brand transition">
-                        <span class="material-symbols-outlined">lightbulb</span>
-                    </button>
-                    
-                    <button class="text-text-secondary hover:text-brand transition">
-                        <span class="material-symbols-outlined">celebration</span>
-                    </button>     
-                </div>
-
-                <div class="flex flex-row gap-4">
-                    <p>Share: </p>
-                    <button class= "text-text-secondary hover:text-brand transition">
-                        <i data-lucide="facebook" class="w-5 h-5"></i>
-                    </button>
-                    <button class="text-text-secondary hover:text-brand transition">
-                        <i data-lucide="twitter" class="w-5 h-5"></i>
-                    </button>
-                    <button class="text-text-secondary hover:text-brand transition">
-                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    <button id="down-button" class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                        <span id="down-icon" class="material-symbols-outlined text-xl">thumb_down</span> <p id="dislike-count"><?= $dislike_count ?></p>
                     </button>   
                 </div>
+
+                <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-xl">share</span> Share
+                </button>
             </div>
 
             <hr class="text-text-secondary my-6">
@@ -121,7 +100,113 @@
 
 
 <script>
-  lucide.createIcons();
+lucide.createIcons();
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const upButton = document.getElementById('up-button');
+    const downButton = document.getElementById('down-button');
+    const upIcon = document.getElementById('up-icon');
+    const downIcon = document.getElementById('down-icon');
+    
+    const POST_ID = <?= (int) $blog_id ?>; 
+
+    if(<?= $current_user_reaction ?> == 1){
+        upIcon.classList.add("fill-1");
+    }else if(<?= $current_user_reaction ?> == 2){
+        downIcon.classList.add("fill-1");
+
+    }
+
+    upButton.addEventListener('click', () => {
+        handleReactionClick(upIcon, 'like', POST_ID);
+    });
+
+    downButton.addEventListener('click', () => {
+        handleReactionClick(downIcon, 'dislike', POST_ID);
+    });
+
+    async function handleReactionClick(clickedIcon, reactionType, postId) {
+        
+        const otherIcon = clickedIcon.id === 'up-icon' ? downIcon : upIcon;
+        const currentIconState = clickedIcon.classList.contains('fill-1') ? 'filled' : 'unfilled';
+        
+        // 1. Determine the ACTION to send to the server
+        let action;
+        let likeChange = 0;
+        let dislikeChange = 0;
+
+        if (currentIconState === 'filled') {
+            // User is clicking the same button to UNDO the reaction (Scenario C)
+            action = 'undo'; 
+            clickedIcon.classList.remove('fill-1');
+
+            if (reactionType === 'like') likeChange = -1;
+            else dislikeChange = -1;
+
+        } else if (otherIcon.classList.contains('fill-1')) {
+            // User is switching from the other reaction (Scenario D)
+            action = 'switch';
+            otherIcon.classList.remove('fill-1');
+            clickedIcon.classList.add('fill-1');
+
+            if (reactionType === 'like') {
+                likeChange = 1;      // Increment like
+                dislikeChange = -1;  // Decrement dislike
+            } else {
+                likeChange = -1;     // Decrement like
+                dislikeChange = 1;   // Increment dislike
+            }
+
+            clickedIcon.classList.add('fill-1');
+
+            if (reactionType === 'like') likeChange = 1;
+            else dislikeChange = 1;
+        } else {
+            // User is setting a brand new reaction (Scenario A or B)
+            action = 'set';
+            clickedIcon.classList.add('fill-1');
+
+            if (reactionType === 'like') likeChange = 1;
+            else dislikeChange = 1;
+        }
+
+        const like_count = document.getElementById('like-count');
+        const dislike_count = document.getElementById('dislike-count');
+
+        dislike_count.textContent = parseInt(dislike_count.textContent) + dislikeChange;
+        like_count.textContent = parseInt(like_count.textContent) + likeChange;
+
+        // 2. Prepare the data to send to the server
+        const formData = new FormData();
+        formData.append('_method', "POST");
+        formData.append('post_id', postId);
+        formData.append('reaction_type', reactionType);
+        formData.append('action', action);
+
+        // 3. Send the request to the PHP endpoint
+        try {
+            const response = await fetch('http://localhost:8069/react', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            // Handle network/connection errors
+        }
+    }
+});
+
+
 </script>
 
 <?php view("partials/footer.php"); ?>

@@ -244,8 +244,7 @@ class Database
         $result = $this->find();
 
         if (!$result) {
-            dd("QUERY FAILED!");
-            //TODO: IMPLEMENT THIS
+            return null;
         }
 
         return $result;

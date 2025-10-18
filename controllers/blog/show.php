@@ -2,6 +2,7 @@
 use Core\App;
 use Core\Database;
 use Core\TiptapExtension\Youtube;
+use Core\Authenticator;
 
 $id = $_GET["id"];
 
@@ -9,6 +10,11 @@ if (!isset($id)) {
     redirect("/home");
     exit();
 }
+
+$current_user_reaction = null;
+$like_count = 0;
+$dislike_count = 0;
+
 date_default_timezone_set("Asia/Manila");
 
 $db = App::resolve(Database::class);
@@ -60,6 +66,36 @@ foreach ($comments as $comment) {
     $comment_tree[$parent_id][] = $comment;
 }
 
+if (isUserLoggedIn()) {
+    $like_count = count(
+        $db
+            ->query(
+                "SELECT * FROM blog_reactions WHERE reaction_id = 1 AND blog_id = :blog_id;",
+                ["blog_id" => $id],
+            )
+            ->get(),
+    );
+
+    $dislike_count = count(
+        $db
+            ->query(
+                "SELECT * FROM blog_reactions WHERE reaction_id = 2 AND blog_id = :blog_id;",
+                ["blog_id" => $id],
+            )
+            ->get(),
+    );
+
+    $current_user_reaction = $db
+        ->query(
+            "SELECT * FROM blog_reactions WHERE user_id = :user_id AND blog_id = :blog_id;",
+            [
+                "blog_id" => $id,
+                "user_id" => new Authenticator()->getLoggedInUserId(),
+            ],
+        )
+        ->findorFail();
+}
+
 // Render the page
 render("blog/blog.view.php", [
     "blog_html" => $html,
@@ -67,6 +103,9 @@ render("blog/blog.view.php", [
     "comment_tree" => $comment_tree,
     "blog_id" => $id,
     "comment_count" => count($comments),
+    "like_count" => $like_count,
+    "dislike_count" => $dislike_count,
+    "current_user_reaction" => (int) $current_user_reaction["reaction_id"],
 ]);
 
 // Helper to render time ago

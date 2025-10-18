@@ -38,6 +38,8 @@ $router->post("/blog/editor/image/upload", "controllers/image/blog/create.php");
 $router->post("/comment", "controllers/blog/comment/comment.php");
 $router->post("/reply", "controllers/blog/comment/reply.php");
 
+$router->post("/react", "controllers/blog/reaction.php");
+
 // PUT
 
 // PATCH
