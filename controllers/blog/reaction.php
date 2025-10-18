@@ -43,64 +43,61 @@ $db = App::resolve(Database::class);
 
 $reaction_id = $reaction_type === "like" ? 1 : 2;
 
-try {
-    $reactions = $db
-        ->query(
-            "SELECT * FROM blog_reactions WHERE user_id = :user_id AND blog_id = :blog_id",
+$reactions = $db
+    ->query(
+        "SELECT * FROM blog_reactions WHERE user_id = :user_id AND blog_id = :blog_id",
+        ["user_id" => $user_id, "blog_id" => $blog_id],
+    )
+    ->get();
+
+$query = "";
+
+switch ($action) {
+    case "undo":
+        // Scenario C: User clicks the same filled button
+        $db->query(
+            "DELETE FROM blog_reactions WHERE user_id = :user_id AND blog_id = :blog_id",
             ["user_id" => $user_id, "blog_id" => $blog_id],
-        )
-        ->get();
+        );
+        break;
 
-    $query = "";
+    case "switch":
+        // Scenario D: User changes from 'like' to 'dislike' or vice versa
+        // We can rely on the existing_reaction check being true here.
+        $db->query(
+            "UPDATE blog_reactions SET reaction_id = :reaction_id WHERE user_id = :user_id AND blog_id = :blog_id",
+            [
+                "user_id" => $user_id,
+                "blog_id" => $blog_id,
+                "reaction_id" => $reaction_id,
+            ],
+        );
+        break;
 
-    switch ($action) {
-        case "undo":
-            // Scenario C: User clicks the same filled button
-            $db->query(
-                "DELETE FROM blog_reactions WHERE user_id = :user_id AND blog_id = :blog_id",
-                ["user_id" => $user_id, "blog_id" => $blog_id],
-            );
-            break;
+    case "set":
+        // Scenario A or B: User is setting a new reaction
+        $db->query(
+            "INSERT INTO blog_reactions (user_id, blog_id, reaction_id) VALUES (:user_id, :blog_id, :reaction_id)",
+            [
+                "user_id" => $user_id,
+                "blog_id" => $blog_id,
+                "reaction_id" => $reaction_id,
+            ],
+        );
+        break;
 
-        case "switch":
-            // Scenario D: User changes from 'like' to 'dislike' or vice versa
-            // We can rely on the existing_reaction check being true here.
-            $db->query(
-                "UPDATE blog_reactions SET reaction_id = :reaction_id WHERE user_id = :user_id AND blog_id = :blog_id",
-                [
-                    "user_id" => $user_id,
-                    "blog_id" => $blog_id,
-                    "reaction_id" => $reaction_id,
-                ],
-            );
-            break;
-
-        case "set":
-            // Scenario A or B: User is setting a new reaction
-            $db->query(
-                "INSERT INTO blog_reactions (user_id, blog_id, reaction_id) VALUES (:user_id, :blog_id, :reaction_id)",
-                [
-                    "user_id" => $user_id,
-                    "blog_id" => $blog_id,
-                    "reaction_id" => $reaction_id,
-                ],
-            );
-            break;
-
-        default:
-            echo json_encode([
-                "success" => false,
-                "message" => "Invalid action",
-            ]);
-            exit();
-    }
-
-    echo json_encode([
-        "success" => true,
-        "message" => "Reaction processed.",
-        "new_like_count" => $new_like_count,
-        "new_dislike_count" => $new_dislike_count,
-        "action" => $action,
-    ]);
-} catch (PDOException $e) {
+    default:
+        echo json_encode([
+            "success" => false,
+            "message" => "Invalid action",
+        ]);
+        exit();
 }
+
+echo json_encode([
+    "success" => true,
+    "message" => "Reaction processed.",
+    "new_like_count" => $new_like_count,
+    "new_dislike_count" => $new_dislike_count,
+    "action" => $action,
+]);
