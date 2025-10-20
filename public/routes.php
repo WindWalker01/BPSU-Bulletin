@@ -16,11 +16,12 @@ $router
     ->only("author");
 
 $router->get("/account", "controllers/account_centre/user_activity_log.php");
-$router->get("/user_profile", "controllers/account_centre/user_edit_profile.php");
+$router->get(
+    "/user_profile",
+    "controllers/account_centre/user_edit_profile.php",
+);
 
 //POST
-$router->post("/account", "controllers/account_centre/user_activity_log.php");
-
 $router
     ->post("/register", "controllers/registration/create.php")
     ->only("guest");
@@ -32,7 +33,7 @@ $router
 $router->post("/logout", "controllers/login/logout.php")->only("auth");
 
 $router->post("/blog", "controllers/blog/create.php")->only("author");
-$router->post("/blog/editor/image/upload", "controllers/image/create.php");
+$router->post("/blog/editor/image/upload", "controllers/image/blog/create.php");
 
 // PUT
 
@@ -40,15 +41,10 @@ $router->post("/blog/editor/image/upload", "controllers/image/create.php");
 $router->patch("/blog/editor", "controllers/blog/edit.php");
 $router->patch("/blog/publish", "controllers/blog/schedule.php");
 
-// DELETE
-$router->delete("/blog/editor/image/delete", "controllers/image/delete.php");
-// helpers.php or functions.php
-function render($view, $data = [], $showHeader = true)
-{
-    ob_start();
-    view($view, $data);
-    $slot = ob_get_clean();
+$router->patch("/user_profile/image", "controllers/image/profile/edit.php");
 
-    // Pass $showHeader to head.php
-    view('partials/head.php', compact('slot', 'data', 'showHeader'));
-}
+// DELETE
+$router->delete(
+    "/blog/editor/image/delete",
+    "controllers/image/blog/delete.php",
+);

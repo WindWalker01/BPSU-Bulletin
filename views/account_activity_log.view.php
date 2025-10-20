@@ -1,17 +1,18 @@
-<?php view("partials/head.php"); ?>
 
 <div class="min-h-screen bg-bg-dark/80 flex justify-center items-center">
   <div class="h-[900px] w-[1200px] text-center flex-col justify-center bg-card-dark/20 rounded-lg p-[20px]">
     <!-- User Profile View -->
     <img 
-      src="/assets/Hannie.jpg" 
+      src="<?php echo $url; ?>" 
       alt="Profile Picture"
       class="w-[128px] h-[128px] rounded-full object-cover mb-4 border-2 border-black-700 mx-auto"
     >
     <?php
-      echo "<p class='text-white text-xl font-semibold'>".$_POST['fname']."</p>";
-      echo "<p class='text-gray-500 italic'>".$_POST['mname']."</p>";
-      echo "<p class='text-gray-500 underline'>".$_POST['lname']."</p>";
+    echo "<p class='text-white text-xl font-semibold'>" .
+        $_POST["fname"] .
+        "</p>";
+    echo "<p class='text-gray-500 italic'>" . $_POST["mname"] . "</p>";
+    echo "<p class='text-gray-500 underline'>" . $_POST["lname"] . "</p>";
     ?>
     <h1 class="text-white text-xl font-semibold">Nathaniel D. Sto Niño</h1>
       <p class="text-gray-50  0 text-base">Sharp Blade, Sharp Mind</p>

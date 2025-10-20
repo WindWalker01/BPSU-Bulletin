@@ -37,10 +37,24 @@ function redirect($path, $components = [])
 
 function isUserLoggedIn()
 {
-    return isset($_COOKIE["auth_token"]);
+    if ($_COOKIE["auth_token"] !== null) {
+        return true;
+    }
+    return false;
 }
 
 function getLoggedInRole()
 {
     return new Authenticator()->getLoggedInRole();
+}
+
+// helpers.php or functions.php
+function render($view, $data = [], $showHeader = true)
+{
+    ob_start();
+    view($view, $data);
+    $slot = ob_get_clean();
+
+    // Pass $showHeader to head.php
+    view("partials/head.php", compact("slot", "data", "showHeader"));
 }

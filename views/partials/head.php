@@ -1,3 +1,22 @@
+<?php
+use Core\Database;
+use Core\App;
+use Core\Authenticator;
+
+if (isUserLoggedIn()) {
+    $auth = new Authenticator();
+
+    $db = App::resolve(Database::class);
+
+    $profile_image = $db
+        ->query("SELECT * FROM profile_images WHERE user_id = :id", [
+            "id" => (int) $auth->getLoggedInUserId(),
+        ])
+        ->find();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,7 +109,7 @@
       <?php endif; ?>
 
     
-
+      <?php if (isUserLoggedIn()): ?>
       <!-- Notifications hidden on mobile -->
       <button class="hidden sm:block text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
         <i class="material-symbols-outlined">notifications</i>
@@ -99,9 +118,24 @@
       <!-- Profile -->
       <button class="flex items-center">
         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center text-text-primary font-semibold overflow-hidden">
-          <img src="https://images.jammable.com/voices/f2e3aa8d-e446-4f3b-bce2-bf24c570d5a8.png" alt="Profile" class="w-full h-full object-cover">
+          <img src="<?= $profile_image[
+              "secure_url"
+          ] ?>" alt="Profile" class="w-full h-full object-cover">
         </div>
       </button>
+      
+      <?php else: ?>
+
+        <!-- Login -->
+        <button class="hidden sm:block text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
+          <a href="/login">Login</a>
+        </button>
+
+      <!-- Register -->
+        <button class="hidden sm:block text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
+          <a href="/register">Register</a>
+        </button>
+      <?php endif; ?>
     </div>
 
   </div>

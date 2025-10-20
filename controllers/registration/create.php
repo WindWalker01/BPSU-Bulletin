@@ -9,8 +9,17 @@ $email = $_POST["email"];
 $password = $_POST["password"];
 
 $hashed_pasword = password_hash($password, PASSWORD_ARGON2ID);
+$auth = new Authenticator();
 
-$user = $db->query(
+if ($auth->isUserExist($email)) {
+    // TODO: make an error page about this
+    $auth->generateToken($email);
+    redirect("/");
+    exit();
+}
+
+// create user account
+$id = $db->query(
     "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
 ('USER', 'Ruzzel', :email, :password, 'ACTIVE', NOW(), 'LOCAL');",
     [
@@ -19,9 +28,22 @@ $user = $db->query(
     ],
 );
 
-$auth = new Authenticator();
-
+// log in the user
 $auth->generateToken($email);
+
+// gets the registered user id because its the last inserted row
+$id = $db->getLastInsertID();
+
+// create profile image of the user
+$db->query(
+    "INSERT INTO profile_images (`user_id`, `secure_url`, `asset_id`) VALUES (:id, :url, :asset)",
+    [
+        "id" => $id,
+        "url" =>
+            "https://res.cloudinary.com/dz4qgnk5v/image/upload/v1760538796/default_profile_xgg15t.jpg",
+        "asset" => "default_profile_xgg15t",
+    ],
+);
 
 redirect("/");
 exit();
