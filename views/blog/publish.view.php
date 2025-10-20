@@ -14,18 +14,10 @@
 <div class="flex flex-row w-screen h-screen">
 
   <!-- Blog Preview -->
-  <div class="ml-16 flex flex-col h-screen w-screen">
+  <div class="ml-16 flex flex-col h-screen w-screen overflow-y-auto pt-16">
 
-    <h1 class="text-xl mt-6 mb-4 font-bold text-text-primary">Blog Preview</h1>
-    
-    <div class="h-9/10 text-text-primary overflow-y-auto rounded-xl">
-      <article class="tiptap-content">
-        <div class="flex flex-row justify-center">
-          <h1 class="items-center"><?= $title ?></h1>
-        </div>
-        <?= $tiptap_html ?>
-      </article>
-    
+     <div class="text-text-primary ml-4 col-span-1 md:col-span-3">
+      
     </div>
   </div>
 

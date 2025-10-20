@@ -27,7 +27,7 @@ $html = new \Tiptap\Editor([
 
 view("blog/publish.view.php", [
     "date_now" => date("'Y-m-d\TH:i'"),
-    "tiptap_html" => $html,
+    "blog_html" => $html,
     "title" => $blog["title"],
     "blog_id" => $_GET["blog_id"],
 ]);

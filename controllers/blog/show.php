@@ -49,7 +49,7 @@ $comments = $db
         c.dislike_count,
         u.username,
         u.role,
-        COALESCE(pi.secure_url, 'https://i.pravatar.cc/40') AS avatar_url
+        COALESCE(pi.secure_url, 'https://res.cloudinary.com/dz4qgnk5v/image/upload/v1760538796/default_profile_xgg15t.jpg') AS avatar_url
     FROM comments c
     JOIN users u ON c.user_id = u.id
     LEFT JOIN profile_images pi ON u.id = pi.user_id
@@ -68,23 +68,19 @@ foreach ($comments as $comment) {
 }
 
 if (isUserLoggedIn()) {
-    $like_count = count(
-        $db
-            ->query(
-                "SELECT * FROM blog_reactions WHERE reaction_id = 1 AND blog_id = :blog_id;",
-                ["blog_id" => $id],
-            )
-            ->get(),
-    );
+    $reaction_count = $db
+        ->query(
+            "SELECT 
+        SUM(CASE WHEN reaction_id = 1 THEN 1 ELSE 0 END) AS like_count, 
+        SUM(CASE WHEN reaction_id = 2 THEN 1 ELSE 0 END) AS dislike_count 
+        FROM blog_reactions
+        WHERE blog_id = :blog_id",
+            ["blog_id" => $id],
+        )
+        ->get();
 
-    $dislike_count = count(
-        $db
-            ->query(
-                "SELECT * FROM blog_reactions WHERE reaction_id = 2 AND blog_id = :blog_id;",
-                ["blog_id" => $id],
-            )
-            ->get(),
-    );
+    $like_count = $reaction_count[0]["like_count"] ?? 0;
+    $dislike_count = $reaction_count[0]["dislike_count"] ?? 0;
 
     $current_user_reaction = $db
         ->query(
