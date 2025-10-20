@@ -89,7 +89,7 @@
         <h2 class="text-2xl font-semibold mb-4">Enrollment & Documents</h2>
           <p class="mb-6 text-base text-gray-300">Details about registration, documents, and requirements.</p>
             <div class="border-1 w-255 border-gray-500"></div>
-              <a href="overview"
+              <a href="enrollment"
                 class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
               bg-brand hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
                 flex justify-center items-center h-10 w-40 absolute inset-x-220 inset-y-150">
@@ -105,7 +105,7 @@
         <h2 class="text-2xl font-semibold mb-4">Organizations</h2>
           <p class="mb-6 text-base text-gray-300">Explore student clubs and organizations you can join.</p>
             <div class="border-1 w-255 border-gray-500"></div>
-              <a href="overview"
+              <a href="organization"
                 class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
               bg-brand hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
                 flex justify-center items-center h-10 w-40 absolute inset-x-220 inset-y-150">
@@ -121,7 +121,7 @@
         <h2 class="text-2xl font-semibold mb-4">Scholarship</h2>
           <p class="mb-6 text-base text-gray-300">Information about financial aid and scholarship programs.</p>
             <div class="border-1 w-255 border-gray-500"></div>
-              <a href="overview"
+              <a href="scholar"
                 class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
               bg-brand hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
                 flex justify-center items-center h-10 w-40 absolute inset-x-220 inset-y-150">
@@ -137,7 +137,7 @@
         <h2 class="text-2xl font-semibold mb-4 w-500px">Achievements</h2>
           <p class="mb-6 text-base text-gray-300">Student and faculty accomplishments.</p>
             <div class="border-1 w-255 border-gray-500"></div>
-              <a href="overview"
+              <a href="achievement"
                 class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
               bg-brand hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
                 flex justify-center items-center h-10 w-40 absolute inset-x-220 inset-y-150">

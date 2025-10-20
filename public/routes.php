@@ -21,7 +21,12 @@ $router->get(
     "controllers/account_centre/user_edit_profile.php",);
 
 $router->get("/categories", "controllers/categories.php");
-$router->get("/announcement", "controllers/announcement_cat.php");
+$router->get("/announcement", "controllers/overall_category/announcement_cat.php");
+$router->get("/achievement", "controllers/overall_category/achievements.php");
+$router->get("/organization", "controllers/overall_category/organization.php");
+$router->get("/scholar", "controllers/overall_category/scholar.php");
+$router->get("/enrollment", "controllers/overall_category/enrollment.php");
+
 
 //POST
 
