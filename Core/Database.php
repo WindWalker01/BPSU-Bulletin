@@ -35,8 +35,6 @@ class Database
         `updated_at` timestamp NULL DEFAULT NULL,
         `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
         `published_at` timestamp NULL DEFAULT NULL,
-        `categories` enum('ANNOUNCEMENT','ORGANIZATION','ACHIEVEMENT','SCHOLARSHIP','ENROLLMENT') DEFAULT NULL,
-        `campus` enum('MAIN','BALANGA','ABUCAY','ORANI','DINALUPIHAN','BAGAC') DEFAULT NULL,
         PRIMARY KEY (`id`),
         KEY `author_id` (`author_id`),
         CONSTRAINT `blogs_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
@@ -198,7 +196,7 @@ class Database
         PRIMARY KEY (`id`),
         KEY `user_id` (`user_id`),
         CONSTRAINT `profile_images_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-        ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `blog_images` (
         `id` int NOT NULL AUTO_INCREMENT,
@@ -222,10 +220,38 @@ class Database
         CONSTRAINT `comment_reaction_ibfk_2` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`id`) ON DELETE CASCADE,
         CONSTRAINT `comment_reaction_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
         CONSTRAINT `comment_reaction_ibfk_4` FOREIGN KEY (`reaction_id`) REFERENCES `reactions` (`id`) ON DELETE CASCADE
-        ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
+
+        "CREATE TABLE `categories` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `value` varchar(255) DEFAULT NULL,
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
+
+        "CREATE TABLE `blog_categories` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `category_id` int DEFAULT NULL,
+        `blog_id` int DEFAULT NULL,
+        PRIMARY KEY (`id`),
+        KEY `category_id` (`category_id`),
+        KEY `blog_id` (`blog_id`),
+        CONSTRAINT `blog_categories_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `blog_categories_ibfk_2` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "INSERT INTO `reactions` (`id`, `name`, `emoji`) VALUES(1, 'like', '👍');",
         "INSERT INTO `reactions` (`id`, `name`, `emoji`) VALUES(2, 'dislike', '👎');",
+
+        "INSERT INTO `categories` (`id`, `value`) VALUES
+        (1, 'Announcement'),
+        (2, 'Enrollment'),
+        (3, 'Scholarship'),
+        (4, 'Achievement'),
+        (5, 'Organization'),
+        (6, 'Administration'),
+        (7, 'Academics'),
+        (8, 'Campus Life'),
+        (9, 'Opportunities');",
 
         "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
         ('AUTHOR', 'test_author', 'testAuthor@gmail.com', '\$argon2id\$v=19\$m=65536,t=4,p=1\$NUhHTjVwY1gybzRMT1RKcQ\$svAFH9wXoxmYwFc1vidrXDYgypWuqiLMYIjVAjbiyQQ', 'ACTIVE', '2025-10-10 14:29:05', 'LOCAL');",
