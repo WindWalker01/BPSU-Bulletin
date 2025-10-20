@@ -118,6 +118,11 @@ class Authenticator
     public function getLoggedInUserId()
     {
         $config = require base_path("config/config.php");
+
+        if (!isset($_COOKIE["auth_token"])) {
+            return null;
+        }
+
         $jwt = (array) JWT::decode(
             $_COOKIE["auth_token"],
             new Key($config["jwt-secret-key"], "HS256"),

@@ -2,7 +2,7 @@
 
 //GET
 $router->get("/", "controllers/index.php");
-$router->get("/blog", "controllers/blog_post.php")->only("auth");
+$router->get("/blog", "controllers/blog/show.php");
 
 $router->get("/register", "controllers/registration/show.php")->only("guest");
 $router->get("/login", "controllers/login/show.php")->only("guest");
@@ -34,6 +34,12 @@ $router->post("/logout", "controllers/login/logout.php")->only("auth");
 
 $router->post("/blog", "controllers/blog/create.php")->only("author");
 $router->post("/blog/editor/image/upload", "controllers/image/blog/create.php");
+
+$router->post("/comment", "controllers/blog/comment/comment.php");
+$router->post("/reply", "controllers/blog/comment/reply.php");
+
+$router->post("/react", "controllers/blog/reaction.php");
+$router->post("/comment/react", "controllers/blog/comment/reaction.php");
 
 // PUT
 

@@ -9,8 +9,21 @@ date_default_timezone_set("Asia/Manila");
 $db = App::resolve(Database::class);
 
 $blog = $db
-    ->query("SELECT * FROM blogs WHERE id = :id", ["id" => $_GET["blog_id"]])
+    ->query(
+        "SELECT * FROM blogs 
+        INNER JOIN users ON blogs.author_id = users.id 
+        INNER JOIN profile_images ON profile_images.user_id = users.id
+        WHERE blogs.id = :id",
+        ["id" => $_GET["blog_id"]],
+    )
     ->find();
+
+if ($blog["blog_status"] === "ACTIVE") {
+    redirect("/home");
+    exit();
+}
+
+$categories = $db->query("SELECT * FROM categories")->get();
 
 $html = new \Tiptap\Editor([
     "extensions" => [
@@ -27,7 +40,14 @@ $html = new \Tiptap\Editor([
 
 view("blog/publish.view.php", [
     "date_now" => date("'Y-m-d\TH:i'"),
-    "tiptap_html" => $html,
+    "blog_html" => $html,
     "title" => $blog["title"],
     "blog_id" => $_GET["blog_id"],
+    "author_name" => $blog["username"],
+    "published_at" => DateTime::createFromFormat(
+        "Y-m-d H:i:s",
+        $blog["updated_at"],
+    )->format("F j, Y"),
+    "author_profile" => $blog["secure_url"],
+    "categories" => $categories,
 ]);
