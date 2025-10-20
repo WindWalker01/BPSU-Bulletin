@@ -18,6 +18,13 @@ $blog = $db
     )
     ->find();
 
+if ($blog["blog_status"] === "ACTIVE") {
+    redirect("/home");
+    exit();
+}
+
+$categories = $db->query("SELECT * FROM categories")->get();
+
 $html = new \Tiptap\Editor([
     "extensions" => [
         new \Tiptap\Extensions\StarterKit([
@@ -42,4 +49,5 @@ view("blog/publish.view.php", [
         $blog["updated_at"],
     )->format("F j, Y"),
     "author_profile" => $blog["secure_url"],
+    "categories" => $categories,
 ]);
