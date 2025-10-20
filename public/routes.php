@@ -18,10 +18,13 @@ $router
 $router->get("/account", "controllers/account_centre/user_activity_log.php");
 $router->get(
     "/user_profile",
-    "controllers/account_centre/user_edit_profile.php",
-);
+    "controllers/account_centre/user_edit_profile.php",);
+
+$router->get("/categories", "controllers/categories.php");
+$router->get("/announcement", "controllers/announcement_cat.php");
 
 //POST
+
 $router
     ->post("/register", "controllers/registration/create.php")
     ->only("guest");
