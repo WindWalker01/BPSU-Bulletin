@@ -46,6 +46,17 @@ if (isset($_GET["code"])) {
 
         $id = $db->getLastInsertID();
         $role = "USER";
+
+        // create profile image of the user
+        $db->query(
+            "INSERT INTO profile_images (`user_id`, `secure_url`, `asset_id`) VALUES (:id, :url, :asset)",
+            [
+                "id" => (int) $id,
+                "url" =>
+                    "https://res.cloudinary.com/dz4qgnk5v/image/upload/v1760538796/default_profile_xgg15t.jpg",
+                "asset" => "default_profile_xgg15t",
+            ],
+        );
     } else {
         $user = $db
             ->query("SELECT * FROM users WHERE email = :email", [
@@ -59,16 +70,6 @@ if (isset($_GET["code"])) {
     // generate the token and store in client as cookies
     $auth->generateToken($user_email, $role ?? "USER");
 
-    // create profile image of the user
-    $db->query(
-        "INSERT INTO profile_images (`user_id`, `secure_url`, `asset_id`) VALUES (:id, :url, :asset)",
-        [
-            "id" => (int) $id,
-            "url" =>
-                "https://res.cloudinary.com/dz4qgnk5v/image/upload/v1760538796/default_profile_xgg15t.jpg",
-            "asset" => "default_profile_xgg15t",
-        ],
-    );
     redirect("/");
     exit();
 }
