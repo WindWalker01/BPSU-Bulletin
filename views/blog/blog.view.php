@@ -19,8 +19,9 @@
             <?php view("partials/blog-content.php", [
                 "title" => $title,
                 "blog_html" => $blog_html,
-                "username" => "Ruzzel Mendoza",
-                "date" => date("F j, Y"),
+                "username" => $author_name,
+                "published_at" => $published_at,
+                "author_profile" => $author_profile,
             ]); ?>
 
             <hr class="text-text-secondary my-6">

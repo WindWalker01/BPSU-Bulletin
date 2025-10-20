@@ -19,7 +19,15 @@ date_default_timezone_set("Asia/Manila");
 
 $db = App::resolve(Database::class);
 
-$blog = $db->query("SELECT * FROM blogs WHERE id = :id", ["id" => $id])->find();
+$blog = $db
+    ->query(
+        "SELECT * FROM blogs 
+        INNER JOIN users ON blogs.author_id = users.id 
+        INNER JOIN profile_images ON profile_images.user_id = users.id
+        WHERE blogs.id = :id",
+        ["id" => $id],
+    )
+    ->find();
 
 $html = new \Tiptap\Editor([
     "extensions" => [
@@ -104,6 +112,12 @@ render("blog/blog.view.php", [
     "dislike_count" => $dislike_count,
     "current_user_reaction" => (int) $current_user_reaction["reaction_id"],
     "db" => $db,
+    "published_at" => DateTime::createFromFormat(
+        "Y-m-d H:i:s",
+        $blog["updated_at"],
+    )->format("F j, Y"),
+    "author_profile" => $blog["secure_url"],
+    "author_name" => $blog["username"],
 ]);
 
 // Helper to render time ago

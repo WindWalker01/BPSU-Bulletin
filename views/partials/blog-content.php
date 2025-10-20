@@ -7,11 +7,11 @@
         <img
             alt="avatar"
             class="h-10 w-10 rounded-full object-cover"
-            src="https://res.cloudinary.com/dz4qgnk5v/image/upload/v1760546534/bpsu_bulletin/profile_images/bni4vecslgge8yy7szi5.jpg"
+            src="<?= $author_profile ?>"
         />
         <p class="text-text-primary text-s"><?= $username ?? "Unknown" ?></p>
         <p class="text-s mx-0.5">  &bull;  </p>
-        <p class="text-text-secondary text-s">Published on <?= $date ?></p>
+        <p class="text-text-secondary text-s">Published on <?= $published_at ?></p>
     </div>
 
     <!-- Blog Content -->
