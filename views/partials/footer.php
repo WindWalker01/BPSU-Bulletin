@@ -1,9 +1,3 @@
-
-<!-- if may footer -->
-<!-- <footer class="mt-auto bg-overlay-dark/50 border-t border-card-dark backdrop-blur-sm text-text-secondary text-center py-6 fixed bottom-0 left-0 w-full z-40">
-  <p class="text-sm text-text-primary">© <?= date('Y') ?> BPSU Bulletin — All rights reserved.</p>
-</footer> -->
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -14,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const searchInput = document.getElementById('searchInput');
   const searchResults = document.getElementById('searchResults');
-
+  const currentPath = window.location.pathname;
   const mobileSearchBtn = document.getElementById('mobileSearchBtn');
   const mobileSearchContainer = document.getElementById('mobileSearchContainer');
   const mobileSearchInput = document.getElementById('mobileSearchInput');
@@ -109,6 +103,15 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileSearchContainer.classList.add('hidden');
     }
   });
+
+document.querySelectorAll(".nav-link").forEach(link => {
+    if (link.getAttribute("href") === currentPath) {
+      link.classList.add("bg-brand", "text-white");
+    } else {
+      link.classList.add("hover:bg-card-dark", "text-text-secondary");
+    }
+  });
+
 
 });
 </script>

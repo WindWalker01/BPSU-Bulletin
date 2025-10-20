@@ -26,7 +26,10 @@ $router->get("/achievement", "controllers/overall_category/achievements.php");
 $router->get("/organization", "controllers/overall_category/organization.php");
 $router->get("/scholar", "controllers/overall_category/scholar.php");
 $router->get("/enrollment", "controllers/overall_category/enrollment.php");
-
+$router->get("/stats", "controllers/stats/stats.php")->only("auth");
+$router->get("/drafts", "controllers/stats/drafts.php")->only("auth");
+$router->get("/scheduled", "controllers/stats/scheduled.php")->only("auth");
+$router->get("/archived", "controllers/stats/archived.php")->only("auth");
 
 //POST
 

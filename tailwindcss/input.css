@@ -5,6 +5,7 @@
 @source "../**/*.html";
 
 @theme {
+  --font-family-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* PRIMARY COLORS*/
   --color-brand: #c00000; /* Brand Color - Deep Red */
   --color-brand-hover: #d55454; /* Hover States - Light Red */
@@ -46,5 +47,10 @@
 
   .fill-1 {
     font-variation-settings: "FILL" 1;
+  }
+}
+@layer base {
+  body {
+    font-family: var(--font-family-sans);
   }
 }

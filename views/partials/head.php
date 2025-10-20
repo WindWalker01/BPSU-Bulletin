@@ -42,7 +42,7 @@ if (isUserLoggedIn()) {
     <div class="flex items-center gap-2 sm:gap-4 flex-1">
 
       <!-- Menu Button -->
-      <label for="sidebar-toggle" class="text-text-primary hover:text-text-secondary p-2 cursor-pointer">
+      <label for="sidebar-toggle" class="text-text-primary flex items-center hover:text-text-secondary p-2 cursor-pointer">
         <i class="material-icons">menu</i>
       </label>
 
@@ -72,7 +72,7 @@ if (isUserLoggedIn()) {
       </div>
 
       <!-- Mobile search icon only -->
-<button id="mobileSearchBtn" class="sm:hidden text-text-secondary p-2 cursor-pointer">
+<button id="mobileSearchBtn" class="sm:hidden flex items-center text-text-secondary p-2 cursor-pointer">
   <i class="material-icons">search</i>
 </button>
 
@@ -112,10 +112,11 @@ if (isUserLoggedIn()) {
     
       <?php if (isUserLoggedIn()): ?>
       <!-- Notifications hidden on mobile -->
-      <button class="hidden sm:block text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
+      <button class="hidden sm:flex items-center justify-center text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
         <i class="material-symbols-outlined">notifications</i>
       </button>
 
+      
       <!-- Profile -->
       <button class="flex items-center">
         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center text-text-primary font-semibold overflow-hidden">
@@ -149,27 +150,27 @@ if (isUserLoggedIn()) {
 >
  
   <nav class="flex flex-col gap-5 m-2 mt-4 space-y-1 px-3 flex-1 overflow-y-auto">
-    <a href="#" class="flex items-center gap-2 p-3 rounded-2xl bg-brand text-white">
-      <i class="material-symbols-outlined text-[4px]" >home</i>
-      Home
-    </a>
-    <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-card-dark text-text-secondary">
-      <i class="material-symbols-outlined">category</i>
-      Categories
-    </a>
-    <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-card-dark text-text-secondary">
-      <i class="material-symbols-outlined">dashboard</i>
-      Stats
-    </a>
-    <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-card-dark text-text-secondary">
-      <i class="material-symbols-outlined">group</i>
-      Following
-    </a>
-    <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-card-dark text-text-secondary">
-      <i class="material-symbols-outlined">admin_panel_settings</i>
-      Admin Panel
-    </a>
-  </nav>
+  <a href="/home" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
+    <i class="material-symbols-outlined">home</i>
+    Home
+  </a>
+  <a href="/categories" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
+    <i class="material-symbols-outlined">category</i>
+    Categories
+  </a>
+  <a href="/stats" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
+    <i class="material-symbols-outlined">dashboard</i>
+    Stats
+  </a>
+  <a href="/following" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
+    <i class="material-symbols-outlined">group</i>
+    Following
+  </a>
+  <a href="/admin" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
+    <i class="material-symbols-outlined">admin_panel_settings</i>
+    Admin Panel
+  </a>
+</nav>
   <div class="mt-auto px-2 mx-4 py-4 border-t border-card-dark">
     <a href="#" class="flex items-center gap-2 p-3 rounded-lg hover:bg-card-dark text-text-secondary">
       <i class="material-icons">logout</i>
@@ -187,5 +188,3 @@ if (isUserLoggedIn()) {
 <?php else: ?>
     <?= $slot ?? "" ?>
 <?php endif; ?>
-
-
