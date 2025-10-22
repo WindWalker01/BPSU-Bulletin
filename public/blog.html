@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BPSU Bulletin — Post</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: "#C00000",
+              "brand-2": "#D55454",
+              "bg-dark": "#0D0D0D",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .prose-dark h1,
+      .prose-dark h2,
+      .prose-dark h3 {
+        color: #fff;
+      }
+      .prose-dark p,
+      .prose-dark ul,
+      .prose-dark ol {
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .prose-dark a {
+        color: #d55454;
+        text-decoration: underline;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+    </style>
+  </head>
+  <body class="bg-[#0c0c0c] text-white">
+    <!-- Header -->
+    <header
+      class="sticky top-0 z-40 border-b border-white/5 bg-black/50 backdrop-blur-sm"
+    >
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <a href="/" class="text-brand flex items-center gap-2 font-semibold">
+            <span class="text-xl">BPSU</span
+            ><span class="text-white">Bulletin</span>
+          </a>
+          <div class="flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="Search..."
+              class="focus:ring-brand-2 hidden rounded-full bg-white/5 px-3 py-1 text-sm placeholder-white/50 outline-none focus:ring-2 sm:block"
+            />
+            <img
+              src="https://i.pravatar.cc/40"
+              class="h-9 w-9 rounded-full border border-white/10"
+              alt="user"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative h-72 w-full overflow-hidden md:h-96">
+      <img
+        src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80"
+        alt="banner"
+        class="absolute inset-0 h-full w-full object-cover opacity-50"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"
+      ></div>
+      <div class="absolute bottom-0 w-full px-4 pb-10 text-center">
+        <div
+          class="bg-brand/20 text-brand mb-3 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase"
+        >
+          University Update
+        </div>
+        <h1 class="mx-auto max-w-2xl text-3xl font-bold md:text-4xl">
+          BPSU Announces New Academic Programs for 2024
+        </h1>
+        <div
+          class="mt-3 flex items-center justify-center gap-4 text-sm text-white/70"
+        >
+          <div class="flex items-center gap-2">
+            <img
+              src="https://i.pravatar.cc/40?img=11"
+              class="h-8 w-8 rounded-full"
+              alt=""
+            />
+            <span>Dr. Marcus Evans</span>
+          </div>
+          <span>•</span>
+          <span>October 28, 2025</span>
+          <span>•</span>
+          <span>5 min read</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main content -->
+    <main
+      class="mx-auto mt-10 grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-3 lg:px-8"
+    >
+      <!-- Article -->
+      <article class="space-y-8 lg:col-span-2">
+        <div class="prose prose-invert prose-dark max-w-none">
+          <p>
+            Bataan Peninsula State University (BPSU) is excited to announce the
+            launch of several new academic programs for the academic year 2024.
+            These initiatives aim to broaden opportunities for students and meet
+            the evolving needs of the local and global workforce.
+          </p>
+
+          <h2>Overview of New Programs</h2>
+          <ul>
+            <li>
+              <strong>BS in Artificial Intelligence</strong> — focusing on
+              applied machine learning, robotics, and data ethics.
+            </li>
+            <li>
+              <strong>BS in Environmental Sustainability</strong> — integrating
+              green technology and policy studies.
+            </li>
+            <li>
+              <strong>BS in Creative Media Arts</strong> — merging technology
+              with digital storytelling.
+            </li>
+          </ul>
+
+          <p>
+            These programs were developed after extensive consultation with
+            industry partners, ensuring that graduates will be equipped with
+            skills relevant to current market demands.
+          </p>
+
+          <blockquote>
+            "BPSU continues to evolve to match the rapid pace of innovation
+            while keeping education accessible and inclusive," said Dr. Marcus
+            Evans.
+          </blockquote>
+
+          <h2>Enrollment Information</h2>
+          <p>
+            Enrollment for the new programs will begin in May 2024. Interested
+            students can visit the <a href="#">BPSU Registrar’s Office</a> or
+            check the official BPSU Bulletin website for updates.
+          </p>
+
+          <p>
+            For inquiries, contact the Academic Affairs Office or follow the
+            official BPSU social media channels for announcements.
+          </p>
+        </div>
+
+        <!-- Reactions -->
+        <div
+          class="flex items-center justify-between border-t border-white/10 pt-6"
+        >
+          <div class="flex gap-4">
+            <button
+              class="hover:text-brand flex items-center gap-2 text-white/80 transition"
+            >
+              ❤️ <span>152 Likes</span>
+            </button>
+            <button
+              class="hover:text-brand flex items-center gap-2 text-white/80 transition"
+            >
+              💬 <span>36 Comments</span>
+            </button>
+            <button
+              class="hover:text-brand flex items-center gap-2 text-white/80 transition"
+            >
+              🔗 <span>Share</span>
+            </button>
+          </div>
+          <button
+            class="bg-brand hover:bg-brand-2 rounded-full px-3 py-1 text-sm font-semibold text-black transition"
+          >
+            Follow Author
+          </button>
+        </div>
+
+        <!-- Comments -->
+        <section class="mt-10">
+          <h3 class="mb-4 text-lg font-semibold">Comments (3)</h3>
+          <div class="space-y-6">
+            <div class="flex gap-3">
+              <img
+                src="https://i.pravatar.cc/40?img=14"
+                class="h-10 w-10 rounded-full"
+                alt=""
+              />
+              <div class="glass flex-1 rounded-xl p-3">
+                <div class="text-sm font-semibold">
+                  Maria Santos
+                  <span class="ml-2 text-xs font-normal text-white/50"
+                    >2h ago</span
+                  >
+                </div>
+                <p class="mt-1 text-sm text-white/80">
+                  This is great news! I’m especially excited about the Creative
+                  Media Arts program.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <img
+                src="https://i.pravatar.cc/40?img=19"
+                class="h-10 w-10 rounded-full"
+                alt=""
+              />
+              <div class="glass flex-1 rounded-xl p-3">
+                <div class="text-sm font-semibold">
+                  James Lee
+                  <span class="ml-2 text-xs font-normal text-white/50"
+                    >5h ago</span
+                  >
+                </div>
+                <p class="mt-1 text-sm text-white/80">
+                  BPSU keeps improving! Can’t wait to apply for the AI program
+                  next year.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comment form -->
+          <div class="mt-6 border-t border-white/10 pt-4">
+            <textarea
+              rows="3"
+              placeholder="Write a comment..."
+              class="focus:ring-brand-2 w-full rounded-lg bg-white/5 p-3 text-sm outline-none focus:ring-2"
+            ></textarea>
+            <div class="mt-2 flex justify-end">
+              <button
+                class="bg-brand hover:bg-brand-2 rounded-full px-4 py-1.5 text-sm font-semibold text-black transition"
+              >
+                Post Comment
+              </button>
+            </div>
+          </div>
+        </section>
+      </article>
+
+      <!-- Sidebar -->
+      <aside class="space-y-6">
+        <div class="glass rounded-xl p-4">
+          <h4 class="mb-3 font-semibold">Related Posts</h4>
+          <ul class="space-y-3 text-sm text-white/80">
+            <li>
+              <a href="#" class="hover:text-brand transition"
+                >Student-Led Cleanup Drive a Big Success</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-brand transition"
+                >Innovation Fair 2025 Highlights</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-brand transition"
+                >Upcoming Workshop: Web Dev Basics</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="glass rounded-xl p-4">
+          <h4 class="mb-3 font-semibold">Author Profile</h4>
+          <div class="flex items-center gap-3">
+            <img
+              src="https://i.pravatar.cc/60?img=11"
+              class="h-14 w-14 rounded-full"
+              alt=""
+            />
+            <div>
+              <div class="font-semibold">Dr. Marcus Evans</div>
+              <div class="text-xs text-white/60">
+                Dean, College of Engineering
+              </div>
+            </div>
+          </div>
+          <p class="mt-3 text-sm text-white/70">
+            Researcher and educator with a passion for technology and
+            sustainable development at BPSU.
+          </p>
+          <button
+            class="bg-brand hover:bg-brand-2 mt-3 rounded-full px-3 py-1 text-sm font-semibold text-black transition"
+          >
+            Follow
+          </button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Floating back button -->
+    <a
+      href="/"
+      class="fixed bottom-6 left-6 rounded-full border border-white/10 bg-white/5 p-3 hover:bg-white/10"
+    >
+      <svg
+        class="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15 19l-7-7 7-7"
+        />
+      </svg>
+    </a>
+
+    <div class="h-20"></div>
+  </body>
+</html>

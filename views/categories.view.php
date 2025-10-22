@@ -13,24 +13,25 @@
 </div>
 
 <div class="w-10px ml-48 ; ">
-  <h1 class="text-white text-4xl">Browse Categories
-    <p class="text-gray-300 pt-5 text-2xl">Updates, events, and official notices for the campus community.</p>
+  <h1 class="text-white text-4xl font-bold">Browse Categories
+    <p class="text-gray-300 pt-5 text-2xl font-semibold">Updates, events, and official notices for the campus community.</p>
   </h1>
 </div>
 
-  <div class="mt-10 p-6 ml-10 rounded-lg w-[95%] flex flex-col lg:flex-row gap-10 py-15 pl-30">
+  <!-- Category Cards -->
 
+<div class="mt-10 p-6 ml-10 rounded-lg w-[95%] flex flex-col lg:flex-row gap-10 py-15 pl-30">
     <div class="flex flex-col flex-1 gap-5">
       <button data-modal="AnnouncementModal"
-              class="group bg-white/10 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
-        <img src="/assets/megaphone.png" alt="megaphone" class="w-10 h-10 mb-4">
+              class="group bg-overlay-dark/50 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
+        <img src="/assets/megaphone.svg" alt="megaphone" class="w-10 h-10 mb-4">
         <p class="text-lg text-white">University Announcement</p>
         <p class="text-sm text-gray-400">Latest news and updates</p>
       </button>
 
       <button data-modal="EnrollmentModal"
-              class="group bg-white/10 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
-        <img src="/assets/folder.png" alt="folder" class="w-10 h-10 mb-4">
+              class="group bg-overlay-dark/50 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
+        <img src="/assets/docs.svg" alt="folder" class="w-10 h-10 mb-4">
         <p class="text-lg text-white">Enrollment & Documents</p>
         <p class="text-sm text-gray-400">Registration and Course Information</p>
       </button>
@@ -38,8 +39,8 @@
 
     <div class="flex flex-col flex-1 gap-5">
       <button data-modal="OrganizationsModal"
-              class="group bg-white/10 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
-        <img src="/assets/teamwork.png" alt="teamwork" class="w-10 h-10 mb-4">
+              class="group bg-overlay-dark/50 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
+        <img src="/assets/team.svg" alt="teamwork" class="w-10 h-10 mb-4">
         <p class="text-lg text-white">Organizations</p>
         <p class="text-sm text-gray-400">Clubs and student groups</p>
       </button>
@@ -47,8 +48,8 @@
 
     <div class="flex flex-col flex-1 gap-5">
       <button data-modal="ScholarshipModal"
-              class="group bg-white/10 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
-        <img src="/assets/graduation.png" alt="hat" class="w-10 h-10 mb-4">
+              class="group bg-overlay-dark/50 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
+        <img src="/assets/school.svg" alt="hat" class="w-10 h-10 mb-4">
         <p class="text-lg text-white">Scholarship</p>
         <p class="text-sm text-gray-400">Financial aid opportunities</p>
       </button>
@@ -56,13 +57,13 @@
 
     <div class="flex flex-col flex-1 gap-5">
       <button data-modal="AchievementsModal"
-              class="group bg-white/10 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
-        <img src="/assets/award.png" alt="medal" class="w-10 h-10 mb-4">
+              class="group bg-overlay-dark/50 hover:bg-red-500/40 transition-all duration-300 pl-5 pt-10 pb-10 pr-5 rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer w-full">
+        <img src="/assets/award.svg" alt="medal" class="w-10 h-10 mb-4">
         <p class="text-lg text-white">Achievements</p>
         <p class="text-sm text-gray-400">Student and faculty accomplishments.</p>
       </button>
     </div>
-  </div>
+</div>
 
   <!-- MODALS  -->
 
