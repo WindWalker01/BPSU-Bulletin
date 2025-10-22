@@ -14,6 +14,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileSearchInput = document.getElementById('mobileSearchInput');
   const mobileSearchResults = document.getElementById('mobileSearchResults');
 
+  // --- Profile dropdown logic ---
+  const profileButton = document.getElementById('profileButton');
+  const profileDropdown = document.getElementById('profileDropdown');
+
+  if (profileButton && profileDropdown) {
+    profileButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isOpen = profileDropdown.classList.toggle('hidden');
+      // Toggle border highlight
+      const isActive = !isOpen;
+      profileButton.dataset.active = isActive ? "true" : "false";
+    });
+
+    // Close when clicking outside
+    window.addEventListener('click', (event) => {
+      if (
+        !profileDropdown.classList.contains('hidden') &&
+        !profileDropdown.contains(event.target) &&
+        event.target !== profileButton
+      ) {
+        profileDropdown.classList.add('hidden');
+        profileButton.dataset.active = "false";
+      }
+    });
+  }
+
   // --- Sidebar logic ---
   sidebarToggle.addEventListener('change', () => {
     if (sidebarToggle.checked) {
@@ -104,7 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-document.querySelectorAll(".nav-link").forEach(link => {
+  // --- Navigation active link ---
+  document.querySelectorAll(".nav-link").forEach(link => {
     if (link.getAttribute("href") === currentPath) {
       link.classList.add("bg-brand", "text-white");
     } else {
@@ -112,10 +139,8 @@ document.querySelectorAll(".nav-link").forEach(link => {
     }
   });
 
-
 });
 </script>
-
 
 </body>
 </html>

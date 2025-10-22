@@ -23,17 +23,43 @@ if (isUserLoggedIn()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $data["title"] ?? "BPSU Bulletin" ?></title>
-    <link href="css/tailwind.css" rel="stylesheet">
+    
+    <script>
+        (function() {
+            // This function applies the theme to the <html> tag
+            function applyTheme(theme) {
+                let effectiveTheme = theme;
+                if (theme === 'system') {
+                    effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+
+                if (effectiveTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }
+
+            // Get the saved theme or default to 'system'
+            const savedTheme = localStorage.getItem('theme') || 'system';
+            applyTheme(savedTheme);
+
+            // Add a listener to update the theme if the system preference changes
+            // This is only needed if the user's saved choice is 'system'
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (localStorage.getItem('theme') === 'system') {
+                    applyTheme('system');
+                }
+            });
+        })();
+    </script>
+    <link href="/css/tailwind.css" rel="stylesheet">
     <link href="/css/tiptap.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 </head>
-<body class="bg-bg-dark text-foreground-dark [background-image:radial-gradient(circle_at_25%_15%,rgb(192_0_0/0.2),transparent_40%),radial-gradient(circle_at_75%_85%,rgb(192_0_0/0.15),transparent_40%)]">
-    
-<!-- Sidebar Toggle Checkbox -->
+<body class="bg-bg-light text-text-dark font-sans min-h-screen dark:bg-bg-dark dark:text-text-primary dark:[background-image:radial-gradient(circle_at_25%_15%,rgb(192_0_0/0.2),transparent_40%),radial-gradient(circle_at_75%_85%,rgb(192_0_0/0.15),transparent_40%)] transition-colors duration-200">
 <input type="checkbox" id="sidebar-toggle" class="hidden">
-
-<!-- Header - Fixed and Full Width -->
 <?php if ($showHeader ?? true): ?>
 <header class="bg-bg-dark/80 backdrop-blur-md border-b border-card-dark fixed top-0 left-0 right-0 z-30">
   <div class="flex items-center justify-between w-full h-16 px-4 sm:px-6 lg:px-8">
@@ -47,7 +73,7 @@ if (isUserLoggedIn()) {
       </label>
 
       <!-- Logo -->
-      <a href="#" class="flex items-center max-sm:absolute max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2">
+      <a href="/" class="flex items-center max-sm:absolute max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2">
         <img src="assets/logo.webp" class="w-18 sm:w-23" alt="BPSU Bulletin">
       </a>
 
@@ -118,13 +144,44 @@ if (isUserLoggedIn()) {
 
       
       <!-- Profile -->
-      <button class="flex items-center">
-        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center text-text-primary font-semibold overflow-hidden">
-          <img src="<?= $profile_image[
-              "secure_url"
-          ] ?>" alt="Profile" class="w-full h-full object-cover">
-        </div>
-      </button>
+     <div class="relative">
+                <button 
+                    id="profileButton"
+                    class="flex items-center cursor-pointer p-0.5 border-2 border-transparent rounded-full transition-colors duration-100 data-[active=true]:border-brand"
+                    data-active="false">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center hover:opacity-90 text-text-primary font-semibold overflow-hidden">
+                      <img src="<?= $profile_image["secure_url"] ?>" alt="Profile" class="w-full h-full object-cover">
+                    </div>
+                </button>
+
+                <div id="profileDropdown" 
+                     class="absolute right-0 mt-2 w-48 bg-overlay-dark border border-card-dark rounded-lg shadow-lg hidden z-50 py-1 text-text-secondary">
+                    
+                    <a href="/account" class="flex items-center gap-3 px-4 py-2 text-sm hover:text-text-primary hover:bg-card-dark">
+                        <span class="material-symbols-outlined text-base">person</span>
+                        View Profile
+                    </a>
+                    
+                    <a href="/notifications" class="flex items-center gap-3 px-4 py-2 text-sm hover:text-text-primary hover:bg-card-dark sm:hidden">
+                        <span class="material-symbols-outlined text-base">notifications</span>
+                        Notification
+                    </a>
+
+                    <a href="/settings" class="flex items-center gap-3 px-4 py-2 text-sm hover:text-text-primary hover:bg-card-dark">
+                        <span class="material-symbols-outlined text-base">settings</span>
+                        Settings
+                    </a>
+                    
+                    <div class="border-t border-card-dark my-1"></div>
+                    
+                    <form action="/logout" method="POST">
+                        <button type="submit" class="w-full cursor-pointer text-left flex items-center gap-3 px-4 py-2 text-sm hover:text-text-primary hover:bg-card-dark">
+                           <span class="material-symbols-outlined text-base">logout</span>
+                           Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
       
       <?php else: ?>
 
@@ -171,12 +228,6 @@ if (isUserLoggedIn()) {
     Admin Panel
   </a>
 </nav>
-  <div class="mt-auto px-2 mx-4 py-4 border-t border-card-dark">
-    <a href="#" class="flex items-center gap-2 p-3 rounded-lg hover:bg-card-dark text-text-secondary">
-      <i class="material-icons">logout</i>
-      Logout
-    </a>
-  </div>
 </aside>
 
 <!-- Overlay -->
