@@ -1,42 +1,45 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-@source "../views/**/*.php";
-@source "../controllers/**/*.php";
-@source "../**/*.html";
 
 @theme {
-  /* PRIMARY COLORS*/
-  --color-brand: #c00000; /* Brand Color - Deep Red */
-  --color-brand-hover: #d55454; /* Hover States - Light Red */
-
-  /*BACKGROUND COLORS*/
-
-  /* Dark Mode */
-  --color-bg-dark: #0d0d0d; /* Background - Pure Black */
-  --color-card-dark: #2e2e2e; /* Card/Border - Dark Gray */
-  --color-overlay-dark: #1a1a1a; /* Modal Overlay - Dark Gray (use with opacity) */
-
-  /* Light Mode */
-  --color-bg-light: #ffffff; /* Background - Pure White */
-  --color-card-light: #e5e5e5; /* Card/Border - Light Gray */
-
-  /* TEXT COLORS */
-
-  /* Dark Mode */
-  --color-text-primary: #ffffff; /* Primary Text - White */
-  --color-text-secondary: #a3a3a3; /* Secondary Text - Light Gray */
-
-  /* Light Mode */
-  --color-text-dark: #000000; /* Primary Text - Black */
-  --color-text-gray: #737373; /* Secondary Text - Medium Gray */
-
-  /*ACCENT/UTILITY COLORS*/
-  --color-accent-green: #22c55e; /* Success/Badges - Bright Green */
-  --color-accent-light-green: #4ade80; /* Success Light - Light Green */
-  --color-accent-dark-green: #248045; /* Success Dark - Dark Green */
-  --color-accent-blue: #3b82f6; /* Info/Action - Blue */
-  --color-accent-navy: #406a9d; /* Info Dark - Navy Blue */
+  --font-family-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  
+  /* Brand colors (same in both modes) */
+  --color-brand: #c00000;
+  --color-brand-hover: #d55454;
+  
+  /* Light mode colors (default) */
+  --color-bg-dark: #f5f5f5;
+  --color-card-dark: #e5e5e5;
+  --color-overlay-dark: #ffffff;
+  --color-bg-light: #ffffff;
+  --color-card-light: #e5e5e5;
+  --color-text-primary: #000000;
+  --color-text-secondary: #737373;
+  --color-text-dark: #000000;
+  --color-text-gray: #737373;
+  
+  /* Accent colors (same in both modes) */
+  --color-accent-green: #22c55e;
+  --color-accent-light-green: #4ade80;
+  --color-accent-dark-green: #248045;
+  --color-accent-blue: #3b82f6;
+  --color-accent-navy: #406a9d;
 }
+
+/* Dark mode overrides */
+.dark {
+  --color-bg-dark: #0d0d0d;
+  --color-card-dark: #2e2e2e;
+  --color-overlay-dark: #1a1a1a;
+  --color-bg-light: #0d0d0d;
+  --color-card-light: #2e2e2e;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a3a3a3;
+  --color-text-dark: #ffffff;
+  --color-text-gray: #a3a3a3;
+}
+
 @layer utilities {
   .bg-gradient-dark {
     background-image:
@@ -46,5 +49,11 @@
 
   .fill-1 {
     font-variation-settings: "FILL" 1;
+  }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-family-sans);
   }
 }
