@@ -27,6 +27,7 @@ App::bind("Core\Database", function () {
 
 App::resolve(Database::class);
 
+
 require base_path("public/jobs.php");
 
 $router = new Router();
