@@ -74,7 +74,7 @@ if (isUserLoggedIn()) {
 
       <!-- Logo -->
       <a href="/" class="flex items-center max-sm:absolute max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2">
-        <img src="assets/logo.webp" class="w-18 sm:w-23" alt="BPSU Bulletin">
+        <img src="/assets/logo.webp" class="w-18 sm:w-23" alt="BPSU Bulletin">
       </a>
 
       <!-- Search bar for desktop only -->
@@ -150,7 +150,9 @@ if (isUserLoggedIn()) {
                     class="flex items-center cursor-pointer p-0.5 border-2 border-transparent rounded-full transition-colors duration-100 data-[active=true]:border-brand"
                     data-active="false">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center hover:opacity-90 text-text-primary font-semibold overflow-hidden">
-                      <img src="<?= $profile_image["secure_url"] ?>" alt="Profile" class="w-full h-full object-cover">
+                      <img src="<?= $profile_image[
+                          "secure_url"
+                      ] ?>" alt="Profile" class="w-full h-full object-cover">
                     </div>
                 </button>
 
