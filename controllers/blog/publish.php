@@ -38,7 +38,7 @@ $html = new \Tiptap\Editor([
     ->setContent(json_decode($blog["content"]))
     ->getHTML();
 
-view("blog/publish.view.php", [
+render("blog/publish.view.php", [
     "date_now" => date("'Y-m-d\TH:i'"),
     "blog_html" => $html,
     "title" => $blog["title"],

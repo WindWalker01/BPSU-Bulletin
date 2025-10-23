@@ -36,30 +36,22 @@
       </div>   
   
       <!-- Right Section: Publish + Profile -->
-  <div class="flex items-center gap-4">
-      
-    <!-- Publish Button -->
-     <?php if ($editing !== "SCHEDULED" && $editing !== "ACTIVE"): ?>
-        <form action="/blog/publish" method="GET">
-          <input type="hidden" name="blog_id" value="<?= $blog_id ?>">
+    <div class="flex items-center gap-4">
+        
+      <!-- Publish Button -->
+        <?php if ($editing !== "SCHEDULED" && $editing !== "ACTIVE"): ?>
+          <form action="/blog/publish" method="GET">
+            <input type="hidden" name="blog_id" value="<?= $blog_id ?>">
 
-          <button type="submit" class="flex items-center gap-2 text-text-secondary hover:text-text-primary">
-            <span class="material-symbols-outlined">
-                publish
-            </span>
-            <span class="text-sm font-medium">Publish</span>
+            <button type="submit" class="flex items-center gap-2 text-text-secondary hover:text-text-primary">
+              <span class="material-symbols-outlined">
+                  publish
+              </span>
+              <span class="text-sm font-medium">Publish</span>
 
-          </button>
-        </form>
-      <?php endif; ?>
-    
-
-      <!-- Profile Picture -->
-      <button class="flex items-center">
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand-hover flex items-center justify-center text-text-primary font-semibold overflow-hidden">
-              <img src="https://images.jammable.com/voices/f2e3aa8d-e446-4f3b-bce2-bf24c570d5a8.png" alt="Profile" class="w-full h-full object-cover">
-          </div>
-      </button>
+            </button>
+          </form>
+        <?php endif; ?>
     </div>
   </div> 
 </header>
@@ -99,5 +91,38 @@
 
 <script src="/tiptap/index.js"></script>
 
-<?php view("partials/footer.php"); ?>
+
+<script defer>
+    (function() {
+        // This function applies the theme to the <html> tag
+        function applyTheme(theme) {
+            let effectiveTheme = theme;
+            if (theme === 'system') {
+                effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            if (effectiveTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        // Get the saved theme or default to 'system'
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        applyTheme(savedTheme);
+        console.log("Theme");
+
+        // Add a listener to update the theme if the system preference changes
+        // This is only needed if the user's saved choice is 'system'
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (localStorage.getItem('theme') === 'system') {
+                applyTheme('system');
+            }
+        });
+    })();
+</script>
+
+</body>
+</html>
 
