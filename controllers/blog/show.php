@@ -101,6 +101,17 @@ if (isUserLoggedIn()) {
         ->findorFail();
 }
 
+// Check if the user is already followed to the author
+$isFollowed = $db
+    ->query(
+        "SELECT * FROM follows WHERE follower_id = :follower AND followed_id = :followed",
+        [
+            "follower" => new Authenticator()->getLoggedInUserId(),
+            "followed" => $blog["author_id"] ?? 0,
+        ],
+    )
+    ->findOrFail();
+
 // Render the page
 render("blog/blog.view.php", [
     "blog_html" => $html,
@@ -118,6 +129,10 @@ render("blog/blog.view.php", [
     )->format("F j, Y"),
     "author_profile" => $blog["secure_url"],
     "author_name" => $blog["username"],
+    "author_id" => $blog["author_id"],
+    "isOwner" =>
+        $blog["author_id"] === new Authenticator()->getLoggedInUserId(),
+    "isFollowed" => $isFollowed === null ? 0 : 1,
 ]);
 
 // Helper to render time ago

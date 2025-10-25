@@ -22,6 +22,9 @@
                 "username" => $author_name,
                 "published_at" => $published_at,
                 "author_profile" => $author_profile,
+                "author_id" => $author_id,
+                "isOwner" => $isOwner,
+                "isFollowed" => $isFollowed,
             ]); ?>
 
             <hr class="text-text-secondary my-6">

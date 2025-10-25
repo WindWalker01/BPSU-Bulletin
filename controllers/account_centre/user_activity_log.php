@@ -28,7 +28,7 @@ if ($account === null) {
     exit();
 }
 
-// Check if the it is already followed
+// Check if the user is already followed to the author
 $isFollowed = $db
     ->query(
         "SELECT * FROM follows WHERE follower_id = :follower AND followed_id = :followed",
