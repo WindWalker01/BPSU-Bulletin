@@ -14,21 +14,37 @@
     echo "<p class='text-gray-500 italic'>" . $_POST["mname"] . "</p>";
     echo "<p class='text-gray-500 underline'>" . $_POST["lname"] . "</p>";
     ?>
-    <h1 class="text-white text-xl font-semibold">Nathaniel D. Sto Niño</h1>
-      <p class="text-gray-50  0 text-base">Sharp Blade, Sharp Mind</p>
-        <p class="text-gray-500 text-base">Joined September 1834</p>
-    <a href="user_profile"
-      class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
-              bg-red-500 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
-              flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto">
-      Edit Profile
-    </a>
+    <h1 class="text-white text-xl font-semibold"><?php echo $username; ?></h1>
+      <p class="text-gray-50  0 text-base"><?php echo $bio ??
+          "A humble reader 💗"; ?></p>
+        <p class="text-gray-500 text-base">Joined <?php echo $join_date; ?></p>
+
+
+    <?php if (!isset($_GET["id"]) || $isQueryLoggedIn): ?>
+      <a href="/user_profile"
+        class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
+                bg-red-500 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
+                flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto">
+        Edit Profile
+      </a>
+    <?php elseif ($isAuthor): ?>
+      <?php view("partials/follow-button.php", [
+          "isFollowed" => $isFollowed,
+          "follow_css" =>
+              "transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 bg-red-500 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto",
+          "unfollow_css" =>
+              "transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 bg-gray-500 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto",
+      ]); ?>
+      
+
+    <?php endif; ?>
+    
 <!-- Tab Layouts --> 
 <div class="flex gap-[50px] border-b border-gray-200 text-white pl-[40px]">
   <div class="relative flex gap-8 border-b border-gray-600 text-white">
   <button 
     id="post-btn" class="tab-btn py-2 px-6 hover:text-red-500 pl-[30px]">
-    My Post
+    <?php echo $isAuthor ? "Posts" : "Viewed Post"; ?>
   </button> 
   <button 
     id="follow-btn" class="tab-btn py-2 px-6 hover:text-red-500">
