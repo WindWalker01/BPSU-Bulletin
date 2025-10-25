@@ -39,6 +39,20 @@ $isFollowed = $db
     )
     ->findOrFail();
 
+$followed_authors = $db
+    ->query(
+        "SELECT 
+            users.username, 
+            users.id, 
+            profile_images.secure_url 
+        FROM follows 
+        INNER JOIN profile_images ON follows.followed_id = profile_images.user_id
+        INNER JOIN users ON follows.followed_id = users.id
+        WHERE follows.follower_id = :follower_id",
+        ["follower_id" => $id],
+    )
+    ->get();
+
 render("account_activity_log.view.php", [
     "account_id" => $account["id"],
     "url" => $account["secure_url"],
@@ -49,4 +63,5 @@ render("account_activity_log.view.php", [
     "isFollowed" => $isFollowed === null ? 0 : 1,
     "isQueryLoggedIn" =>
         $account["id"] === new Authenticator()->getLoggedInUserId(), // checks if the id uri is the same as the logged in user
+    "followed_authors" => $followed_authors,
 ]);
