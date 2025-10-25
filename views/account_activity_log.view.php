@@ -34,6 +34,7 @@
               "transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 bg-red-500 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto",
           "unfollow_css" =>
               "transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 bg-gray-500 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto",
+          "account_id" => $account_id,
       ]); ?>
       
 
