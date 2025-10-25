@@ -75,12 +75,41 @@
     </div>
 
     <div id="follow-tab" class="hidden mt-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-500 ml-[40px] text-left">
-        No following Authors YEET.
-      </h3>
-    </div>
+      <?php if (count($followed_authors) < 1): ?>
+        <h3 class="text-lg font-semibold mb-4 text-gray-500 ml-[40px] text-left">
+          No following Authors YEET.
+        </h3>
+      <?php else: ?>
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+            <!-- Author Card -->
+            <?php foreach ($followed_authors as $author): ?>
+              <a href="/account?id=<?= $author["id"] ?>">
+                <div class="flex items-center gap-3 bg-surface rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-200">
+                  <img 
+                      src="<?= htmlspecialchars(
+                          $author["secure_url"] ?? "/images/default-avatar.png",
+                      ) ?>" 
+                      alt="Profile of <?= htmlspecialchars(
+                          $author["username"],
+                      ) ?>" 
+                      class="w-10 h-10 rounded-full object-cover"
+                  >
 
-  </div>
+                  <div class="flex flex-col min-w-0">
+                      <span class="text-sm text-text-secondary truncate">
+                          <?= htmlspecialchars($author["username"]) ?>
+                      </span>
+                  </div>
+
+                  <span class="ml-auto text-xs bg-brand/10 text-brand font-semibold px-2 py-1 rounded-md">
+                      Following
+                  </span>
+                </div>
+              </a>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+    </div>
 </div>
 <!-- Tab Script Aesthetic Functions -->
 <script>
