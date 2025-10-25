@@ -184,6 +184,7 @@ function renderComments($parent_id, $tree, $level = 0, $db)
             "blog_id" => $c["blog_id"],
             "reply_parent_id" => $c["id"],
             "user_reaction" => $reaction["reaction_id"],
+            "user_id" => $c["user_id"],
         ]);
 
         // Recursive call

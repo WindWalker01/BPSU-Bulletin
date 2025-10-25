@@ -5,16 +5,19 @@
     <!-- Author and Publish date-->
     <div class="flex flex-row justify-between my-2">
         <div class="flex flex-row gap-2 my-2 items-center">
-            <img
-                alt="avatar"
-                class="h-10 w-10 rounded-full object-cover"
-                src="<?= $author_profile ?>"
-            />
-            <p class="text-text-primary text-s"><?= $username ??
-                "Unknown" ?></p>
+            <a href="/account?id=<?= $author_id ?>" class="flex flex-row gap-2 items-center">
+                <img
+                    alt="avatar"
+                    class="h-10 w-10 rounded-full object-cover"
+                    src="<?= $author_profile ?>"
+                />
+                <p class="text-text-primary text-s"><?= $username ??
+                    "Unknown" ?>
+                </p>
+            </a>
             <p class="text-s mx-0.5">  &bull;  </p>
             <p class="text-text-secondary text-s">Published on <?= $published_at ?></p>
-         </div>
+        </div>
 
         <!-- Follow Button -->
         <?php if (isUserLoggedIn() && !$isOwner): ?>
