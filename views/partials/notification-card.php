@@ -1,12 +1,13 @@
-<a href="<?= isset($blog_id)
-    ? "/blog?id=" . $blog_id
-    : "/account?id=" . $user_id ?>">
-  <div
-    class="<?= $is_read === 1 ? "opacity-50" : "" ?> 
-          group flex items-center justify-between p-3 
-          rounded-lg hover:bg-surface-hover bg-surface transition duration-200 space-x-3">
 
-    <!-- Profile + Content -->
+<div
+  class="<?= $is_read === 1 ? "opacity-50" : "" ?> 
+        group flex items-center justify-between p-3 
+        rounded-lg hover:bg-surface-hover bg-surface transition duration-200 space-x-3">
+
+  <!-- Profile + Content -->
+  <a href="<?= isset($blog_id)
+      ? "/blog?id=" . $blog_id
+      : "/account?id=" . $user_id ?>">
     <div class="flex items-center space-x-3 flex-1 cursor-pointer">
       <img 
         src="<?= $author_image ??
@@ -23,17 +24,17 @@
         <div class="text-text-muted text-xs mt-1"><?= $time_ago ?></div>
       </div>
     </div>
+  </a>
 
-    <!-- Mark as Read Button -->
-    <button 
-      onclick="markAsRead(this)"
-      data-notification-id="<?= $id ?>"
-      class="<?= $is_read === 1 ? "hidden" : "" ?> 
-            text-xs px-2 py-1 rounded-full 
-            bg-brand hover:bg-brand-dark text-white 
-            opacity-0 group-hover:opacity-100 
-            transition duration-200">
-      Mark as read
-    </button>
-  </div>
-</a>
+  <!-- Mark as Read Button -->
+  <button 
+    onclick="markAsRead(this)"
+    data-notification-id="<?= $id ?>"
+    class="<?= $is_read === 1 ? "hidden" : "" ?> 
+          text-xs px-2 py-1 rounded-full 
+          bg-brand hover:bg-brand-dark text-white 
+          opacity-0 group-hover:opacity-100 
+          transition duration-200">
+    Mark as read
+  </button>
+</div>
