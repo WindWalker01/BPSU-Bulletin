@@ -42,6 +42,10 @@ $router
 $router->get("/data", "controllers/settings/data.php")->only("auth");
 $router->get("/feedback", "controllers/settings/feedback.php")->only("auth");
 
+$router
+    ->get("/notifications", "controllers/notifications/show.php")
+    ->only("auth");
+
 //POST
 
 $router

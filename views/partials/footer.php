@@ -142,10 +142,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --- Notification Dropdown Logic --- //
-  // Toggle dropdown visibility
-  const notifButton = document.getElementById('notifButton');
-  const notifDropdown = document.getElementById('notifDropdown');
+const notifButton = document.getElementById('notifButton');
+const notifDropdown = document.getElementById('notifDropdown');
+const markAllBtn = document.getElementById('markAllRead');
 
+// Dropdown toggle (only if it exists)
+if (notifButton && notifDropdown) {
   notifButton.addEventListener('click', (e) => {
     e.stopPropagation();
     notifDropdown.classList.toggle('hidden');
@@ -157,43 +159,64 @@ document.addEventListener('DOMContentLoaded', () => {
       notifDropdown.classList.add('hidden');
     }
   });
+}
 
-  // Mark single as read
-  function markAsRead(button) {
-    const item = button.closest('.group');
-    item.classList.add('opacity-50');
-    button.remove();
+// --- Mark as Read --- //
+function markAsRead(button) {
+  const item = button.closest('.group');
+  if (!item) return;
 
-    // Optional: AJAX request to update backend
-    // fetch(`/notifications/read/${id}`, { method: 'POST' });
-    marked(button.dataset.notificationId);
+  item.classList.add('opacity-50');
+  button.remove();
 
+  const id = button.dataset.notificationId;
+  if (id) marked(id);
 
-  }
+  // Hide red dot if all notifications are read
+  hideDotIfAllRead();
+}
 
-  // Mark all as read
-  document.getElementById('markAllRead').addEventListener('click', () => {
-    document.querySelectorAll('#notifDropdown .group').forEach(item => {
+// --- Mark All as Read --- //
+if (markAllBtn) {
+  markAllBtn.addEventListener('click', () => {
+    document.querySelectorAll('.group').forEach(item => {
       item.classList.add('opacity-50');
-      const btn = item.querySelector('button');
-      marked(btn.dataset.notificationId);
-      if (btn) btn.remove();
+      const btn = item.querySelector('button[data-notification-id]');
+      if (btn) {
+        marked(btn.dataset.notificationId);
+        btn.remove();
+      }
     });
+    hideDotIfAllRead();
   });
+}
 
+// --- Update Database (AJAX PATCH) --- //
+async function marked(id) {
+  try {
+    const formdata = new FormData();
+    formdata.append('_method', 'PATCH');
+    formdata.append('id', id);
 
-// update the notificaiton in the database
-async function marked(id){
-  const formdata = new FormData();
-  formdata.append("_method", "PATCH");
-  formdata.append("id", id);
-  const res = await fetch("/notification/marked", {
-    method: `POST`,
-    body: formdata,
-});
+    const res = await fetch('/notification/marked', {
+      method: 'POST',
+      body: formdata,
+    });
 
+    await res.json();
+  } catch (err) {
+    console.error('Failed to mark notification:', err);
+  }
+}
 
-  await res.json();
+// --- Helper: Hide Red Dot if All Read --- //
+function hideDotIfAllRead() {
+  const unreadExists = document.querySelector('.group button[data-notification-id]');
+  const notifDot = document.getElementById('notifDot');
+
+  if (!unreadExists && notifDot) {
+    notifDot.classList.add('hidden');
+  }
 }
 </script>
 
