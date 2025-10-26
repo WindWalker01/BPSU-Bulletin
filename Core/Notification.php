@@ -31,7 +31,7 @@ class Notification
             WHERE user_preferences.push_notification = 1 
             AND follows.followed_id = :sender                 -- Filter by the user they are following (the sender)
             AND users.id != :sender",
-                ["sender" => $sender["author_id"]],
+                ["sender" => $sender],
             )
             ->get();
 
