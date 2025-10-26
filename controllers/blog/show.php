@@ -135,23 +135,6 @@ render("blog/blog.view.php", [
     "isFollowed" => $isFollowed === null ? 0 : 1,
 ]);
 
-// Helper to render time ago
-function timeAgo($datetime)
-{
-    $time = strtotime($datetime);
-    $diff = time() - $time;
-    if ($diff < 60) {
-        return $diff . "s ago";
-    }
-    if ($diff < 3600) {
-        return floor($diff / 60) . "m ago";
-    }
-    if ($diff < 86400) {
-        return floor($diff / 3600) . "h ago";
-    }
-    return floor($diff / 86400) . "d ago";
-}
-
 // Recursive render
 function renderComments($parent_id, $tree, $level = 0, $db)
 {

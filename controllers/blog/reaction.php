@@ -118,12 +118,14 @@ switch ($action) {
                 $user_id,
                 $author_id["author_id"],
                 $blog_id,
+                "Blog",
             );
         } else {
             $notification->createDislikeNotification(
                 $user_id,
                 $author_id["author_id"],
                 $blog_id,
+                "Blog",
             );
         }
 

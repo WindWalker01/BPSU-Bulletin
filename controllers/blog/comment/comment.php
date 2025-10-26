@@ -40,6 +40,7 @@ $notification->createCommentNotification(
     $user_id,
     $author_id["author_id"],
     $blog_id,
+    $content,
 );
 
 redirect("/blog?id=" . $blog_id . "#comments");

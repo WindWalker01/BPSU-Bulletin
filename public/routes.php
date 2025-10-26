@@ -74,6 +74,10 @@ $router->patch("/blog/editor", "controllers/blog/edit.php");
 $router->patch("/blog/publish", "controllers/blog/schedule.php");
 
 $router->patch("/user_profile/image", "controllers/image/profile/edit.php");
+$router->patch(
+    "/notification/marked",
+    "controllers/notifications/marked_as_read.php",
+);
 
 // DELETE
 $router->delete(

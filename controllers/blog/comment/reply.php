@@ -38,10 +38,11 @@ $replied_id = $db
     ])
     ->find();
 
-$notification->createCommentNotification(
+$notification->createReplyNotification(
     $user_id,
     $replied_id["user_id"],
     $blog_id,
+    $content,
 );
 
 redirect("/blog?id=" . $blog_id . "#comments");
