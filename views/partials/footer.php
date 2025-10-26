@@ -140,6 +140,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+
+// --- Notification Dropdown Logic --- //
+const notifButton = document.getElementById('notifButton');
+const notifDropdown = document.getElementById('notifDropdown');
+
+notifButton.addEventListener('click', () => {
+  notifDropdown.classList.toggle('hidden');
+});
+
+// Optional: close dropdown when clicking outside
+window.addEventListener('click', (e) => {
+  if (!notifButton.contains(e.target) && !notifDropdown.contains(e.target)) {
+    notifDropdown.classList.add('hidden');
+  }
+});
 </script>
 
 </body>
