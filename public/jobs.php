@@ -27,7 +27,7 @@ foreach ($blogs as $blog_id) {
         ->find();
 
     foreach ($followers as $follower) {
-        $notification->createNotification(
+        $notification->createBlogNotification(
             $sender["author_id"],
             $blog_id["id"],
             "hello World",

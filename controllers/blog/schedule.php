@@ -44,13 +44,7 @@ if ($is_schedule === 1) {
         ])
         ->find();
 
-    $notification->createNotification(
-        $sender["author_id"],
-        $blog_id,
-        "hello World",
-        "Hello World",
-        "IMPORTANT",
-    );
+    $notification->createBlogNotification($sender["author_id"], $blog_id);
 }
 
 foreach ($categorties as $c) {
