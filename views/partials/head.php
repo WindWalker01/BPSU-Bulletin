@@ -22,7 +22,9 @@ if (isUserLoggedIn()) {
             notifications.id, 
             notifications.title,
             profile_images.secure_url,
+            notifications.blog_id,
             users.username,
+            notifications.sender_id,
             notifications.is_read,
             notifications.description,
             notifications.created_at,
@@ -214,6 +216,8 @@ if (isUserLoggedIn()) {
                       "description" => $notification["description"],
                       "time_ago" => timeAgo($notification["created_at"]),
                       "id" => $notification["id"],
+                      "blog_id" => $notification["blog_id"],
+                      "user_id" => $notification["sender_id"],
                   ]); ?>
                 <?php endif; ?>
 
@@ -230,6 +234,8 @@ if (isUserLoggedIn()) {
                       "description" => $notification["description"],
                       "time_ago" => timeAgo($notification["created_at"]),
                       "id" => $notification["id"],
+                      "blog_id" => $notification["blog_id"],
+                      "user_id" => $notification["sender_id"],
                   ]);
                   $read_imporant_count++;
                   ?>
@@ -250,6 +256,8 @@ if (isUserLoggedIn()) {
                       "description" => $notification["description"],
                       "time_ago" => timeAgo($notification["created_at"]),
                       "id" => $notification["id"],
+                      "user_id" => $notification["sender_id"],
+                      "blog_id" => $notification["blog_id"],
                   ]); ?>
                 <?php endif; ?>
               <?php endforeach; ?>
