@@ -44,15 +44,13 @@ if ($is_schedule === 1) {
         ])
         ->find();
 
-    foreach ($followers as $follower) {
-        $notification->createNotification(
-            $sender["author_id"],
-            $blog_id,
-            "hello World",
-            "Hello World",
-            "IMPORTANT",
-        );
-    }
+    $notification->createNotification(
+        $sender["author_id"],
+        $blog_id,
+        "hello World",
+        "Hello World",
+        "IMPORTANT",
+    );
 }
 
 foreach ($categorties as $c) {
