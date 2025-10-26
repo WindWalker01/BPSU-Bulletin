@@ -2,9 +2,11 @@
 use Core\Authenticator;
 use Core\App;
 use Core\Database;
+use Core\Notification;
 
 $db = App::resolve(Database::class);
 $auth = new Authenticator();
+$notification = new Notification();
 
 $follower_id = $auth->getLoggedInUserId();
 $followed_id = (int) $_POST["author_id"];
@@ -17,6 +19,12 @@ if ($isFollowed) {
             "follower" => $follower_id,
             "followed" => $followed_id,
         ],
+
+        $notification->createUnFollowNotification(
+            $followed_id,
+            $follower_id,
+            "You",
+        ),
     );
 } else {
     $db->query(
@@ -25,6 +33,12 @@ if ($isFollowed) {
             "follower" => $follower_id,
             "followed" => $followed_id,
         ],
+
+        $notification->createFollowNotification(
+            $followed_id,
+            $follower_id,
+            "You",
+        ),
     );
 }
 

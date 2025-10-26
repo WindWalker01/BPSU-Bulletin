@@ -53,7 +53,7 @@ class Notification
                     "title" => $blog_details["title"],
                     "description" => "Posted",
                     "sender" => $sender,
-                    "category" => "IMPORTANT",
+                    "category" => "GENERAL",
                     "blog" => $blog,
                 ],
             );
@@ -80,7 +80,7 @@ class Notification
                 "title" => $title,
                 "description" => "Comments on your blog",
                 "sender" => $sender,
-                "category" => "IMPORTANT",
+                "category" => "GENERAL",
                 "blog" => $blog,
             ],
         );
@@ -106,7 +106,7 @@ class Notification
                 "title" => $title,
                 "description" => "Replied on your comment",
                 "sender" => $sender,
-                "category" => "IMPORTANT",
+                "category" => "GENERAL",
                 "blog" => $blog,
             ],
         );
@@ -132,7 +132,7 @@ class Notification
                 "title" => $title,
                 "description" => "Likes your",
                 "sender" => $sender,
-                "category" => "IMPORTANT",
+                "category" => "GENERAL",
                 "blog" => $blog,
             ],
         );
@@ -158,8 +158,56 @@ class Notification
                 "title" => $title,
                 "description" => "Dislikes your",
                 "sender" => $sender,
-                "category" => "IMPORTANT",
+                "category" => "GENERAL",
                 "blog" => $blog,
+            ],
+        );
+    }
+
+    function createFollowNotification($receiver, $sender, $title)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`, 
+            `title`, 
+            `description`, 
+            `sender_id`, 
+            `is_read`, 
+            `category`, 
+            `created_at`,
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, NOW(), 'FOLLOW')",
+            [
+                "receiver" => $receiver,
+                "title" => $title,
+                "description" => "Follows",
+                "sender" => $sender,
+                "category" => "IMPORTANT",
+            ],
+        );
+    }
+
+    function createUnFollowNotification($receiver, $sender, $title)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`, 
+            `title`, 
+            `description`, 
+            `sender_id`, 
+            `is_read`, 
+            `category`, 
+            `created_at`,
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, NOW(), 'FOLLOW')",
+            [
+                "receiver" => $receiver,
+                "title" => $title,
+                "description" => "Unfollows",
+                "sender" => $sender,
+                "category" => "GENERAL",
             ],
         );
     }

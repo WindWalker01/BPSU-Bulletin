@@ -5,6 +5,7 @@ use Core\Authenticator;
 
 if (isUserLoggedIn()) {
     $auth = new Authenticator();
+    $read_imporant_count = 0;
 
     $db = App::resolve(Database::class);
 
@@ -175,33 +176,36 @@ if (isUserLoggedIn()) {
       <div class="relative inline-block text-left">
         <!-- Notification Button -->
         <button id="notifButton"
-          class="relative p-2 rounded-full hover:bg-gray-800 transition hidden sm:flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer">
+          class="relative p-2 rounded-full hover:bg-overlay-dark transition hidden sm:flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer">
           <i class="material-symbols-outlined">notifications</i>
-          <span id="notifDot" class="<?= $unread_count !== 0
-              ? ""
-              : "hidden" ?> absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span>
+          <!-- Red Dot (hidden if no unread notifications) -->
+          <span id="notifDot"
+            class="<?= $unread_count !== 0
+                ? ""
+                : "hidden" ?> absolute top-1 right-1 block h-2 w-2 rounded-full bg-brand"></span>
         </button>
 
         <!-- Dropdown -->
         <div id="notifDropdown"
-          class="hidden absolute right-0 mt-3 w-[450px] bg-[#121212] border border-gray-800 rounded-xl shadow-2xl overflow-hidden z-50">
+          class="hidden absolute right-0 mt-3 w-[450px] bg-overlay-dark border border-card-dark rounded-xl shadow-2xl overflow-hidden z-50">
 
           <!-- Header -->
-          <div class="flex justify-between items-center px-4 py-3 border-b border-gray-700">
-            <span class="text-lg font-semibold text-white">Notifications</span>
-            <button id="markAllRead" class="text-sm text-blue-400 hover:underline">Mark all as read</button>
+          <div class="flex justify-between items-center px-4 py-3 border-b border-card-dark bg-overlay-dark">
+            <span class="text-lg font-semibold text-text-primary">Notifications</span>
+            <button id="markAllRead" class="text-sm text-brand hover:underline">Mark all as read</button>
           </div>
 
           <!-- Scrollable Section -->
           <div class="max-h-[550px] overflow-y-auto">
 
             <!-- Important Section -->
-            <div class="px-4 py-2 text-gray-400 text-sm font-medium">Important</div>
+            <div class="px-4 py-2 text-text-secondary text-sm font-medium">Important</div>
             <div class="space-y-2 px-2 pb-3">
-
-              <!-- Notification Item -->
               <?php foreach ($notifications as $notification): ?>
-                <?php if ($notification["category"] === "IMPORTANT"): ?>
+                <?php if (
+                    $notification["category"] === "IMPORTANT" &&
+                    $notification["is_read" === 0]
+                ): ?>
                   <?php view("partials/notification-card.php", [
                       "title" => $notification["title"],
                       "is_read" => $notification["is_read"],
@@ -212,11 +216,29 @@ if (isUserLoggedIn()) {
                       "id" => $notification["id"],
                   ]); ?>
                 <?php endif; ?>
-              <?php endforeach; ?>              
+
+                <?php if (
+                    $notification["category"] === "IMPORTANT" &&
+                    $read_imporant_count < 2
+                ): ?>
+                  <?php
+                  view("partials/notification-card.php", [
+                      "title" => $notification["title"],
+                      "is_read" => $notification["is_read"],
+                      "author_image" => $notification["secure_url"],
+                      "author_name" => $notification["username"],
+                      "description" => $notification["description"],
+                      "time_ago" => timeAgo($notification["created_at"]),
+                      "id" => $notification["id"],
+                  ]);
+                  $read_imporant_count++;
+                  ?>
+                <?php endif; ?>
+              <?php endforeach; ?>
             </div>
 
             <!-- More Notifications Section -->
-            <div class="px-4 py-2 text-gray-400 text-sm font-medium border-t border-gray-800">More notifications</div>
+            <div class="px-4 py-2 text-text-secondary text-sm font-medium border-t border-card-dark">More notifications</div>
             <div class="space-y-2 px-2 pb-3">
               <?php foreach ($notifications as $notification): ?>
                 <?php if ($notification["category"] === "GENERAL"): ?>
@@ -235,8 +257,8 @@ if (isUserLoggedIn()) {
           </div>
 
           <!-- Footer -->
-          <div class="text-center py-3 border-t border-gray-700">
-            <a href="/notifications" class="text-sm text-blue-400 hover:underline">View all notifications</a>
+          <div class="text-center py-3 border-t border-card-dark bg-overlay-dark">
+            <a href="/notifications" class="text-sm text-brand hover:underline">View all notifications</a>
           </div>
         </div>
       </div>
