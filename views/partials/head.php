@@ -138,9 +138,105 @@ if (isUserLoggedIn()) {
     
       <?php if (isUserLoggedIn()): ?>
       <!-- Notifications hidden on mobile -->
-      <button class="hidden sm:flex items-center justify-center text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
-        <i class="material-symbols-outlined">notifications</i>
-      </button>
+      <div class="relative inline-block text-left">
+        <button id="notifButton" class="relative p-2 rounded-full hover:bg-gray-800 transition hidden sm:flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer">
+          <!-- Bell Icon -->
+          <i class="material-symbols-outlined">notifications</i>
+
+          <!-- Red dot indicator -->
+          <span id="notifDot" class="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span>
+        </button>
+
+        <!-- Dropdown -->
+        <div id="notifDropdown"
+          class="hidden absolute right-0 mt-3 w-[450px] bg-[#121212] border border-gray-800 rounded-xl shadow-2xl overflow-hidden z-50">
+
+          <!-- Header -->
+          <div class="flex justify-between items-center px-4 py-3 border-b border-gray-700">
+            <span class="text-lg font-semibold text-white">Notifications</span>
+            <button class="text-sm text-blue-400 hover:underline" id="markAllRead">Mark all as read</button>
+          </div>
+
+          <!-- Scrollable list -->
+          <div class="max-h-[550px] overflow-y-auto">
+
+            <!-- Section: Important -->
+            <div class="px-4 py-2 text-gray-400 text-sm font-medium">Important</div>
+
+            <div class="space-y-2 px-2 pb-3">
+              <div
+                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
+                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
+                <div class="flex-1 text-sm">
+                  <div class="text-white font-medium">LoL Esports uploaded: Three Will Rise. Three Will Fall.</div>
+                  <div class="text-gray-400 text-xs mt-1">20 hours ago</div>
+                </div>
+                <div class="text-gray-500 text-xl">⋮</div>
+              </div>
+
+              <div
+                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
+                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
+                <div class="flex-1 text-sm">
+                  <div class="text-white font-medium">T1 vs MKOI Highlights | WORLDS 2025</div>
+                  <div class="text-gray-400 text-xs mt-1">9 hours ago</div>
+                </div>
+                <div class="text-gray-500 text-xl">⋮</div>
+              </div>
+
+              <div
+                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
+                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
+                <div class="flex-1 text-sm">
+                  <div class="text-white font-medium">T1 vs MKOI Highlights | WORLDS 2025</div>
+                  <div class="text-gray-400 text-xs mt-1">9 hours ago</div>
+                </div>
+                <div class="text-gray-500 text-xl">⋮</div>
+              </div>
+
+              <div
+                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
+                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
+                <div class="flex-1 text-sm">
+                  <div class="text-white font-medium">T1 vs MKOI Highlights | WORLDS 2025</div>
+                  <div class="text-gray-400 text-xs mt-1">9 hours ago</div>
+                </div>
+                <div class="text-gray-500 text-xl">⋮</div>
+              </div>
+            </div>
+
+            <!-- Section: More notifications -->
+            <div class="px-4 py-2 text-gray-400 text-sm font-medium border-t border-gray-800">More notifications</div>
+
+            <div class="space-y-2 px-2 pb-3">
+              <div
+                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
+                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
+                <div class="flex-1 text-sm">
+                  <div class="text-white font-medium">MrBeast uploaded: I Saved 1,000 Animals From Dying</div>
+                  <div class="text-gray-400 text-xs mt-1">11 hours ago</div>
+                </div>
+                <div class="text-gray-500 text-xl">⋮</div>
+              </div>
+
+              <div
+                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
+                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
+                <div class="flex-1 text-sm">
+                  <div class="text-white font-medium">LoL Esports uploaded: MKOI vs T1 | Game 2</div>
+                  <div class="text-gray-400 text-xs mt-1">12 hours ago</div>
+                </div>
+                <div class="text-gray-500 text-xl">⋮</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="text-center py-3 border-t border-gray-700">
+            <a href="/notifications" class="text-sm text-blue-400 hover:underline">View all notifications</a>
+          </div>
+        </div>
+      </div>
 
       
       <!-- Profile -->

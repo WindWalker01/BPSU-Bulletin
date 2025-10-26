@@ -87,12 +87,21 @@ class Database
 
         "CREATE TABLE `notifications` (
         `id` int NOT NULL AUTO_INCREMENT,
-        `user_id` int DEFAULT NULL,
+        `receiver_id` int DEFAULT NULL,
         `title` varchar(255) DEFAULT NULL,
         `description` text,
+        `sender_id` int DEFAULT NULL,
+        `is_read` tinyint(1) DEFAULT NULL,
+        `category` enum('IMPORTANT','GENERAL') DEFAULT NULL,
+        `blog_id` int DEFAULT NULL,
+        `created_at` timestamp NULL DEFAULT NULL,
         PRIMARY KEY (`id`),
-        KEY `user_id` (`user_id`),
-        CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+        KEY `user_id` (`receiver_id`),
+        KEY `blog_id_2` (`blog_id`),
+        KEY `sender_id` (`sender_id`),
+        CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `notifications_ibfk_4` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `follows` (
