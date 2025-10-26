@@ -44,23 +44,8 @@ if ($is_schedule === 1) {
         ])
         ->find();
 
-    // Get all the followers that has enabled in app notification
-    $followers = $db
-        ->query(
-            "SELECT users.id
-            FROM users
-            INNER JOIN user_preferences ON user_preferences.user_id = users.id
-            INNER JOIN follows ON follows.follower_id = users.id  -- CORRECT: Link the user being selected (the follower)
-            WHERE user_preferences.push_notification = 1 
-            AND follows.followed_id = :sender                 -- Filter by the user they are following (the sender)
-            AND users.id != :sender",
-            ["sender" => $sender["author_id"]],
-        )
-        ->get();
-
     foreach ($followers as $follower) {
         $notification->createNotification(
-            $follower["id"],
             $sender["author_id"],
             $blog_id,
             "hello World",

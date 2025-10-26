@@ -2,11 +2,13 @@
 use Core\App;
 use Core\Database;
 use Core\Authenticator;
+use Core\Notification;
 
 $blog_id = $_POST["blog_id"];
 $content = $_POST["comment_content"];
 
 $auth = new Authenticator();
+$notification = new Notification();
 
 $user_id = $auth->getLoggedInUserId() ?? null;
 
