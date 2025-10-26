@@ -13,6 +13,40 @@ if (isUserLoggedIn()) {
             "id" => (int) $auth->getLoggedInUserId(),
         ])
         ->find();
+
+    // fetch notifications
+    $notifications = $db
+        ->query(
+            "SELECT
+            notifications.id, 
+            notifications.title,
+            profile_images.secure_url,
+            users.username,
+            notifications.is_read,
+            notifications.description,
+            notifications.created_at,
+            notifications.category 
+        FROM notifications
+        INNER JOIN users ON users.id = notifications.sender_id
+        INNER JOIN profile_images ON profile_images.user_id = notifications.sender_id
+        WHERE notifications.receiver_id = :receiver_id
+        ORDER BY notifications.is_read ASC, notifications.created_at DESC",
+            [
+                "receiver_id" => $auth->getLoggedInUserId(),
+            ],
+        )
+        ->get();
+    $unread_count = $db
+        ->query(
+            "SELECT COUNT(*) AS unread_count
+            FROM notifications
+            WHERE receiver_id = :receiver_id
+            AND is_read = 0",
+            [
+                "receiver_id" => $auth->getLoggedInUserId(),
+            ],
+        )
+        ->find()["unread_count"];
 }
 ?>
 
@@ -139,12 +173,13 @@ if (isUserLoggedIn()) {
       <?php if (isUserLoggedIn()): ?>
       <!-- Notifications hidden on mobile -->
       <div class="relative inline-block text-left">
-        <button id="notifButton" class="relative p-2 rounded-full hover:bg-gray-800 transition hidden sm:flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer">
-          <!-- Bell Icon -->
+        <!-- Notification Button -->
+        <button id="notifButton"
+          class="relative p-2 rounded-full hover:bg-gray-800 transition hidden sm:flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer">
           <i class="material-symbols-outlined">notifications</i>
-
-          <!-- Red dot indicator -->
-          <span id="notifDot" class="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span>
+          <span id="notifDot" class="<?= $unread_count !== 0
+              ? ""
+              : "hidden" ?> absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span>
         </button>
 
         <!-- Dropdown -->
@@ -154,80 +189,48 @@ if (isUserLoggedIn()) {
           <!-- Header -->
           <div class="flex justify-between items-center px-4 py-3 border-b border-gray-700">
             <span class="text-lg font-semibold text-white">Notifications</span>
-            <button class="text-sm text-blue-400 hover:underline" id="markAllRead">Mark all as read</button>
+            <button id="markAllRead" class="text-sm text-blue-400 hover:underline">Mark all as read</button>
           </div>
 
-          <!-- Scrollable list -->
+          <!-- Scrollable Section -->
           <div class="max-h-[550px] overflow-y-auto">
 
-            <!-- Section: Important -->
+            <!-- Important Section -->
             <div class="px-4 py-2 text-gray-400 text-sm font-medium">Important</div>
-
             <div class="space-y-2 px-2 pb-3">
-              <div
-                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
-                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
-                <div class="flex-1 text-sm">
-                  <div class="text-white font-medium">LoL Esports uploaded: Three Will Rise. Three Will Fall.</div>
-                  <div class="text-gray-400 text-xs mt-1">20 hours ago</div>
-                </div>
-                <div class="text-gray-500 text-xl">⋮</div>
-              </div>
 
-              <div
-                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
-                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
-                <div class="flex-1 text-sm">
-                  <div class="text-white font-medium">T1 vs MKOI Highlights | WORLDS 2025</div>
-                  <div class="text-gray-400 text-xs mt-1">9 hours ago</div>
-                </div>
-                <div class="text-gray-500 text-xl">⋮</div>
-              </div>
-
-              <div
-                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
-                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
-                <div class="flex-1 text-sm">
-                  <div class="text-white font-medium">T1 vs MKOI Highlights | WORLDS 2025</div>
-                  <div class="text-gray-400 text-xs mt-1">9 hours ago</div>
-                </div>
-                <div class="text-gray-500 text-xl">⋮</div>
-              </div>
-
-              <div
-                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
-                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
-                <div class="flex-1 text-sm">
-                  <div class="text-white font-medium">T1 vs MKOI Highlights | WORLDS 2025</div>
-                  <div class="text-gray-400 text-xs mt-1">9 hours ago</div>
-                </div>
-                <div class="text-gray-500 text-xl">⋮</div>
-              </div>
+              <!-- Notification Item -->
+              <?php foreach ($notifications as $notification): ?>
+                <?php if ($notification["category"] === "IMPORTANT"): ?>
+                  <?php view("partials/notification-card.php", [
+                      "title" => $notification["title"],
+                      "is_read" => $notification["is_read"],
+                      "author_image" => $notification["secure_url"],
+                      "author_name" => $notification["username"],
+                      "description" => $notification["description"],
+                      "time_ago" => timeAgo($notification["created_at"]),
+                      "id" => $notification["id"],
+                  ]); ?>
+                <?php endif; ?>
+              <?php endforeach; ?>              
             </div>
 
-            <!-- Section: More notifications -->
+            <!-- More Notifications Section -->
             <div class="px-4 py-2 text-gray-400 text-sm font-medium border-t border-gray-800">More notifications</div>
-
             <div class="space-y-2 px-2 pb-3">
-              <div
-                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
-                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
-                <div class="flex-1 text-sm">
-                  <div class="text-white font-medium">MrBeast uploaded: I Saved 1,000 Animals From Dying</div>
-                  <div class="text-gray-400 text-xs mt-1">11 hours ago</div>
-                </div>
-                <div class="text-gray-500 text-xl">⋮</div>
-              </div>
-
-              <div
-                class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer transition duration-200 space-x-3">
-                <img src="https://via.placeholder.com/90x50" class="rounded-md w-24 h-14 object-cover" />
-                <div class="flex-1 text-sm">
-                  <div class="text-white font-medium">LoL Esports uploaded: MKOI vs T1 | Game 2</div>
-                  <div class="text-gray-400 text-xs mt-1">12 hours ago</div>
-                </div>
-                <div class="text-gray-500 text-xl">⋮</div>
-              </div>
+              <?php foreach ($notifications as $notification): ?>
+                <?php if ($notification["category"] === "GENERAL"): ?>
+                  <?php view("partials/notification-card.php", [
+                      "title" => $notification["title"],
+                      "is_read" => $notification["is_read"],
+                      "author_image" => $notification["secure_url"],
+                      "author_name" => $notification["username"],
+                      "description" => $notification["description"],
+                      "time_ago" => timeAgo($notification["created_at"]),
+                      "id" => $notification["id"],
+                  ]); ?>
+                <?php endif; ?>
+              <?php endforeach; ?>
             </div>
           </div>
 

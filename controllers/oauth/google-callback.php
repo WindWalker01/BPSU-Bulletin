@@ -47,6 +47,32 @@ if (isset($_GET["code"])) {
         $id = $db->getLastInsertID();
         $role = "USER";
 
+        $db->query(
+            "INSERT INTO `user_preferences` (
+            `user_id`, 
+            `theme_preference`, 
+            `email_notification`, 
+            `push_notification`, 
+            `reaction_notification`, 
+            `follow_notification`, 
+            `show_email_public`, 
+            `show_profile_public`, 
+            `created_at`, 
+            `updated_at`
+            ) VALUES(
+            :id, 
+            'DARK', 
+            1, 
+            1, 
+            1, 
+            1, 
+            1, 
+            1, 
+            NOW(), 
+            NOW());",
+            ["id" => $id],
+        );
+
         // create profile image of the user
         $db->query(
             "INSERT INTO profile_images (`user_id`, `secure_url`, `asset_id`) VALUES (:id, :url, :asset)",

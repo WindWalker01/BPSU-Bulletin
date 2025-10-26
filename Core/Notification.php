@@ -30,6 +30,10 @@ class Notification
             )
             ->get();
 
+        $blog_details = $this->db
+            ->query("SELECT * FROM blogs WHERE id = :blog", ["blog" => $blog])
+            ->find();
+
         foreach ($followers as $follower) {
             $this->db->query(
                 "INSERT INTO notifications(
@@ -46,8 +50,8 @@ class Notification
             VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'BLOG')",
                 [
                     "receiver" => $follower["id"],
-                    "title" => "Title Creation blog",
-                    "description" => "Description Creation blog",
+                    "title" => $blog_details["title"],
+                    "description" => "Posted",
                     "sender" => $sender,
                     "category" => "IMPORTANT",
                     "blog" => $blog,
@@ -56,9 +60,7 @@ class Notification
         }
     }
 
-    function fetchNotifications($receiver) {}
-
-    function createCommentNotification($sender, $receiver, $blog)
+    function createCommentNotification($sender, $receiver, $blog, $title = "")
     {
         $this->db->query(
             "INSERT INTO notifications(
@@ -75,8 +77,8 @@ class Notification
             VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'COMMENT')",
             [
                 "receiver" => $receiver,
-                "title" => "Title Comment Creation ",
-                "description" => "Description Comment Creation",
+                "title" => $title,
+                "description" => "Comments on your blog",
                 "sender" => $sender,
                 "category" => "IMPORTANT",
                 "blog" => $blog,
@@ -84,7 +86,7 @@ class Notification
         );
     }
 
-    function createReplyNotification($sender, $receiver, $blog)
+    function createReplyNotification($sender, $receiver, $blog, $title = "")
     {
         $this->db->query(
             "INSERT INTO notifications(
@@ -101,8 +103,8 @@ class Notification
             VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'REPLY')",
             [
                 "receiver" => $receiver,
-                "title" => "Title Reply Creation ",
-                "description" => "Description Reply Creation",
+                "title" => $title,
+                "description" => "Replied on your comment",
                 "sender" => $sender,
                 "category" => "IMPORTANT",
                 "blog" => $blog,
@@ -110,7 +112,7 @@ class Notification
         );
     }
 
-    function createLikeNotification($sender, $receiver, $blog)
+    function createLikeNotification($sender, $receiver, $blog, $title = "")
     {
         $this->db->query(
             "INSERT INTO notifications(
@@ -127,8 +129,8 @@ class Notification
             VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'REACTION')",
             [
                 "receiver" => $receiver,
-                "title" => "Title Like ",
-                "description" => "Description Like",
+                "title" => $title,
+                "description" => "Likes your",
                 "sender" => $sender,
                 "category" => "IMPORTANT",
                 "blog" => $blog,
@@ -136,7 +138,7 @@ class Notification
         );
     }
 
-    function createDislikeNotification($sender, $receiver, $blog)
+    function createDislikeNotification($sender, $receiver, $blog, $title = "")
     {
         $this->db->query(
             "INSERT INTO notifications(
@@ -153,8 +155,8 @@ class Notification
             VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'REACTION')",
             [
                 "receiver" => $receiver,
-                "title" => "Title dislike ",
-                "description" => "Description dislike",
+                "title" => $title,
+                "description" => "Dislikes your",
                 "sender" => $sender,
                 "category" => "IMPORTANT",
                 "blog" => $blog,
