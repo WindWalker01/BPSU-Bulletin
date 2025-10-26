@@ -30,12 +30,14 @@ header("Content-Type: application/json");
 use Core\App;
 use Core\Authenticator;
 use Core\Database;
+use Core\Notification;
 
 $blog_id = $_POST["post_id"];
 $reaction_type = $_POST["reaction_type"];
 $action = $_POST["action"];
 
 $auth = new Authenticator();
+$notification = new Notification();
 
 $user_id = $auth->getLoggedInUserId();
 
@@ -84,6 +86,47 @@ switch ($action) {
                 "reaction_id" => $reaction_id,
             ],
         );
+
+        $author_id = $db
+            ->query("SELECT author_id FROM blogs WHERE id = :blog_id", [
+                "blog_id" => $blog_id,
+            ])
+            ->find();
+
+        $existing = $db
+            ->query(
+                "SELECT * FROM notifications 
+                WHERE 
+                receiver_id = :author_id AND 
+                sender_id = :sender_id AND 
+                blog_id = :blog_id AND 
+                type = 'REACTION'",
+                [
+                    "sender_id" => $user_id,
+                    "author_id" => $author_id["author_id"],
+                    "blog_id" => $blog_id,
+                ],
+            )
+            ->findOrFail();
+
+        if ($existing !== null || $user_id === $author_id["author_id"]) {
+            break;
+        }
+
+        if ($reaction_id === 1) {
+            $notification->createLikeNotification(
+                $user_id,
+                $author_id["author_id"],
+                $blog_id,
+            );
+        } else {
+            $notification->createDislikeNotification(
+                $user_id,
+                $author_id["author_id"],
+                $blog_id,
+            );
+        }
+
         break;
 
     default:

@@ -14,13 +14,8 @@ class Notification
         $this->db = App::resolve(Database::class);
     }
 
-    function createNotification(
-        $sender,
-        $blog,
-        $title,
-        $description,
-        $category = "GENERAL",
-    ) {
+    function createBlogNotification($sender, $blog)
+    {
         // Get all the followers that has enabled in app notification
         $followers = $this->db
             ->query(
@@ -45,15 +40,16 @@ class Notification
             `is_read`, 
             `category`, 
             `blog_id`,
-            `created_at`
+            `created_at`,
+            `type`
             )
-            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW())",
+            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'BLOG')",
                 [
                     "receiver" => $follower["id"],
-                    "title" => $title,
-                    "description" => $description,
+                    "title" => "Title Creation blog",
+                    "description" => "Description Creation blog",
                     "sender" => $sender,
-                    "category" => $category,
+                    "category" => "IMPORTANT",
                     "blog" => $blog,
                 ],
             );
@@ -61,4 +57,108 @@ class Notification
     }
 
     function fetchNotifications($receiver) {}
+
+    function createCommentNotification($sender, $receiver, $blog)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`, 
+            `title`, 
+            `description`, 
+            `sender_id`, 
+            `is_read`, 
+            `category`, 
+            `blog_id`,
+            `created_at`,
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'COMMENT')",
+            [
+                "receiver" => $receiver,
+                "title" => "Title Comment Creation ",
+                "description" => "Description Comment Creation",
+                "sender" => $sender,
+                "category" => "IMPORTANT",
+                "blog" => $blog,
+            ],
+        );
+    }
+
+    function createReplyNotification($sender, $receiver, $blog)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`, 
+            `title`, 
+            `description`, 
+            `sender_id`, 
+            `is_read`, 
+            `category`, 
+            `blog_id`,
+            `created_at`
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'REPLY')",
+            [
+                "receiver" => $receiver,
+                "title" => "Title Reply Creation ",
+                "description" => "Description Reply Creation",
+                "sender" => $sender,
+                "category" => "IMPORTANT",
+                "blog" => $blog,
+            ],
+        );
+    }
+
+    function createLikeNotification($sender, $receiver, $blog)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`, 
+            `title`, 
+            `description`, 
+            `sender_id`, 
+            `is_read`, 
+            `category`, 
+            `blog_id`,
+            `created_at`,
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'REACTION')",
+            [
+                "receiver" => $receiver,
+                "title" => "Title Like ",
+                "description" => "Description Like",
+                "sender" => $sender,
+                "category" => "IMPORTANT",
+                "blog" => $blog,
+            ],
+        );
+    }
+
+    function createDislikeNotification($sender, $receiver, $blog)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`, 
+            `title`, 
+            `description`, 
+            `sender_id`, 
+            `is_read`, 
+            `category`, 
+            `blog_id`,
+            `created_at`,
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'REACTION')",
+            [
+                "receiver" => $receiver,
+                "title" => "Title dislike ",
+                "description" => "Description dislike",
+                "sender" => $sender,
+                "category" => "IMPORTANT",
+                "blog" => $blog,
+            ],
+        );
+    }
 }

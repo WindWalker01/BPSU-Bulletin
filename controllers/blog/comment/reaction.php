@@ -30,6 +30,7 @@ header("Content-Type: application/json");
 use Core\App;
 use Core\Authenticator;
 use Core\Database;
+use Core\Notification;
 
 $comment_id = $_POST["comment_id"];
 $reaction_type = $_POST["reaction_type"];
@@ -38,6 +39,7 @@ $action = $_POST["action"];
 $auth = new Authenticator();
 
 $user_id = $auth->getLoggedInUserId();
+$notification = new Notification();
 
 $db = App::resolve(Database::class);
 
@@ -138,6 +140,55 @@ switch ($action) {
                 [
                     "comment_id" => $comment_id,
                 ],
+            );
+        }
+
+        $author_id = $db
+            ->query(
+                "SELECT user_id FROM comment_reactions WHERE comment_id = :comment_id",
+                [
+                    "comment_id" => $comment_id,
+                ],
+            )
+            ->find();
+
+        $blog_id = $db
+            ->query("SELECT blog_id FROM comments WHERE id = :comment_id", [
+                "comment_id" => $comment_id,
+            ])
+            ->findOrFail();
+
+        $existing = $db
+            ->query(
+                "SELECT * FROM notifications
+                WHERE
+                receiver_id = :author_id AND
+                sender_id = :sender_id AND
+                blog_id = :blog_id AND
+                type = 'REACTION'",
+                [
+                    "sender_id" => $user_id,
+                    "author_id" => $author_id["user_id"],
+                    "blog_id" => $blog_id["blog_id"],
+                ],
+            )
+            ->findOrFail();
+
+        if ($existing !== null || $user_id === $author_id["user_id"]) {
+            break;
+        }
+
+        if ($reaction_id === 1) {
+            $notification->createLikeNotification(
+                $user_id,
+                $author_id["user_id"],
+                $blog_id["blog_id"],
+            );
+        } else {
+            $notification->createDislikeNotification(
+                $user_id,
+                $author_id["user_id"],
+                $blog_id["blog_id"],
             );
         }
 
