@@ -95,6 +95,7 @@ class Database
         `category` enum('IMPORTANT','GENERAL') DEFAULT NULL,
         `blog_id` int DEFAULT NULL,
         `created_at` timestamp NULL DEFAULT NULL,
+        `type` enum('REACTION','BLOG','REPLY','COMMENT') DEFAULT NULL,
         PRIMARY KEY (`id`),
         KEY `user_id` (`receiver_id`),
         KEY `blog_id_2` (`blog_id`),
