@@ -15,7 +15,7 @@
     echo "<p class='text-gray-500 underline'>" . $_POST["lname"] . "</p>";
     ?>
     <h1 class="text-white text-xl font-semibold">Nathaniel D. Sto Niño</h1>
-      <p class="text-gray-50  0 text-base">Sharp Blade, Sharp Mind</p>
+      <p class="text-gray-50  0 text-base">Sharp Blade, Sharp Mind <?php echo $bio?></p>
         <p class="text-gray-500 text-base">Joined September 1834</p>
     <a href="user_profile"
       class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
