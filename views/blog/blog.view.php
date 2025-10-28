@@ -78,7 +78,47 @@
 
         </div>  
 
-        <div class="bg-red-400">Related</div>
+        <aside class="flex flex-col gap-4">
+            <div class="lg:col-span-4 space-y-8 lg:top-24 order-1 lg:order-2">
+                <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
+                    <h3 class="text-lg font-bold mb-4 text-text-primary">Related Arcticles</h3>
+                    <div class="space-y-3">
+                    <div>
+                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">BPSU Main Campus Expansion Project Groundbreaking</a>
+                        <p class="text-sm text-text-secondary">October 20, 2023</p>
+                    </div>
+                    <div>
+                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">University Research Symposium Highlights Student Innovations</a>
+                        <p class="text-sm text-text-secondary">October 15, 2023</p>
+                    </div>
+                    <div>
+                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">New Scholarship Opportunities for Engineering Students</a>
+                        <p class="text-sm text-text-secondary">October 10, 2023</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-4 space-y-8 lg:top-24 order-1 lg:order-2">
+                <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
+                    <h3 class="text-lg font-bold mb-4 text-text-primary">Related Arcticles</h3>
+                    <div class="space-y-3">
+                    <div>
+                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">BPSU Main Campus Expansion Project Groundbreaking</a>
+                        <p class="text-sm text-text-secondary">October 20, 2023</p>
+                    </div>
+                    <div>
+                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">University Research Symposium Highlights Student Innovations</a>
+                        <p class="text-sm text-text-secondary">October 15, 2023</p>
+                    </div>
+                    <div>
+                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">New Scholarship Opportunities for Engineering Students</a>
+                        <p class="text-sm text-text-secondary">October 10, 2023</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
     </div>
 </div>
 
