@@ -1,16 +1,23 @@
 <div class="flex gap-3 <?= htmlspecialchars($indent) ?> reaction-wrapper">
     <p class="comment-id hidden"><?= htmlspecialchars($comment_id) ?></p>
+    
+    <a href="/account?id=<?= $user_id ?>">
+        <img src='<?= htmlspecialchars(
+            $avatar,
+        ) ?>' class='w-9 h-9 rounded-full' alt='Avatar'>
+    </a>
 
-    <img src='<?= htmlspecialchars(
-        $avatar,
-    ) ?>' class='w-9 h-9 rounded-full' alt='Avatar'>
     <div class='flex-1'>
-        <div class='flex items-center gap-2 text-sm text-text-secondary'>
-            <span class='font-semibold text-text-primary'><?= htmlspecialchars(
-                $username,
-            ) ?></span>
-            <span>• <?= htmlspecialchars($created_at) ?></span>
-        </div>
+        <a href="/account?id=<?= $user_id ?>">
+
+            <div class='flex items-center gap-2 text-sm text-text-secondary'>
+                <span class='font-semibold text-text-primary'><?= htmlspecialchars(
+                    $username,
+                ) ?></span>
+                <span>• <?= htmlspecialchars($created_at) ?></span>
+            </div>
+        </a>
+        
         <p class='mt-1 text-text-secondary'><?= htmlspecialchars(
             $content,
         ) ?></p>

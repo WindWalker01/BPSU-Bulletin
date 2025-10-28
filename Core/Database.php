@@ -87,12 +87,22 @@ class Database
 
         "CREATE TABLE `notifications` (
         `id` int NOT NULL AUTO_INCREMENT,
-        `user_id` int DEFAULT NULL,
+        `receiver_id` int DEFAULT NULL,
         `title` varchar(255) DEFAULT NULL,
         `description` text,
+        `sender_id` int DEFAULT NULL,
+        `is_read` tinyint(1) DEFAULT NULL,
+        `category` enum('IMPORTANT','GENERAL') DEFAULT NULL,
+        `blog_id` int DEFAULT NULL,
+        `created_at` timestamp NULL DEFAULT NULL,
+        `type` enum('REACTION','BLOG','REPLY','COMMENT','FOLLOW') DEFAULT NULL,
         PRIMARY KEY (`id`),
-        KEY `user_id` (`user_id`),
-        CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+        KEY `user_id` (`receiver_id`),
+        KEY `blog_id_2` (`blog_id`),
+        KEY `sender_id` (`sender_id`),
+        CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `notifications_ibfk_4` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `follows` (
@@ -351,6 +361,10 @@ class Database
             "INSERT INTO `blogs` (`author_id`, `blog_status`, `content`, `created_at`, `scheduled_at`, `title`) VALUES
         (1, 'HIDDEN', {$content}, '2025-10-10 14:29:05', '2025-10-10 14:29:05', 'Getting Started');",
         );
+
+        // add profile preferences to the author
+        $testDBConnection->exec("INSERT INTO `user_preferences` (`id`, `user_id`, `theme_preference`, `email_notification`, `push_notification`, `reaction_notification`, `follow_notification`, `show_email_public`, `show_profile_public`, `created_at`, `updated_at`) VALUES
+(1, 1, 'DARK', 1, 1, 1, 1, 1, 1, '2025-10-26 12:34:00', '2025-10-26 12:34:00');");
 
         // add profile image to the sample author
         $testDBConnection->exec("INSERT INTO `profile_images` (`user_id`, `secure_url`, `asset_id`) VALUES

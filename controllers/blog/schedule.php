@@ -2,6 +2,7 @@
 
 use Core\App;
 use Core\Database;
+use Core\Notification;
 
 $blog_id = (int) $_POST["blog_id"];
 $is_schedule = (int) $_POST["is_schedule"];
@@ -9,6 +10,10 @@ $schedule_value = $_POST["schedule"];
 $categorties = $_POST["categories"];
 
 $tags = preg_split("/\s+/", trim($_POST["tags"])); // split by spaces
+
+$followers = [];
+$sender;
+$notification = new Notification();
 
 $clean_tags = array_map(function ($tag) {
     return ltrim($tag, "#");
@@ -25,6 +30,7 @@ if ($is_schedule === 1) {
         ],
     );
 } else {
+    // Publish now
     $db->query(
         "UPDATE blogs SET blog_status = :status, scheduled_at = NOW(), published_at = NOW() WHERE id = :id",
         [
@@ -32,6 +38,28 @@ if ($is_schedule === 1) {
             "status" => "ACTIVE",
         ],
     );
+
+    // Send in app notification
+    $sender = $db
+        ->query(
+            "SELECT 
+            blogs.author_id as 'id',
+            users.username,
+            profile_images.secure_url,
+            blogs.title,
+            blogs.`content`
+            FROM blogs
+            INNER JOIN users ON users.id = blogs.author_id
+            INNER JOIN profile_images ON profile_images.user_id = blogs.author_id 
+            WHERE blogs.id = :blog",
+            [
+                "blog" => $blog_id,
+            ],
+        )
+        ->find();
+
+    $notification->createBlogNotification($sender["id"], $blog_id);
+    $notification->createEmailForBlogPublish($sender, $blog_id);
 }
 
 foreach ($categorties as $c) {

@@ -5,6 +5,7 @@ use Core\Authenticator;
 
 if (isUserLoggedIn()) {
     $auth = new Authenticator();
+    $read_imporant_count = 0;
 
     $db = App::resolve(Database::class);
 
@@ -13,6 +14,42 @@ if (isUserLoggedIn()) {
             "id" => (int) $auth->getLoggedInUserId(),
         ])
         ->find();
+
+    // fetch notifications
+    $notifications = $db
+        ->query(
+            "SELECT
+            notifications.id, 
+            notifications.title,
+            profile_images.secure_url,
+            notifications.blog_id,
+            users.username,
+            notifications.sender_id,
+            notifications.is_read,
+            notifications.description,
+            notifications.created_at,
+            notifications.category 
+        FROM notifications
+        INNER JOIN users ON users.id = notifications.sender_id
+        INNER JOIN profile_images ON profile_images.user_id = notifications.sender_id
+        WHERE notifications.receiver_id = :receiver_id
+        ORDER BY notifications.is_read ASC, notifications.created_at DESC",
+            [
+                "receiver_id" => $auth->getLoggedInUserId(),
+            ],
+        )
+        ->get();
+    $unread_count = $db
+        ->query(
+            "SELECT COUNT(*) AS unread_count
+            FROM notifications
+            WHERE receiver_id = :receiver_id
+            AND is_read = 0",
+            [
+                "receiver_id" => $auth->getLoggedInUserId(),
+            ],
+        )
+        ->find()["unread_count"];
 }
 ?>
 
@@ -138,9 +175,101 @@ if (isUserLoggedIn()) {
     
       <?php if (isUserLoggedIn()): ?>
       <!-- Notifications hidden on mobile -->
-      <button class="hidden sm:flex items-center justify-center text-text-secondary hover:text-text-primary p-2 relative cursor-pointer">
-        <i class="material-symbols-outlined">notifications</i>
-      </button>
+      <div class="relative inline-block text-left">
+        <!-- Notification Button -->
+        <button id="notifButton"
+          class="relative p-2 rounded-full hover:bg-overlay-dark transition hidden sm:flex items-center justify-center text-text-secondary hover:text-text-primary cursor-pointer">
+          <i class="material-symbols-outlined">notifications</i>
+          <!-- Red Dot (hidden if no unread notifications) -->
+          <span id="notifDot"
+            class="<?= $unread_count !== 0
+                ? ""
+                : "hidden" ?> absolute top-1 right-1 block h-2 w-2 rounded-full bg-brand"></span>
+        </button>
+
+        <!-- Dropdown -->
+        <div id="notifDropdown"
+          class="hidden absolute right-0 mt-3 w-[450px] bg-overlay-dark border border-card-dark rounded-xl shadow-2xl overflow-hidden z-50">
+
+          <!-- Header -->
+          <div class="flex justify-between items-center px-4 py-3 border-b border-card-dark bg-overlay-dark">
+            <span class="text-lg font-semibold text-text-primary">Notifications</span>
+            <button id="markAllRead" class="text-sm text-brand hover:underline">Mark all as read</button>
+          </div>
+
+          <!-- Scrollable Section -->
+          <div class="max-h-[550px] overflow-y-auto">
+
+            <!-- Important Section -->
+            <div class="px-4 py-2 text-text-secondary text-sm font-medium">Important</div>
+            <div class="space-y-2 px-2 pb-3">
+              <?php foreach ($notifications as $notification): ?>
+                <?php if (
+                    $notification["category"] === "IMPORTANT" &&
+                    $notification["is_read" === 0]
+                ): ?>
+                  <?php view("partials/notification-card.php", [
+                      "title" => $notification["title"],
+                      "is_read" => $notification["is_read"],
+                      "author_image" => $notification["secure_url"],
+                      "author_name" => $notification["username"],
+                      "description" => $notification["description"],
+                      "time_ago" => timeAgo($notification["created_at"]),
+                      "id" => $notification["id"],
+                      "blog_id" => $notification["blog_id"],
+                      "user_id" => $notification["sender_id"],
+                  ]); ?>
+                <?php endif; ?>
+
+                <?php if (
+                    $notification["category"] === "IMPORTANT" &&
+                    $read_imporant_count < 2
+                ): ?>
+                  <?php
+                  view("partials/notification-card.php", [
+                      "title" => $notification["title"],
+                      "is_read" => $notification["is_read"],
+                      "author_image" => $notification["secure_url"],
+                      "author_name" => $notification["username"],
+                      "description" => $notification["description"],
+                      "time_ago" => timeAgo($notification["created_at"]),
+                      "id" => $notification["id"],
+                      "blog_id" => $notification["blog_id"],
+                      "user_id" => $notification["sender_id"],
+                  ]);
+                  $read_imporant_count++;
+                  ?>
+                <?php endif; ?>
+              <?php endforeach; ?>
+            </div>
+
+            <!-- More Notifications Section -->
+            <div class="px-4 py-2 text-text-secondary text-sm font-medium border-t border-card-dark">More notifications</div>
+            <div class="space-y-2 px-2 pb-3">
+              <?php foreach ($notifications as $notification): ?>
+                <?php if ($notification["category"] === "GENERAL"): ?>
+                  <?php view("partials/notification-card.php", [
+                      "title" => $notification["title"],
+                      "is_read" => $notification["is_read"],
+                      "author_image" => $notification["secure_url"],
+                      "author_name" => $notification["username"],
+                      "description" => $notification["description"],
+                      "time_ago" => timeAgo($notification["created_at"]),
+                      "id" => $notification["id"],
+                      "user_id" => $notification["sender_id"],
+                      "blog_id" => $notification["blog_id"],
+                  ]); ?>
+                <?php endif; ?>
+              <?php endforeach; ?>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="text-center py-3 border-t border-card-dark bg-overlay-dark">
+            <a href="/notifications" class="text-sm text-brand hover:underline">View all notifications</a>
+          </div>
+        </div>
+      </div>
 
       
       <!-- Profile -->

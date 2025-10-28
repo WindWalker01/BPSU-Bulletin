@@ -101,6 +101,17 @@ if (isUserLoggedIn()) {
         ->findorFail();
 }
 
+// Check if the user is already followed to the author
+$isFollowed = $db
+    ->query(
+        "SELECT * FROM follows WHERE follower_id = :follower AND followed_id = :followed",
+        [
+            "follower" => new Authenticator()->getLoggedInUserId(),
+            "followed" => $blog["author_id"] ?? 0,
+        ],
+    )
+    ->findOrFail();
+
 // Render the page
 render("blog/blog.view.php", [
     "blog_html" => $html,
@@ -118,24 +129,11 @@ render("blog/blog.view.php", [
     )->format("F j, Y"),
     "author_profile" => $blog["secure_url"],
     "author_name" => $blog["username"],
+    "author_id" => $blog["author_id"],
+    "isOwner" =>
+        $blog["author_id"] === new Authenticator()->getLoggedInUserId(),
+    "isFollowed" => $isFollowed === null ? 0 : 1,
 ]);
-
-// Helper to render time ago
-function timeAgo($datetime)
-{
-    $time = strtotime($datetime);
-    $diff = time() - $time;
-    if ($diff < 60) {
-        return $diff . "s ago";
-    }
-    if ($diff < 3600) {
-        return floor($diff / 60) . "m ago";
-    }
-    if ($diff < 86400) {
-        return floor($diff / 3600) . "h ago";
-    }
-    return floor($diff / 86400) . "d ago";
-}
 
 // Recursive render
 function renderComments($parent_id, $tree, $level = 0, $db)
@@ -169,6 +167,7 @@ function renderComments($parent_id, $tree, $level = 0, $db)
             "blog_id" => $c["blog_id"],
             "reply_parent_id" => $c["id"],
             "user_reaction" => $reaction["reaction_id"],
+            "user_id" => $c["user_id"],
         ]);
 
         // Recursive call
