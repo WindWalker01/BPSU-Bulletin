@@ -46,6 +46,8 @@ $router
     ->get("/notifications", "controllers/notifications/show.php")
     ->only("auth");
 
+$router->get("/search", "controllers/search.php");
+
 //POST
 
 $router
