@@ -20,19 +20,34 @@ $db->query(
 );
 
 foreach ($blogs as $blog_id) {
+    // Send in app notification
     $sender = $db
-        ->query("SELECT author_id FROM blogs WHERE id = :blog", [
-            "blog" => $blog_id["id"],
-        ])
+        ->query(
+            "SELECT 
+            blogs.author_id as 'id',
+            users.username,
+            profile_images.secure_url,
+            blogs.title,
+            blogs.`content`
+            FROM blogs
+            INNER JOIN users ON users.id = blogs.author_id
+            INNER JOIN profile_images ON profile_images.user_id = blogs.author_id 
+            WHERE blogs.id = :blog",
+            [
+                "blog" => $blog_id,
+            ],
+        )
         ->find();
 
     foreach ($followers as $follower) {
         $notification->createBlogNotification(
-            $sender["author_id"],
+            $sender["id"],
             $blog_id["id"],
             "hello World",
             "Hello World",
             "IMPORTANT",
         );
+
+        $notification->createEmailForBlogPublish($sender, $blog_id["id"]);
     }
 }

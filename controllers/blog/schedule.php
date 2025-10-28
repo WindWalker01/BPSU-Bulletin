@@ -30,6 +30,7 @@ if ($is_schedule === 1) {
         ],
     );
 } else {
+    // Publish now
     $db->query(
         "UPDATE blogs SET blog_status = :status, scheduled_at = NOW(), published_at = NOW() WHERE id = :id",
         [
@@ -38,13 +39,27 @@ if ($is_schedule === 1) {
         ],
     );
 
+    // Send in app notification
     $sender = $db
-        ->query("SELECT author_id FROM blogs WHERE id = :blog", [
-            "blog" => $blog_id,
-        ])
+        ->query(
+            "SELECT 
+            blogs.author_id as 'id',
+            users.username,
+            profile_images.secure_url,
+            blogs.title,
+            blogs.`content`
+            FROM blogs
+            INNER JOIN users ON users.id = blogs.author_id
+            INNER JOIN profile_images ON profile_images.user_id = blogs.author_id 
+            WHERE blogs.id = :blog",
+            [
+                "blog" => $blog_id,
+            ],
+        )
         ->find();
 
-    $notification->createBlogNotification($sender["author_id"], $blog_id);
+    $notification->createBlogNotification($sender["id"], $blog_id);
+    $notification->createEmailForBlogPublish($sender, $blog_id);
 }
 
 foreach ($categorties as $c) {
