@@ -30,4 +30,6 @@ return [
     ],
     "jwt-secret-key" => "secret-key",
     "domain" => "localhost",
+    "email_app_password" => "",
+    "website_url" => "http://localhost:8069",
 ];
