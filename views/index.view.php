@@ -5,14 +5,17 @@
         <div class="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8 lg:py-40">
             <div class="flex min-h-[400px] flex-col items-center justify-center gap-8 rounded-xl p-4 text-center">
                 <div class="flex flex-col items-center gap-6 relative">
-                  <h1 class="relative text-5xl font-black leading-tight tracking-tighter text-white sm:text-6xl lg:text-8xl">
+                  <h1 class="relative text-5xl font-black leading-tight tracking-tighter text-text-primary  sm:text-6xl lg:text-8xl">
                      <span class="text-brand">BPSU</span>
                      <span class="relative inline-block">
-                        Bulletin
-                        <img src="assets/pin.png"
-                           alt="pin"
-                           class="absolute w-7 sm:w-10 lg:w-15 -top-2 sm:-top-3 lg:-top-4 right-[-1rem] sm:right-[-1.5rem] lg:right-[-2rem]" />
-                     </span>
+  Bulletin
+  <img
+    src="assets/pin.png"
+    alt="pin"
+    class="absolute w-7 sm:w-10 lg:w-15 -top-2 sm:-top-3 lg:-top-4 right-[-1rem] sm:right-[-1.5rem] lg:right-[-2rem] animate-float"
+  />
+</span>
+
                   </h1>
 
                   <h2 class="mx-auto max-w-3xl text-lg font-normal leading-normal text-text-secondary sm:text-xl">
@@ -203,3 +206,4 @@
     </section>
 </main>
 
+<?php view("partials/footer.php"); ?>
