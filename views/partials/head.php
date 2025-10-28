@@ -58,7 +58,7 @@ if (isUserLoggedIn()) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 </head>
-<body class="bg-bg-light text-text-dark font-sans min-h-screen dark:bg-bg-dark dark:text-text-primary dark:[background-image:radial-gradient(circle_at_25%_15%,rgb(192_0_0/0.2),transparent_40%),radial-gradient(circle_at_75%_85%,rgb(192_0_0/0.15),transparent_40%)] transition-colors duration-200">
+<body class="bg-bg-light text-text-dark min-h-screen dark:bg-bg-dark dark:text-text-primary dark:[background-image:radial-gradient(circle_at_25%_15%,rgb(192_0_0/0.2),transparent_40%),radial-gradient(circle_at_75%_85%,rgb(192_0_0/0.15),transparent_40%)] transition-colors duration-200">
 <input type="checkbox" id="sidebar-toggle" class="hidden">
 <?php if ($showHeader ?? true): ?>
 <header class="bg-bg-dark/80 backdrop-blur-md border-b border-card-dark fixed top-0 left-0 right-0 z-30">
