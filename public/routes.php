@@ -71,11 +71,15 @@ $router->post("/reply", "controllers/blog/comment/reply.php");
 $router->post("/react", "controllers/blog/reaction.php");
 $router->post("/comment/react", "controllers/blog/comment/reaction.php");
 
+$router->post("/account", "controllers/account_centre/user_activity_log.php");
+
 // PUT
 
 // PATCH
 $router->patch("/blog/editor", "controllers/blog/edit.php");
 $router->patch("/blog/publish", "controllers/blog/schedule.php");
+
+$router->patch("/user_profile", "controllers/account_centre/edit.php");
 
 $router->patch("/user_profile/image", "controllers/image/profile/edit.php");
 $router->patch(
