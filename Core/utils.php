@@ -83,3 +83,26 @@ function render($view, $data = [], $showHeader = true)
     // Pass $showHeader to head.php
     view("partials/head.php", compact("slot", "data", "showHeader"));
 }
+
+function extractFirstParagraphFromTiptap($content)
+{
+    $data = json_decode($content, true);
+    $first_paragraph = null;
+
+    foreach ($data["content"] ?? [] as $node) {
+        if (
+            !$first_paragraph &&
+            $node["type"] === "paragraph" &&
+            isset($node["content"])
+        ) {
+            $texts = array_map(fn($c) => $c["text"] ?? "", $node["content"]);
+            $first_paragraph = trim(implode(" ", $texts));
+        }
+
+        if ($first_paragraph) {
+            break;
+        }
+    }
+
+    return $first_paragraph;
+}
