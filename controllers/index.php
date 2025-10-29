@@ -1,5 +1,2 @@
 <?php
-render('index.view.php', [
-    "heading" => "Put the contents here",
-    "title" => "Index"
-]);
+render('index.view.php', ["title" => "BPSU Bulletin"]);

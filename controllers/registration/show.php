@@ -1,3 +1,3 @@
 <?php
 
-render("register.view.php");
+render("register.view.php", ["title" => "Register Account"], false);

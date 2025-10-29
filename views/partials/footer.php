@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileSearchInput = document.getElementById('mobileSearchInput');
   const mobileSearchResults = document.getElementById('mobileSearchResults');
 
+  let timeout = null; // for searching query. to make sure that we only fetch for blogs and accounts in the database when the user stops typing for x amount of seconds
+
   // --- Profile dropdown logic ---
   const profileButton = document.getElementById('profileButton');
   const profileDropdown = document.getElementById('profileDropdown');
@@ -59,30 +61,114 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Desktop search ---
-  searchInput?.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase().trim();
-    if (!query) {
-      searchResults.classList.add('hidden');
+  searchInput.addEventListener("input", (e) => {
+    clearTimeout(timeout);
+    const query = e.target.value.trim();
+
+    timeout = setTimeout(() => {
+      if (query.length >= 2) {
+        fetch(`http://localhost:8069/search?query=${encodeURIComponent(query)}`, {headers: { "X-Search-Source": "dropdown" }})
+          .then((res) => res.json())
+          .then((data) => renderSearchResults(data))
+          .catch((err) => console.error("Search error:", err));
+      } else {
+        searchResults.classList.add("hidden");
+        searchResults.innerHTML = "";
+      }
+    }, 400);
+  });
+
+    // --- Redirect on Submit or Enter ---
+  searchInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+      if (query) {
+        window.location.href = `/search?query=${encodeURIComponent(query)}`;
+      }
+    }
+  });
+
+  function renderSearchResults(data) {
+    // No results
+    if ((!data.blogs || data.blogs.length === 0) && (!data.users || data.users.length === 0)) {
+      searchResults.classList.remove("hidden");
+      searchResults.innerHTML = `
+        <div class="p-4 text-sm text-[var(--color-text-secondary)] text-center">
+          No results found.
+        </div>
+      `;
       return;
     }
 
-    const filtered = (window.posts || []).filter(p =>
-      p.title.toLowerCase().includes(query) ||
-      p.excerpt.toLowerCase().includes(query) ||
-      p.author.toLowerCase().includes(query)
-    );
+    // --- USERS SECTION ---
+    let usersHTML = "";
+    if (data.users?.length > 0) {
+      const userItems = data.users
+        .map(
+          (u) => `
+          <a href="/account?id=${u.id}" 
+            class="flex items-center gap-3 p-3 rounded-lg hover:bg-[var(--color-card-light)] dark:hover:bg-[var(--color-card-dark)] transition">
+            <img src="${u.secure_url}" alt="${u.username}" 
+                class="w-10 h-10 rounded-full object-cover border border-[var(--color-card-light)] dark:border-[var(--color-card-dark)]" />
+            <div>
+              <div class="font-semibold text-[var(--color-text-primary)]">${u.username}</div>
+              <div class="text-sm text-[var(--color-text-secondary)]">${u.email}</div>
+            </div>
+          </a>
+        `
+        )
+        .join("");
 
-    searchResults.innerHTML = filtered.length === 0
-      ? `<div class='p-3 text-sm text-text-secondary'>No results found</div>`
-      : filtered.map(p => `
-        <a href="${p.link}" class="block px-4 py-2 hover:bg-card-dark text-text-primary rounded-md">
-          <div class="font-medium">${p.title}</div>
-          <div class="text-sm text-text-secondary ">${p.excerpt.length > 100 ? p.excerpt.slice(0,100)+'...' : p.excerpt}</div>
-        </a>
-      `).join('');
+      usersHTML = `
+        <div class="border-b border-[var(--color-card-light)] dark:border-[var(--color-card-dark)] mb-2">
+          <h3 class="px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-[var(--color-brand)]">
+            Users
+          </h3>
+          ${userItems}
+        </div>
+      `;
+    }
 
-    searchResults.classList.remove('hidden');
-  });
+    // --- BLOGS SECTION ---
+    let blogsHTML = "";
+    if (data.blogs?.length > 0) {
+      const blogItems = data.blogs
+        .map(
+          (b) => `
+          <a href="/blog?id=${b.id}" 
+            class="block p-3 rounded-lg hover:bg-[var(--color-card-light)] dark:hover:bg-[var(--color-card-dark)] transition">
+            <div class="font-semibold text-[var(--color-text-primary)]">${b.title}</div>
+            <div class="text-sm text-[var(--color-text-secondary)]">by ${b.author_name}</div>
+            <div class="text-xs text-[var(--color-text-gray)] mt-1">
+              Categories: ${b.categories || "—"}
+            </div>
+          </a>
+        `
+        )
+        .join("");
+
+      blogsHTML = `
+        <div>
+          <h3 class="px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-[var(--color-brand)]">
+            Blogs
+          </h3>
+          ${blogItems}
+        </div>
+      `;
+    }
+
+    // --- RENDER RESULTS ---
+    searchResults.classList.remove("hidden");
+    searchResults.innerHTML = `
+      <div class="rounded-xl shadow-lg max-h-96 overflow-y-auto divide-y divide-[var(--color-card-light)] dark:divide-[var(--color-card-dark)]
+                  border border-[var(--color-card-light)] dark:border-[var(--color-card-dark)]
+                  bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
+        ${usersHTML}
+        ${blogsHTML}
+      </div>
+    `;
+  }
 
   document.addEventListener('click', (e) => {
     if (!searchResults.contains(e.target) && e.target !== searchInput) {
@@ -90,45 +176,132 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- Mobile search ---
-  mobileSearchBtn?.addEventListener('click', (e) => {
-    e.stopPropagation(); // prevent document click from closing immediately
-    mobileSearchContainer.classList.toggle('hidden');
-    if (!mobileSearchContainer.classList.contains('hidden')) {
+  // --- Mobile Search Logic ---
+  mobileSearchBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    mobileSearchContainer.classList.toggle("hidden");
+
+    if (!mobileSearchContainer.classList.contains("hidden")) {
       mobileSearchInput.focus();
+    } else {
+      mobileSearchResults.classList.add("hidden");
+      mobileSearchResults.innerHTML = "";
     }
   });
 
-  mobileSearchInput?.addEventListener('input', () => {
-    const query = mobileSearchInput.value.toLowerCase().trim();
-    if (!query) {
-      mobileSearchResults.classList.add('hidden');
+  let mobileTimeout = null;
+
+  mobileSearchInput?.addEventListener("input", () => {
+    clearTimeout(mobileTimeout);
+    const query = mobileSearchInput.value.trim();
+
+    mobileTimeout = setTimeout(() => {
+      if (query.length < 2) {
+        mobileSearchResults.classList.add("hidden");
+        mobileSearchResults.innerHTML = "";
+        return;
+      }
+
+      // Fetch results from backend
+      fetch(`http://localhost:8069/search?query=${encodeURIComponent(query)}`, {headers: { "X-Search-Source": "dropdown" }})
+        .then((res) => res.json())
+        .then((data) => renderMobileSearchResults(data))
+        .catch((err) => console.error("Mobile search error:", err));
+    }, 400);
+  });
+
+  // --- Redirect on Submit or Enter ---
+  mobileSearchInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const query = mobileSearchInput.value.trim();
+      if (query) {
+        window.location.href = `/search?query=${encodeURIComponent(query)}`;
+      }
+    }
+  });
+
+  function renderMobileSearchResults(data) {
+    if ((!data.blogs || data.blogs.length === 0) && (!data.users || data.users.length === 0)) {
+      mobileSearchResults.classList.remove("hidden");
+      mobileSearchResults.innerHTML = `
+        <div class="p-3 text-sm text-[var(--color-text-secondary)] text-center">
+          No results found
+        </div>
+      `;
       return;
     }
 
-    const filtered = (window.posts || []).filter(p =>
-      p.title.toLowerCase().includes(query) ||
-      p.excerpt.toLowerCase().includes(query) ||
-      p.author.toLowerCase().includes(query)
-    );
+    // --- USERS ---
+    let usersHTML = "";
+    if (data.users?.length > 0) {
+      const userItems = data.users
+        .map(
+          (u) => `
+          <a href="/profile/${u.id}" 
+            class="flex items-center gap-3 p-3 rounded-lg hover:bg-[var(--color-card-light)] dark:hover:bg-[var(--color-card-dark)] transition">
+            <img src="${u.secure_url}" alt="${u.username}" 
+                class="w-10 h-10 rounded-full object-cover border border-[var(--color-card-light)] dark:border-[var(--color-card-dark)]" />
+            <div>
+              <div class="font-semibold text-[var(--color-text-primary)]">${u.username}</div>
+              <div class="text-sm text-[var(--color-text-secondary)]">${u.email}</div>
+            </div>
+          </a>
+        `
+        )
+        .join("");
 
-    mobileSearchResults.innerHTML = filtered.length === 0
-      ? `<div class='p-3 text-sm text-text-secondary'>No results found</div>`
-      : filtered.map(p => `
-        <a href="${p.link}" class="block px-4 py-2 hover:bg-card-dark text-text-primary rounded-md">
-          <div class="font-medium">${p.title}</div>
-          <div class="text-sm text-text-secondary truncate">${p.excerpt.length > 200 ? p.excerpt.slice(0,200)+'...' : p.excerpt}</div>
-        </a>
-      `).join('');
-
-    mobileSearchResults.classList.remove('hidden');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!mobileSearchContainer.contains(e.target) && e.target !== mobileSearchBtn) {
-      mobileSearchContainer.classList.add('hidden');
+      usersHTML = `
+        <div class="border-b border-[var(--color-card-light)] dark:border-[var(--color-card-dark)] mb-2">
+          <h3 class="px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-[var(--color-brand)]">
+            Users
+          </h3>
+          ${userItems}
+        </div>
+      `;
     }
-  });
+
+    // --- BLOGS ---
+    let blogsHTML = "";
+    if (data.blogs?.length > 0) {
+      const blogItems = data.blogs
+        .map(
+          (b) => `
+          <a href="/blog/${b.id}" 
+            class="block p-3 rounded-lg hover:bg-[var(--color-card-light)] dark:hover:bg-[var(--color-card-dark)] transition">
+            <div class="font-semibold text-[var(--color-text-primary)]">${b.title}</div>
+            <div class="text-sm text-[var(--color-text-secondary)]">by ${b.author_name}</div>
+            <div class="text-xs text-[var(--color-text-gray)] mt-1">
+              Categories: ${b.categories || "—"}
+            </div>
+          </a>
+        `
+        )
+        .join("");
+
+      blogsHTML = `
+        <div>
+          <h3 class="px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-[var(--color-brand)]">
+            Blogs
+          </h3>
+          ${blogItems}
+        </div>
+      `;
+    }
+
+    // --- RENDER ---
+    mobileSearchResults.classList.remove("hidden");
+    mobileSearchResults.innerHTML = `
+      <div class="rounded-xl shadow-lg max-h-[70vh] overflow-y-auto divide-y divide-[var(--color-card-light)] dark:divide-[var(--color-card-dark)]
+                  border border-[var(--color-card-light)] dark:border-[var(--color-card-dark)]
+                  bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
+        ${usersHTML}
+        ${blogsHTML}
+      </div>
+    `;
+  }
+
+
 
   // --- Navigation active link ---
   document.querySelectorAll(".nav-link").forEach(link => {
@@ -140,6 +313,84 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+
+// --- Notification Dropdown Logic --- //
+const notifButton = document.getElementById('notifButton');
+const notifDropdown = document.getElementById('notifDropdown');
+const markAllBtn = document.getElementById('markAllRead');
+
+// Dropdown toggle (only if it exists)
+if (notifButton && notifDropdown) {
+  notifButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    notifDropdown.classList.toggle('hidden');
+  });
+
+  // Close when clicking outside
+  window.addEventListener('click', (e) => {
+    if (!notifButton.contains(e.target) && !notifDropdown.contains(e.target)) {
+      notifDropdown.classList.add('hidden');
+    }
+  });
+}
+
+// --- Mark as Read --- //
+function markAsRead(button) {
+  const item = button.closest('.group');
+  if (!item) return;
+
+  item.classList.add('opacity-50');
+  button.remove();
+
+  const id = button.dataset.notificationId;
+  if (id) marked(id);
+
+  // Hide red dot if all notifications are read
+  hideDotIfAllRead();
+}
+
+// --- Mark All as Read --- //
+if (markAllBtn) {
+  markAllBtn.addEventListener('click', () => {
+    document.querySelectorAll('.group').forEach(item => {
+      item.classList.add('opacity-50');
+      const btn = item.querySelector('button[data-notification-id]');
+      if (btn) {
+        marked(btn.dataset.notificationId);
+        btn.remove();
+      }
+    });
+    hideDotIfAllRead();
+  });
+}
+
+// --- Update Database (AJAX PATCH) --- //
+async function marked(id) {
+  try {
+    const formdata = new FormData();
+    formdata.append('_method', 'PATCH');
+    formdata.append('id', id);
+
+    const res = await fetch('/notification/marked', {
+      method: 'POST',
+      body: formdata,
+    });
+
+    await res.json();
+  } catch (err) {
+    console.error('Failed to mark notification:', err);
+  }
+}
+
+// --- Helper: Hide Red Dot if All Read --- //
+function hideDotIfAllRead() {
+  const unreadExists = document.querySelector('.group button[data-notification-id]');
+  const notifDot = document.getElementById('notifDot');
+
+  if (!unreadExists && notifDot) {
+    notifDot.classList.add('hidden');
+  }
+}
 </script>
 
 </body>

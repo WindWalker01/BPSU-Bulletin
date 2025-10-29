@@ -66,9 +66,16 @@ class Router
     }
 
     protected function abort($code)
-    {
-        echo "Not Found.";
-        http_response_code($code);
-        die();
+{
+    http_response_code($code);
+    $view = base_path("views/{$code}.view.php");
+
+    if (file_exists($view)) {
+        require $view;
+    } else {
+        echo "Error {$code}";
     }
+    die();
+}
+
 }

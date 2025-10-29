@@ -3,14 +3,65 @@ use Core\App;
 use Core\Authenticator;
 use Core\Database;
 
-$id = new Authenticator()->getLoggedInUserId();
+$id = $_GET["id"] ?? new Authenticator()->getLoggedInUserId();
 
 $db = App::resolve(Database::class);
 
-$image = $db
-    ->query("SELECT * FROM profile_images WHERE user_id = :id", ["id" => $id])
-    ->find();
+$account = $db
+    ->query(
+        "SELECT 
+            users.id, 
+            users.username, 
+            users.role, 
+            users.bio, 
+            users.created_at, 
+            profile_images.secure_url 
+        FROM users 
+        INNER JOIN profile_images ON users.id = profile_images.user_id 
+        WHERE users.id = :id",
+        ["id" => $id],
+    )
+    ->findOrFail();
+
+if ($account === null) {
+    redirect("/account");
+    exit();
+}
+
+// Check if the user is already followed to the author
+$isFollowed = $db
+    ->query(
+        "SELECT * FROM follows WHERE follower_id = :follower AND followed_id = :followed",
+        [
+            "follower" => new Authenticator()->getLoggedInUserId(),
+            "followed" => $_GET["id"] ?? 0,
+        ],
+    )
+    ->findOrFail();
+
+$followed_authors = $db
+    ->query(
+        "SELECT 
+            users.username, 
+            users.id, 
+            profile_images.secure_url 
+        FROM follows 
+        INNER JOIN profile_images ON follows.followed_id = profile_images.user_id
+        INNER JOIN users ON follows.followed_id = users.id
+        WHERE follows.follower_id = :follower_id",
+        ["follower_id" => $id],
+    )
+    ->get();
 
 render("account_activity_log.view.php", [
-    "url" => $image["secure_url"],
+    "account_id" => $account["id"],
+    "url" => $account["secure_url"],
+    "username" => $account["username"],
+    "join_date" => date("F d, Y", strtotime($account["created_at"])),
+    "bio" => $account["bio"],
+    "isAuthor" => $account["role"] === "AUTHOR",
+    "isFollowed" => $isFollowed === null ? 0 : 1,
+    "isQueryLoggedIn" =>
+        $account["id"] === new Authenticator()->getLoggedInUserId(), // checks if the id uri is the same as the logged in user
+    "followed_authors" => $followed_authors,
 ]);

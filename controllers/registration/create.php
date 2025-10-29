@@ -1,5 +1,3 @@
-<?php
-
 use Core\App;
 use Core\Database;
 use Core\Authenticator;
@@ -33,6 +31,44 @@ $auth->generateToken($email);
 
 // gets the registered user id because its the last inserted row
 $id = $db->getLastInsertID();
+
+if (!$signedIn) {
+    redirect("/login");
+
+    exit();
+}
+
+$role = $auth->getLoggedInRoleWithEmail($email);
+
+$auth->generateToken($email, $role);
+
+redirect("/");
+
+$db->query(
+    "INSERT INTO `user_preferences` (
+    `user_id`, 
+    `theme_preference`, 
+    `email_notification`, 
+    `push_notification`, 
+    `reaction_notification`, 
+    `follow_notification`, 
+    `show_email_public`, 
+    `show_profile_public`, 
+    `created_at`, 
+    `updated_at`
+    ) VALUES(
+    :id, 
+    'DARK', 
+    1, 
+    1, 
+    1, 
+    1, 
+    1, 
+    1, 
+    NOW(), 
+    NOW());",
+    ["id" => $id],
+);
 
 // create profile image of the user
 $db->query(

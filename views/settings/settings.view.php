@@ -42,16 +42,16 @@
 
         <!-- Data & Storage Section -->
         <section class="mb-8">
-            <h2 class="text-xl font-semibold text-text-primary mb-4">Data & Storage</h2>
+            <h2 class="text-xl font-semibold text-text-primary mb-4">Contribution</h2>
               <div class="border-b border-card-dark mt-4"></div>
             <a href="data" class="flex items-center justify-between py-4 px-2 -mx-2 rounded-lg hover:bg-brand/5 transition-colors duration-200 group">
                 <div class="flex items-center gap-4">
                     <div class="w-10 h-10 rounded-lg bg-brand/20 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-brand">database</span>
+                        <span class="material-symbols-outlined text-brand">edit_note</span>
                     </div>
                     <div>
-                        <p class="text-text-primary font-medium">Data & Storage</p>
-                        <p class="text-text-secondary text-sm">Manage your data and storage usage.</p>
+                        <p class="text-text-primary font-medium">Want to be an Author?</p>
+                        <p class="text-text-secondary text-sm">Find out how you can contribute and share your expertise with the community.</p>
                     </div>
                 </div>
                 <span class="material-symbols-outlined text-text-secondary">chevron_right</span>
@@ -77,10 +77,13 @@
         </section>
 
         <!-- Danger Zone Section -->
-        <section class="mt-20">
+        <section class="">
             <!-- Deactivate Account -->
+             <h2 class="text-xl font-semibold text-text-brand mb-4">Account Removal</h2>
+                        <div class="border-b border-card-dark mt-4"></div>
             <a href="#" class="flex items-center justify-between py-4 px-2 -mx-2 rounded-lg hover:bg-brand/5 transition-colors duration-200 group">
-                <div>
+                
+            <div>
                     <p class="text-brand-hover font-medium group-hover:text-brand-hover/85 transition-colors">Deactivate account</p>
                     <p class="text-text-secondary text-sm">Deactivating will suspend your account until you sign back in.</p>
                 </div>

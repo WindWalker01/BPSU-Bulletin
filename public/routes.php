@@ -8,8 +8,8 @@ $router->get("/register", "controllers/registration/show.php")->only("guest");
 $router->get("/login", "controllers/login/show.php")->only("guest");
 $router->get("/logout", "controllers/login/logout.php")->only("auth");
 $router->get("/home", "controllers/home/home.php");
-
 $router->get("/blog/publish", "controllers/blog/publish.php");
+
 
 $router
     ->get("/blog/editor", "controllers/blog/editor/show.php")
@@ -18,10 +18,14 @@ $router
 $router->get("/account", "controllers/account_centre/user_activity_log.php");
 $router->get(
     "/user_profile",
-    "controllers/account_centre/user_edit_profile.php",);
+    "controllers/account_centre/user_edit_profile.php",
+);
 
 $router->get("/categories", "controllers/categories.php");
-$router->get("/announcement", "controllers/overall_category/announcement_cat.php");
+$router->get(
+    "/announcement",
+    "controllers/overall_category/announcement_cat.php",
+);
 $router->get("/achievement", "controllers/overall_category/achievements.php");
 $router->get("/organization", "controllers/overall_category/organization.php");
 $router->get("/scholar", "controllers/overall_category/scholar.php");
@@ -32,9 +36,16 @@ $router->get("/drafts", "controllers/stats/drafts.php")->only("auth");
 $router->get("/scheduled", "controllers/stats/scheduled.php")->only("auth");
 $router->get("/archived", "controllers/stats/archived.php")->only("auth");
 $router->get("/settings", "controllers/settings/settings.php")->only("auth");
-$router->get("/preferences", "controllers/settings/preferences.php")->only("auth");
+$router
+    ->get("/preferences", "controllers/settings/preferences.php")
+    ->only("auth");
 $router->get("/data", "controllers/settings/data.php")->only("auth");
 $router->get("/feedback", "controllers/settings/feedback.php")->only("auth");
+$router
+    ->get("/notifications", "controllers/notifications/show.php")
+    ->only("auth");
+
+$router->get("/search", "controllers/search.php");
 
 //POST
 
@@ -51,11 +62,17 @@ $router->post("/logout", "controllers/login/logout.php")->only("auth");
 $router->post("/blog", "controllers/blog/create.php")->only("author");
 $router->post("/blog/editor/image/upload", "controllers/image/blog/create.php");
 
+$router
+    ->post("/account/follow", "controllers/account_centre/follow.php")
+    ->only("auth");
+
 $router->post("/comment", "controllers/blog/comment/comment.php");
 $router->post("/reply", "controllers/blog/comment/reply.php");
 
 $router->post("/react", "controllers/blog/reaction.php");
 $router->post("/comment/react", "controllers/blog/comment/reaction.php");
+
+$router->post("/account", "controllers/account_centre/user_activity_log.php");
 
 // PUT
 
@@ -63,10 +80,11 @@ $router->post("/comment/react", "controllers/blog/comment/reaction.php");
 $router->patch("/blog/editor", "controllers/blog/edit.php");
 $router->patch("/blog/publish", "controllers/blog/schedule.php");
 
-$router->patch("/user_profile/image", "controllers/image/profile/edit.php");
+$router->patch("/account", "controllers/account_centre/edit_user_info.php");
 
-// DELETE
-$router->delete(
-    "/blog/editor/image/delete",
-    "controllers/image/blog/delete.php",
+$router->patch("/user_profile/image", "controllers/image/profile/edit.php");
+$router->patch(
+    "/notification/marked",
+    "controllers/notifications/marked_as_read.php",
 );
+

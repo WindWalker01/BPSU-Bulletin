@@ -87,12 +87,22 @@ class Database
 
         "CREATE TABLE `notifications` (
         `id` int NOT NULL AUTO_INCREMENT,
-        `user_id` int DEFAULT NULL,
+        `receiver_id` int DEFAULT NULL,
         `title` varchar(255) DEFAULT NULL,
         `description` text,
+        `sender_id` int DEFAULT NULL,
+        `is_read` tinyint(1) DEFAULT NULL,
+        `category` enum('IMPORTANT','GENERAL') DEFAULT NULL,
+        `blog_id` int DEFAULT NULL,
+        `created_at` timestamp NULL DEFAULT NULL,
+        `type` enum('REACTION','BLOG','REPLY','COMMENT','FOLLOW') DEFAULT NULL,
         PRIMARY KEY (`id`),
-        KEY `user_id` (`user_id`),
-        CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+        KEY `user_id` (`receiver_id`),
+        KEY `blog_id_2` (`blog_id`),
+        KEY `sender_id` (`sender_id`),
+        CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `notifications_ibfk_4` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `follows` (
@@ -188,6 +198,7 @@ class Database
         CONSTRAINT `admin_logs_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
+
         "CREATE TABLE `profile_images` (
         `id` int NOT NULL AUTO_INCREMENT,
         `user_id` int DEFAULT NULL,
@@ -243,15 +254,11 @@ class Database
         "INSERT INTO `reactions` (`id`, `name`, `emoji`) VALUES(2, 'dislike', '👎');",
 
         "INSERT INTO `categories` (`id`, `value`) VALUES
-        (1, 'Announcement'),
-        (2, 'Enrollment'),
+        (1, 'University Announcements'),
+        (2, 'Organizations'),
         (3, 'Scholarship'),
         (4, 'Achievement'),
-        (5, 'Organization'),
-        (6, 'Administration'),
-        (7, 'Academics'),
-        (8, 'Campus Life'),
-        (9, 'Opportunities');",
+        (5, 'Enrollment & Documents');",
 
         "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
         ('AUTHOR', 'test_author', 'testAuthor@gmail.com', '\$argon2id\$v=19\$m=65536,t=4,p=1\$NUhHTjVwY1gybzRMT1RKcQ\$svAFH9wXoxmYwFc1vidrXDYgypWuqiLMYIjVAjbiyQQ', 'ACTIVE', '2025-10-10 14:29:05', 'LOCAL');",
@@ -350,6 +357,10 @@ class Database
             "INSERT INTO `blogs` (`author_id`, `blog_status`, `content`, `created_at`, `scheduled_at`, `title`) VALUES
         (1, 'HIDDEN', {$content}, '2025-10-10 14:29:05', '2025-10-10 14:29:05', 'Getting Started');",
         );
+
+        // add profile preferences to the author
+        $testDBConnection->exec("INSERT INTO `user_preferences` (`id`, `user_id`, `theme_preference`, `email_notification`, `push_notification`, `reaction_notification`, `follow_notification`, `show_email_public`, `show_profile_public`, `created_at`, `updated_at`) VALUES
+(1, 1, 'DARK', 1, 1, 1, 1, 1, 1, '2025-10-26 12:34:00', '2025-10-26 12:34:00');");
 
         // add profile image to the sample author
         $testDBConnection->exec("INSERT INTO `profile_images` (`user_id`, `secure_url`, `asset_id`) VALUES
