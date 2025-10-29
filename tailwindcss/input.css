@@ -1,40 +1,96 @@
-    <main class="text-center flex flex-col items-center">
-        
-        <!-- "ERROR" Text -->
-        <p class="text-[var(--color-text-secondary)] font-semibold tracking-widest uppercase animate-fade-up">
-            Error
-        </p>
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-        <!-- 404 Text and Ghost -->
-        <div class="relative my-4">
-            <!-- Ghost Emoji -->
-            <!-- Using your .animate-float utility -->
-            <div class="text-5xl sm:text-7xl absolute top-0 -right-4 sm:-right-8 md:-right-12 -translate-y-1/4 animate-float" style="animation-delay: 0.1s;">
-                👻
-            </div>
 
-            <!-- 404 Heading -->
-            <h1 class="text-[var(--color-brand)] text-[40vw] sm:text-[200px] md:text-[250px] lg:text-[300px] font-extrabold leading-none tracking-tighter animate-fade-up" style="animation-delay: 0.1s;">
-                404
-            </h1>
-        </div>
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-        <!-- Subheadings -->
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-[var(--color-text-primary)] animate-fade-up" style="animation-delay: 0.2s;">
-            You've gone off the <span class="text-[var(--color-brand)]">treyd.</span>
-        </h2>
-        
-        <p class="text-base sm:text-lg text-[var(--color-text-secondary)] mt-2 max-w-xs sm:max-w-sm animate-fade-up" style="animation-delay: 0.3s;">
-            This page seems to have wandered outside the campus.
-        </p>
+@layer utilities {
+  .animate-fade-up {
+    opacity: 0;
+    animation: fade-up 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-timeline: view();
+    animation-range: entry 0% cover 35%;
+    will-change: opacity, transform;
+  }
+}
 
-        <!-- "Take me Home" Button -->
-        <a href="#" class="mt-8 bg-[var(--color-brand)] hover:bg-[var(--color-brand-hover)] text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 animate-fade-up" style="animation-delay: 0.4s;">
-            <!-- Google Icon using your .fill-1 utility -->
-            <span class="material-symbols-outlined fill-1">
-                arrow_back
-            </span>
-            Take me Home
-        </a>
 
-    </main>
+@theme {
+  --font-family-sans:
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Brand colors (same in both modes) */
+  --color-brand: #c00000;
+  --color-brand-hover: #d55454;
+
+  /* Light mode colors (default) */
+  --color-bg-dark: #f5f5f5;
+  --color-card-dark: #e5e5e5;
+  --color-overlay-dark: #ffffff;
+  --color-bg-light: #ffffff;
+  --color-card-light: #e5e5e5;
+  --color-text-primary: #000000;
+  --color-text-secondary: #737373;
+  --color-text-dark: #000000;
+  --color-text-gray: #737373;
+
+  /* Accent colors (same in both modes) */
+  --color-accent-green: #22c55e;
+  --color-accent-light-green: #4ade80;
+  --color-accent-dark-green: #248045;
+  --color-accent-blue: #3b82f6;
+  --color-accent-navy: #406a9d;
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-bg-dark: #0d0d0d;
+  --color-card-dark: #2e2e2e;
+  --color-overlay-dark: #1a1a1a;
+  --color-bg-light: #0d0d0d;
+  --color-card-light: #2e2e2e;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a3a3a3;
+  --color-text-dark: #ffffff;
+  --color-text-gray: #a3a3a3;
+}
+
+@layer utilities {
+  .bg-gradient-dark {
+    background-image:
+      radial-gradient(circle at 25% 15%, rgba(192, 0, 0, 0.2), transparent 40%),
+      radial-gradient(circle at 75% 85%, rgba(192, 0, 0, 0.15), transparent 40%);
+  }
+
+  .fill-1 {
+    font-variation-settings: "FILL" 1;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+}
+ .animate-float {
+    animation: float 1.5s ease-in-out infinite;
+  }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-family-sans);
+  }
+}
