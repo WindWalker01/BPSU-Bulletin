@@ -1,16 +1,16 @@
+<?php
+?>
 <article
   class="bg-overlay-dark/50 border border-card-dark rounded-xl backdrop-blur-sm flex flex-col md:flex-row overflow-hidden md:max-h-50"
 >
-  <!-- Image -->
   <div class="w-full md:w-20 lg:w-30 h-48 md:h-auto flex-shrink-0">
     <img
       class="object-cover w-full h-full lg:w-30 md:rounded-l-xl md:rounded-tr-none rounded-t-xl"
-      src="https://i.pinimg.com/736x/b3/ef/05/b3ef0536f78427ad969b732a98fc5cee.jpg"
-      alt=""
+      src="<?= htmlspecialchars($image ?? 'https://via.placeholder.com/640x360?text=No+Image') ?>"
+      alt="<?= htmlspecialchars($title ?? 'Post image') ?>"
     />
   </div>
 
-  <!-- Content -->
   <div class="flex flex-col justify-between flex-grow p-3 md:p-3 space-y-3 md:space-y-2">
     <div class="flex items-center justify-between">
       <span
@@ -19,7 +19,7 @@
         <?= htmlspecialchars($category ?? 'General') ?>
       </span>
       <p class="text-[11px] md:text-xs text-text-secondary">
-        Published on <?= htmlspecialchars($date ?? 'Unknown Date') ?>
+         <?= htmlspecialchars($date ?? 'Unknown Date') ?>
       </p>
     </div>
 
@@ -30,9 +30,9 @@
         <?= htmlspecialchars($title ?? 'Untitled Post') ?>
       </h2>
       <p
-        class="mt-2 text-xs md:text-xs text-text-secondary leading-relaxed"
-      >
+        class="mt-2 text-xs md:text-xs text-text-secondary leading-relaxed line-clamp-2 md:line-clamp-3" >
         <?php
+          // Your excerpt logic is fine, let's keep it concise
           $excerptText = $excerpt ?? '';
           echo htmlspecialchars(strlen($excerptText) > 100 ? substr($excerptText, 0, 100) . '...' : $excerptText);
         ?>

@@ -254,15 +254,11 @@ class Database
         "INSERT INTO `reactions` (`id`, `name`, `emoji`) VALUES(2, 'dislike', '👎');",
 
         "INSERT INTO `categories` (`id`, `value`) VALUES
-        (1, 'Announcement'),
-        (2, 'Enrollment'),
+        (1, 'University Announcements'),
+        (2, 'Organizations'),
         (3, 'Scholarship'),
         (4, 'Achievement'),
-        (5, 'Organization'),
-        (6, 'Administration'),
-        (7, 'Academics'),
-        (8, 'Campus Life'),
-        (9, 'Opportunities');",
+        (5, 'Enrollment & Documents');",
 
         "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
         ('AUTHOR', 'test_author', 'testAuthor@gmail.com', '\$argon2id\$v=19\$m=65536,t=4,p=1\$NUhHTjVwY1gybzRMT1RKcQ\$svAFH9wXoxmYwFc1vidrXDYgypWuqiLMYIjVAjbiyQQ', 'ACTIVE', '2025-10-10 14:29:05', 'LOCAL');",
