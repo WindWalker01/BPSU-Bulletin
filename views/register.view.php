@@ -4,22 +4,11 @@
             <div class="w-full max-w-lg space-y-8">
                 
   
-                <div>
+                <div class="flex justify-center">
                     <img src="/assets/logo.webp" class="w-35 h-35">
                 </div>
 
-    <main class="flex min-h-screen">
-        <!-- Left Column: Form Content -->
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-16">
-            <div class="w-full max-w-lg space-y-8">
-                
-                <!-- Logo -->
-                <div>
-                    <!-- Using a placeholder for the logo as seen in the image -->
-                    <img src="/assets/logo.webp" class="w-35 h-35">
-                </div>
-
-                <!-- Heading -->
+   
                 <div>
                     <h1 class="text-2xl text-center sm:text-3xl font-bold text-[var(--color-text-primary)]">
                         Be Part of the BPSU Bulletin!
