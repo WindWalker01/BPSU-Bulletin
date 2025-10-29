@@ -140,6 +140,84 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+
+// --- Notification Dropdown Logic --- //
+const notifButton = document.getElementById('notifButton');
+const notifDropdown = document.getElementById('notifDropdown');
+const markAllBtn = document.getElementById('markAllRead');
+
+// Dropdown toggle (only if it exists)
+if (notifButton && notifDropdown) {
+  notifButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    notifDropdown.classList.toggle('hidden');
+  });
+
+  // Close when clicking outside
+  window.addEventListener('click', (e) => {
+    if (!notifButton.contains(e.target) && !notifDropdown.contains(e.target)) {
+      notifDropdown.classList.add('hidden');
+    }
+  });
+}
+
+// --- Mark as Read --- //
+function markAsRead(button) {
+  const item = button.closest('.group');
+  if (!item) return;
+
+  item.classList.add('opacity-50');
+  button.remove();
+
+  const id = button.dataset.notificationId;
+  if (id) marked(id);
+
+  // Hide red dot if all notifications are read
+  hideDotIfAllRead();
+}
+
+// --- Mark All as Read --- //
+if (markAllBtn) {
+  markAllBtn.addEventListener('click', () => {
+    document.querySelectorAll('.group').forEach(item => {
+      item.classList.add('opacity-50');
+      const btn = item.querySelector('button[data-notification-id]');
+      if (btn) {
+        marked(btn.dataset.notificationId);
+        btn.remove();
+      }
+    });
+    hideDotIfAllRead();
+  });
+}
+
+// --- Update Database (AJAX PATCH) --- //
+async function marked(id) {
+  try {
+    const formdata = new FormData();
+    formdata.append('_method', 'PATCH');
+    formdata.append('id', id);
+
+    const res = await fetch('/notification/marked', {
+      method: 'POST',
+      body: formdata,
+    });
+
+    await res.json();
+  } catch (err) {
+    console.error('Failed to mark notification:', err);
+  }
+}
+
+// --- Helper: Hide Red Dot if All Read --- //
+function hideDotIfAllRead() {
+  const unreadExists = document.querySelector('.group button[data-notification-id]');
+  const notifDot = document.getElementById('notifDot');
+
+  if (!unreadExists && notifDot) {
+    notifDot.classList.add('hidden');
+  }
+}
 </script>
 
 </body>

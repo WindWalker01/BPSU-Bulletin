@@ -48,6 +48,31 @@ function getLoggedInRole()
     return new Authenticator()->getLoggedInRole();
 }
 
+function timeAgo($datetime)
+{
+    $tz = new DateTimeZone("Asia/Manila"); // your local timezone
+    $now = new DateTime("now", $tz);
+    $ago = new DateTime($datetime, $tz);
+    $diff = $now->diff($ago);
+
+    if ($diff->y > 0) {
+        return $diff->y . " year(s) ago";
+    }
+    if ($diff->m > 0) {
+        return $diff->m . " month(s) ago";
+    }
+    if ($diff->d > 0) {
+        return $diff->d . " day(s) ago";
+    }
+    if ($diff->h > 0) {
+        return $diff->h . " hour(s) ago";
+    }
+    if ($diff->i > 0) {
+        return $diff->i . " minute(s) ago";
+    }
+    return "just now";
+}
+
 // helpers.php or functions.php
 function render($view, $data = [], $showHeader = true)
 {
@@ -57,4 +82,27 @@ function render($view, $data = [], $showHeader = true)
 
     // Pass $showHeader to head.php
     view("partials/head.php", compact("slot", "data", "showHeader"));
+}
+
+function extractFirstParagraphFromTiptap($content)
+{
+    $data = json_decode($content, true);
+    $first_paragraph = null;
+
+    foreach ($data["content"] ?? [] as $node) {
+        if (
+            !$first_paragraph &&
+            $node["type"] === "paragraph" &&
+            isset($node["content"])
+        ) {
+            $texts = array_map(fn($c) => $c["text"] ?? "", $node["content"]);
+            $first_paragraph = trim(implode(" ", $texts));
+        }
+
+        if ($first_paragraph) {
+            break;
+        }
+    }
+
+    return $first_paragraph;
 }
