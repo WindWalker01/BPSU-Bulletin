@@ -1,10 +1,16 @@
 
 
 
-<div class="min-h-screen bg-bg-dark/80 flex flex-col items-center pt-24 px-4 relative">
+<div class="min-h-screen flex flex-col items-center pt-24 px-4 relative">
   <!-- Top Section -->
-  <div class="w-full flex justify-end max-w-6xl">
-    <a href="account" class="text-gray-400 font-normal text-sm md:text-base">← Back</a>
+  <div class="w-full flex justify-start max-w-6xl">
+      <div class="w-full flex justify-start max-w-6xl">
+    <a href="/account" class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-6 group">
+                     <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+                        Back
+    </a>
+  </div>
+
   </div>
 
   <!-- Profile Picture Section -->
@@ -87,9 +93,9 @@
         <div class="flex">
           <button type="submit" 
             class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
-                  bg-red-500 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
-                  flex justify-center items-center h-10 w-30 mt-4 mx-auto">
-            Confirm?
+                  bg-brand hover:bg-brand/80 text-white font-semibold py-2 px-4 rounded-lg
+                  flex justify-center items-center h-10 w-40 mt-4 mx-auto">
+            Save Changes
           </button>
       </div>
       </form>

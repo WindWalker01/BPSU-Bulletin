@@ -1,19 +1,20 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
-<div class="flex flex-row justify-center px-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <!-- Main Content -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 gap-4">
-        <div class="text-text-primary ml-4 col-span-1 md:col-span-3">
-            <!-- Category and Back button -->
-            <div class="flex flex-row justify-between">
+    <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 gap-8">
+    
+        <div class="text-text-primary lg:col-span-3 min-w-0">
+            
+            <div class="flex flex-row justify-between items-center mb-4">
                 <span class="ml-1 text-xs font-medium bg-brand/20 text-brand px-2 py-1 rounded-full">
                     University Updates
                 </span>
 
-                <span class="mr-1 text-xs font-medium bg-brand/20 text-brand px-2 py-1 rounded-full">
-                    Go back
-                </span>
+                <a href="/home" class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-6 group">
+                     <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+                        Back
+                </a>
             </div>
 
             <?php view("partials/blog-content.php", [
@@ -29,7 +30,6 @@
 
             <hr class="text-text-secondary my-6">
 
-            <!-- Reactions and Share -->
             <div class="flex flex-row justify-between my-6">
                 <div class="flex flex-row gap-4 <?= isUserLoggedIn()
                     ? ""
@@ -63,29 +63,25 @@
                     class='w-full bg-card-dark text-text-primary text-sm p-2 rounded-md focus:outline-none focus:ring-1 focus:ring-brand-hover'
                     placeholder='Write a reply...'
                 ></textarea>
-                <div class='flex justify-end gap-2'>                    
+                <div class='flex justify-end gap-2'>                  
                     <button 
                         type='submit'
                         class='bg-brand hover:bg-brand-hover text-text-primary px-3 py-1 rounded-md text-sm'
                     >
-                        Post
+                        Comment
                     </button>
                 </div>
             </form>
 
-             <!-- Comments -->
             <div>
                 <h2 class="text-2xl font-semibold mb-6 text-text-primary" id="comments">Comments (<?= $comment_count ?>)</h2>
                 <?php renderComments(0, $comment_tree, 0, $db); ?>
             </div>
 
-        </div>  
-
-        <aside class="flex flex-col gap-4">
-            <div class="lg:col-span-4 space-y-8 lg:top-24 order-1 lg:order-2">
-                <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
-                    <h3 class="text-lg font-bold mb-4 text-text-primary">Related Arcticles</h3>
-                    <div class="space-y-3">
+        </div>  <aside class="lg:col-span-1 flex flex-col gap-6  lg:top-8 h-fit">
+            <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
+                <h3 class="text-lg font-bold mb-4 text-text-primary">Related Articles</h3>
+                <div class="space-y-4">
                     <div>
                         <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">BPSU Main Campus Expansion Project Groundbreaking</a>
                         <p class="text-sm text-text-secondary">October 20, 2023</p>
@@ -98,35 +94,10 @@
                         <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">New Scholarship Opportunities for Engineering Students</a>
                         <p class="text-sm text-text-secondary">October 10, 2023</p>
                     </div>
-                    </div>
                 </div>
             </div>
 
-            <div class="lg:col-span-4 space-y-8 lg:top-24 order-1 lg:order-2">
-                <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
-                    <h3 class="text-lg font-bold mb-4 text-text-primary">Related Arcticles</h3>
-                    <div class="space-y-3">
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">BPSU Main Campus Expansion Project Groundbreaking</a>
-                        <p class="text-sm text-text-secondary">October 20, 2023</p>
-                    </div>
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">University Research Symposium Highlights Student Innovations</a>
-                        <p class="text-sm text-text-secondary">October 15, 2023</p>
-                    </div>
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">New Scholarship Opportunities for Engineering Students</a>
-                        <p class="text-sm text-text-secondary">October 10, 2023</p>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-    </div>
-</div>
-
-
-<script>
+            </aside> </div> </div> <script>
 lucide.createIcons();
 
 
@@ -334,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData
             });
 
-           
+            
             const result = await response.json();
             
 
