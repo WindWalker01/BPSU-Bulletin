@@ -106,3 +106,21 @@ function extractFirstParagraphFromTiptap($content)
 
     return $first_paragraph;
 }
+
+function extractFirstImageFromTiptap($content)
+{
+    $data = json_decode($content, true);
+    $first_image = null;
+
+    foreach ($data["content"] ?? [] as $node) {
+        if (!$first_image && $node["type"] === "image") {
+            $first_image = $node["attrs"]["src"] ?? null;
+        }
+
+        if ($first_image) {
+            break;
+        }
+    }
+
+    return $first_image;
+}

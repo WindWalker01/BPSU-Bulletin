@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     timeout = setTimeout(() => {
       if (query.length >= 2) {
-        fetch(`http://localhost:8069/search?query=${encodeURIComponent(query)}`)
+        fetch(`http://localhost:8069/search?query=${encodeURIComponent(query)}`, {headers: { "X-Search-Source": "dropdown" }})
           .then((res) => res.json())
           .then((data) => renderSearchResults(data))
           .catch((err) => console.error("Search error:", err));
@@ -76,6 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
         searchResults.innerHTML = "";
       }
     }, 400);
+  });
+
+    // --- Redirect on Submit or Enter ---
+  searchInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+      if (query) {
+        window.location.href = `/search?query=${encodeURIComponent(query)}`;
+      }
+    }
   });
 
   function renderSearchResults(data) {
@@ -191,12 +202,23 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Fetch data from your API endpoint
-      fetch(`http://localhost:8069/search?query=${encodeURIComponent(query)}`)
+      // Fetch results from backend
+      fetch(`http://localhost:8069/search?query=${encodeURIComponent(query)}`, {headers: { "X-Search-Source": "dropdown" }})
         .then((res) => res.json())
         .then((data) => renderMobileSearchResults(data))
         .catch((err) => console.error("Mobile search error:", err));
     }, 400);
+  });
+
+  // --- Redirect on Submit or Enter ---
+  mobileSearchInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const query = mobileSearchInput.value.trim();
+      if (query) {
+        window.location.href = `/search?query=${encodeURIComponent(query)}`;
+      }
+    }
   });
 
   function renderMobileSearchResults(data) {
@@ -210,13 +232,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // --- USERS SECTION ---
+    // --- USERS ---
     let usersHTML = "";
     if (data.users?.length > 0) {
       const userItems = data.users
         .map(
           (u) => `
-          <a href="/account?id=${u.id}" 
+          <a href="/profile/${u.id}" 
             class="flex items-center gap-3 p-3 rounded-lg hover:bg-[var(--color-card-light)] dark:hover:bg-[var(--color-card-dark)] transition">
             <img src="${u.secure_url}" alt="${u.username}" 
                 class="w-10 h-10 rounded-full object-cover border border-[var(--color-card-light)] dark:border-[var(--color-card-dark)]" />
@@ -239,13 +261,13 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }
 
-    // --- BLOGS SECTION ---
+    // --- BLOGS ---
     let blogsHTML = "";
     if (data.blogs?.length > 0) {
       const blogItems = data.blogs
         .map(
           (b) => `
-          <a href="/blog?id=${b.id}" 
+          <a href="/blog/${b.id}" 
             class="block p-3 rounded-lg hover:bg-[var(--color-card-light)] dark:hover:bg-[var(--color-card-dark)] transition">
             <div class="font-semibold text-[var(--color-text-primary)]">${b.title}</div>
             <div class="text-sm text-[var(--color-text-secondary)]">by ${b.author_name}</div>
@@ -267,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }
 
-    // --- RENDER RESULTS ---
+    // --- RENDER ---
     mobileSearchResults.classList.remove("hidden");
     mobileSearchResults.innerHTML = `
       <div class="rounded-xl shadow-lg max-h-[70vh] overflow-y-auto divide-y divide-[var(--color-card-light)] dark:divide-[var(--color-card-dark)]
@@ -278,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
   }
+
 
 
   // --- Navigation active link ---

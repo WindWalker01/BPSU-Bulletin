@@ -51,7 +51,6 @@
           <select 
             name="categories[]" 
             id="categories" 
-            multiple
             class="w-full pl-3 pr-3 py-2 bg-bg-dark/80 rounded-md text-text-primary border border-text-secondary/40 focus:outline-none focus:border-brand transition"
           >
             <?php foreach ($categories as $c): ?>
