@@ -41,7 +41,6 @@ $router
     ->only("auth");
 $router->get("/data", "controllers/settings/data.php")->only("auth");
 $router->get("/feedback", "controllers/settings/feedback.php")->only("auth");
-
 $router
     ->get("/notifications", "controllers/notifications/show.php")
     ->only("auth");
@@ -89,8 +88,3 @@ $router->patch(
     "controllers/notifications/marked_as_read.php",
 );
 
-// DELETE
-$router->delete(
-    "/blog/editor/image/delete",
-    "controllers/image/blog/delete.php",
-);

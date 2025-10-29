@@ -152,7 +152,7 @@
             </div>
           </div>
 
-          <h3 class="text-[#ffffff] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Published</h3>
+         <h3 class="text-[#ffffff] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Published</h3>
           <div class="px-4 py-3">
             <div class="overflow-x-auto rounded-lg border border-[#2e2e2e] bg-[#1a1a1a]/50">
               <table class="w-full min-w-[640px]">
@@ -166,81 +166,44 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="border-t border-[#2e2e2e] hover:bg-[#2e2e2e]/30 transition-colors">
-                    <td class="px-4 py-4 text-[#ffffff] text-sm font-normal leading-normal">The Art of Storytelling</td>
-                    <td class="px-4 py-4 text-sm font-normal leading-normal">
-                      <span class="inline-flex items-center justify-center rounded-lg px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium whitespace-nowrap">
-                        Published
-                      </span>
-                    </td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">1200</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">50</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
-                      <span class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Edit</span> | 
-                      <span class="text-[#3b82f6] hover:text-[#406a9d] cursor-pointer transition-colors">Archive</span> | 
-                      <span class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Delete</span>
-                    </td>
-                  </tr>
-                  <tr class="border-t border-[#2e2e2e] hover:bg-[#2e2e2e]/30 transition-colors">
-                    <td class="px-4 py-4 text-[#ffffff] text-sm font-normal leading-normal">Tech Trends in 2024</td>
-                    <td class="px-4 py-4 text-sm font-normal leading-normal">
-                      <span class="inline-flex items-center justify-center rounded-lg px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium whitespace-nowrap">
-                        Published
-                      </span>
-                    </td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">850</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">32</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
-                      <span class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Edit</span> | 
-                      <span class="text-[#3b82f6] hover:text-[#406a9d] cursor-pointer transition-colors">Archive</span> | 
-                      <span class="text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors">Delete</span>
-                    </td>
-                  </tr>
-                  <tr class="border-t border-[#2e2e2e] hover:bg-[#2e2e2e]/30 transition-colors">
-                    <td class="px-4 py-4 text-[#ffffff] text-sm font-normal leading-normal">Sustainable Living Tips</td>
-                    <td class="px-4 py-4 text-sm font-normal leading-normal">
-                      <span class="inline-flex items-center justify-center rounded-lg px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium whitespace-nowrap">
-                        Published
-                      </span>
-                    </td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">600</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">20</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
-                      <span class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Edit</span> | 
-                      <span class="text-[#3b82f6] hover:text-[#406a9d] cursor-pointer transition-colors">Archive</span> | 
-                      <span class="text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors">Delete</span>
-                    </td>
-                  </tr>
-                  <tr class="border-t border-[#2e2e2e] hover:bg-[#2e2e2e]/30 transition-colors">
-                    <td class="px-4 py-4 text-[#ffffff] text-sm font-normal leading-normal">Travel Diaries: Europe</td>
-                    <td class="px-4 py-4 text-sm font-normal leading-normal">
-                      <span class="inline-flex items-center justify-center rounded-lg px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium whitespace-nowrap">
-                        Published
-                      </span>
-                    </td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">450</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">15</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
-                      <span class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Edit</span> | 
-                      <span class="text-[#3b82f6] hover:text-[#406a9d] cursor-pointer transition-colors">Archive</span> | 
-                      <span class="text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors">Delete</span>
-                    </td>
-                  </tr>
-                  <tr class="border-t border-[#2e2e2e] hover:bg-[#2e2e2e]/30 transition-colors">
-                    <td class="px-4 py-4 text-[#ffffff] text-sm font-normal leading-normal">Healthy Eating Habits</td>
-                    <td class="px-4 py-4 text-sm font-normal leading-normal">
-                      <span class="inline-flex items-center justify-center rounded-lg px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium whitespace-nowrap">
-                        Published
-                      </span>
-                    </td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">300</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">10</td>
-                    <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
-                      <span class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Edit</span> | 
-                      <span class="text-[#3b82f6] hover:text-[#406a9d] cursor-pointer transition-colors">Archive</span> | 
-                      <span class="text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors">Delete</span>
-                    </td>
-                  </tr>
+                  
+                  <?php if (empty($published_blogs)): ?>
+                    <tr class="border-t border-[#2e2e2e]">
+                      <td colspan="5" class="px-4 py-4 text-center text-[#a3a3a3] text-sm font-normal leading-normal">
+                        No published posts found.
+                      </td>
+                    </tr>
+                  <?php else: ?>
+                    <?php foreach ($published_blogs as $blog): ?>
+                      <tr class="border-t border-[#2e2e2e] hover:bg-[#2e2e2e]/30 transition-colors">
+                        
+                        <td class="px-4 py-4 text-[#ffffff] text-sm font-normal leading-normal">
+                          <?= htmlspecialchars($blog['title']) ?>
+                        </td>
+                        
+                        <td class="px-4 py-4 text-sm font-normal leading-normal">
+                          <span class="inline-flex items-center justify-center rounded-lg px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium whitespace-nowrap">
+                            <?= htmlspecialchars($blog['blog_status']) // This will show "ACTIVE" ?>
+                          </span>
+                        </td>
+                        
+                        <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">
+                          <?= $blog['views_count'] ?? 0 // Assumes controller provides this ?>
+                        </td>
+                        
+                        <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">
+                          <?= $blog['comments_count'] ?? 0 // Assumes controller provides this ?>
+                        </td>
+                        
+                        <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
+                          <a href="/edit?id=<?= $blog['id'] ?>" class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Edit</a> | 
+                          <a href="/archive?id=<?= $blog['id'] ?>" class="text-[#3b82f6] hover:text-[#406a9d] cursor-pointer transition-colors">Archive</a> | 
+                          <a href="/delete?id=<?= $blog['id'] ?>" class="text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors">Delete</a>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+
                 </tbody>
               </table>
             </div>
