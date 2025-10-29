@@ -6,9 +6,6 @@
           
           <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 p-4">
             <h1 class="text-[#ffffff] text-2xl sm:text-[32px] font-bold leading-tight">Your Posts</h1>
-            <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#c00000] hover:bg-[#d55454] text-[#ffffff] text-sm font-medium leading-normal transition-colors">
-              <span class="truncate">New Post</span>
-            </button>
           </div>
 
           <div class="px-4 py-3">
@@ -46,113 +43,61 @@
               </div>
 
               <div class="flex gap-2 sm:gap-3 flex-wrap">
-                
-                <div class="relative">
-                  <button id="categories-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
-                    <p class="text-[#ffffff] text-sm font-medium leading-normal">Categories</p>
-                    <div class="text-[#ffffff]">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                      </svg>
-                    </div>
-                  </button>
-                  <div id="categories-menu" class="absolute z-10 top-full left-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
-                    <ul class="py-2">
-                      <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Technology</a></li>
-                      <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Lifestyle</a></li>
-                      <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Travel</a></li>
-                      <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Food</a></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="relative">
-                  <button id="tags-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
-                    <p class="text-[#ffffff] text-sm font-medium leading-normal">Tags</p>
-                    <div class="text-[#ffffff]">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                      </svg>
-                    </div>
-                  </button>
-                  <div id="tags-menu" class="absolute z-10 top-full left-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
-                    <div class="p-4 flex flex-wrap gap-2">
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#3b82f6]/20 text-[#3b82f6] text-xs font-medium cursor-pointer hover:bg-[#3b82f6]/40">AI</span>
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium cursor-pointer hover:bg-[#22c55e]/40">Productivity</span>
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#a855f7]/20 text-[#a855f7] text-xs font-medium cursor-pointer hover:bg-[#a855f7]/40">Europe</span>
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#FDE047]/20 text-[#FDE047] text-xs font-medium cursor-pointer hover:bg-[#FDE047]/40">Tips</span>
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#c00000]/20 text-[#d55454] text-xs font-medium cursor-pointer hover:bg-[#c00000]/40">Tech</span>
+                  <div class="relative">
+                    <button id="categories-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
+                      <p class="text-[#ffffff] text-sm font-medium leading-normal">Categories</p>
+                      <div class="text-[#ffffff]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                          <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                        </svg>
+                      </div>
+                    </button>
+                    <div id="categories-menu" class="absolute z-10 top-full left-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
+                      <ul class="py-2">
+                        <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Technology</a></li>
+                        <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Lifestyle</a></li>
+                        <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Travel</a></li>
+                        <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Food</a></li>
+                      </ul>
                     </div>
                   </div>
-                </div>
-
-                <div class="relative">
-                  <button id="date-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
-                    <p class="text-[#ffffff] text-sm font-medium leading-normal whitespace-nowrap">Date</p>
-                    <div class="text-[#ffffff]">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                      </svg>
-                    </div>
-                  </button>
-                  <div id="date-menu" class="absolute z-10 top-full left-0 lg:right-0 lg:left-auto mt-2 w-72 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg p-4 hidden dropdown-menu">
-                    <div class="flex justify-between items-center mb-3">
-                      <button class="text-[#a3a3a3] hover:text-[#ffffff] rounded-full p-1 hover:bg-[#3a3a3a]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256"><path d="M165.66,202.34a8,8,0,0,1-11.32,0l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128l74.35,74.34A8,8,0,0,1,165.66,202.34Z"></path></svg>
-                      </button>
-                      <p class="text-[#ffffff] font-semibold text-sm">October 2025</p>
-                      <button class="text-[#a3a3a3] hover:text-[#ffffff] rounded-full p-1 hover:bg-[#3a3a3a]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256"><path d="M90.34,202.34a8,8,0,0,1,0-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80a8,8,0,0,1,0,11.32l-80,80A8,8,0,0,1,90.34,202.34Z"></path></svg>
-                      </button>
-                    </div>
-                    <div class="grid grid-cols-7 gap-1 text-center">
-                      <span class="text-[#a3a3a3] text-xs font-bold w-8 h-8 flex items-center justify-center">Su</span>
-                      <span class="text-[#a3a3a3] text-xs font-bold w-8 h-8 flex items-center justify-center">Mo</span>
-                      <span class="text-[#a3a3a3] text-xs font-bold w-8 h-8 flex items-center justify-center">Tu</span>
-                      <span class="text-[#a3a3a3] text-xs font-bold w-8 h-8 flex items-center justify-center">We</span>
-                      <span class="text-[#a3a3a3] text-xs font-bold w-8 h-8 flex items-center justify-center">Th</span>
-                      <span class="text-[#a3a3a3] text-xs font-bold w-8 h-8 flex items-center justify-center">Fr</span>
-                      <span class="text-[#a3a3a3] text-xs font-bold w-8 h-8 flex items-center justify-center">Sa</span>
-                      
-                      <span class="text-[#525252] text-sm w-8 h-8 flex items-center justify-center p-1"></span> <span class="text-[#525252] text-sm w-8 h-8 flex items-center justify-center p-1"></span> <span class="text-[#525252] text-sm w-8 h-8 flex items-center justify-center p-1"></span> <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">1</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">2</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">3</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">4</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">5</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">6</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">7</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">8</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">9</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">10</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">11</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">12</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">13</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">14</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">15</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">16</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">17</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">18</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">19</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">20</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full bg-[#c00000] hover:bg-[#d55454] cursor-pointer">21</span> <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">22</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">23</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">24</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">25</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">26</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">27</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">28</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">29</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">30</span>
-                      <span class="text-[#ffffff] text-sm w-8 h-8 flex items-center justify-center p-1 rounded-full hover:bg-[#3a3a3a] cursor-pointer">31</span>
+                  <div class="relative">
+                    <button id="tags-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
+                      <p class="text-[#ffffff] text-sm font-medium leading-normal">Tags</p>
+                      <div class="text-[#ffffff]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                          <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                        </svg>
+                      </div>
+                    </button>
+                    <div id="tags-menu" class="absolute z-10 top-full left-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
+                       <div class="p-4 flex flex-wrap gap-2">
+                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#3b82f6]/20 text-[#3b82f6] text-xs font-medium cursor-pointer hover:bg-[#3b82f6]/40">AI</span>
+                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium cursor-pointer hover:bg-[#22c55e]/40">Productivity</span>
+                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#a855f7]/20 text-[#a855f7] text-xs font-medium cursor-pointer hover:bg-[#a855f7]/40">Europe</span>
+                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#FDE047]/20 text-[#FDE047] text-xs font-medium cursor-pointer hover:bg-[#FDE047]/40">Tips</span>
+                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#c00000]/20 text-[#d55454] text-xs font-medium cursor-pointer hover:bg-[#c00000]/40">Tech</span>
+                       </div>
                     </div>
                   </div>
-                </div>
-                
+                  <div class="relative">
+                    <button id="date-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
+                      <p class="text-[#ffffff] text-sm font-medium leading-normal whitespace-nowrap">Date</p>
+                      <div class="text-[#ffffff]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                          <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                        </svg>
+                      </div>
+                    </button>
+                    <div id="date-menu" class="absolute z-10 top-full left-0 lg:right-0 lg:left-auto mt-2 w-72 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg p-4 hidden dropdown-menu">
+                      </div>
+                  </div>
               </div>
             </div>
           </div>
 
-         <h3 class="text-[#ffffff] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Published</h3>
+          
+          <h3 class="text-[#ffffff] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Published</h3>
           <div class="px-4 py-3">
             <div class="overflow-x-auto rounded-lg border border-[#2e2e2e] bg-[#1a1a1a]/50">
               <table class="w-full min-w-[640px]">
@@ -183,20 +128,19 @@
                         
                         <td class="px-4 py-4 text-sm font-normal leading-normal">
                           <span class="inline-flex items-center justify-center rounded-lg px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium whitespace-nowrap">
-                            <?= htmlspecialchars($blog['blog_status']) // This will show "ACTIVE" ?>
+                            Published 
                           </span>
                         </td>
-                        
-                        <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">
-                          <?= $blog['views_count'] ?? 0 // Assumes controller provides this ?>
+                         <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">
+                          <?= $blog['views_count'] ?? 0 ?>
                         </td>
                         
                         <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">
-                          <?= $blog['comments_count'] ?? 0 // Assumes controller provides this ?>
+                          <?= $blog['comments_count'] ?? 0 ?>
                         </td>
                         
                         <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
-                          <a href="/edit?id=<?= $blog['id'] ?>" class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Edit</a> | 
+                          <a href="/blog/editor?blog_id=<?= $blog['id'] ?>" class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Edit</a> | 
                           <a href="/archive?id=<?= $blog['id'] ?>" class="text-[#3b82f6] hover:text-[#406a9d] cursor-pointer transition-colors">Archive</a> | 
                           <a href="/delete?id=<?= $blog['id'] ?>" class="text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors">Delete</a>
                         </td>

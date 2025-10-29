@@ -13,19 +13,19 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
     // ===============================================
     // == JOB B: HANDLE "LOAD MORE" (JSON) REQUEST ==
     // ===============================================
-
+    
+    // This part is already correct.
     header('Content-Type: application/json');
 
     $postsPerPage = 9;   // How many posts to load per click
-    $initialLoad = 10;   // We load 10 posts on the first page (5 featured + 5 grid)
+    $initialLoad = 7;    // 3 featured + 4 grid = 7
     $page = (int)$_GET['page'];
 
     if ($page <= 1) {
         echo json_encode([]); 
         exit;
     }
-    // Page 2: (2 - 2) * 9 + 10 = offset 10
-    // Page 3: (3 - 2) * 9 + 10 = offset 19
+    
     $offset = (($page - 2) * $postsPerPage) + $initialLoad;
 
     $sql = "
@@ -71,7 +71,7 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             "badgeColor" => getBadgeColor($category),
             "title" => $row['title'],
             "excerpt" => extractFirstParagraphFromTiptap($row['content']) ?? '',
-            "link" => "/post?id=" . $row['id'],
+            "link" => "/blog?id=" . $row['id'],
             "image" => $row['featured_image'] ?? 'https://via.placeholder.com/640x360?text=No+Image',
             "likes" => $row['likes_count'],
             "comments" => $row['comments_count']
@@ -87,7 +87,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
     // == JOB A: RENDER THE HTML PAGE (Page 1)      ==
     // ===============================================
     
-    $limit = 10; // 5 featured + 5 grid
+    // --- THIS IS THE FIX ---
+    // Change limit from 10 to 7 (3 featured + 4 grid)
+    $limit = 7; 
     
     $sql = "
         SELECT 
@@ -131,21 +133,21 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             "badgeColor" => getBadgeColor($category),
             "title" => $row['title'],
             "excerpt" => extractFirstParagraphFromTiptap($row['content']) ?? '',
-            "link" => "/post?id=" . $row['id'], 
-           "image" => $row['featured_image'] ?? extractFirstImageFromTiptap($row['content']) ?? 'https://via.placeholder.com/640x360?text=No+Image',
+            "link" => "/blog?id=" . $row['id'], 
+            "image" => $row['featured_image'] ?? extractFirstImageFromTiptap($row['content']) ?? 'https://via.placeholder.com/640x360?text=No+Image',
             "likes" => $row['likes_count'],
             "comments" => $row['comments_count']
         ];
     }
 
-    // === NEW: Split posts into two groups ===
-    $featured_posts = array_slice($posts_data, 0, 2);
-    $grid_posts = array_slice($posts_data, 2); 
+    // These lines are already correct (3 featured, the rest are grid)
+    $featured_posts = array_slice($posts_data, 0, 3);
+    $grid_posts = array_slice($posts_data, 3); 
 
     // Render the view and pass it the new variables
     render('home.view.php', [
         "title" => "Home Page",
         "featured_posts" => $featured_posts, // Pass featured posts
-        "grid_posts" => $grid_posts         // Pass grid posts
+        "grid_posts" => $grid_posts        // Pass grid posts
     ]);
 }
