@@ -9,6 +9,8 @@
   /* Brand colors (same in both modes) */
   --color-brand: #c00000;
   --color-brand-hover: #d55454;
+  
+  --color-text-brand: #c00000;
 
   /* Light mode colors (default) */
   --color-bg-dark: #f5f5f5;
