@@ -34,6 +34,18 @@ $auth->generateToken($email);
 // gets the registered user id because its the last inserted row
 $id = $db->getLastInsertID();
 
+if (!$signedIn) {
+    redirect("/login");
+
+    exit();
+}
+
+$role = $auth->getLoggedInRoleWithEmail($email);
+
+$auth->generateToken($email, $role);
+
+redirect("/");
+
 $db->query(
     "INSERT INTO `user_preferences` (
     `user_id`, 

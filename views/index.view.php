@@ -198,7 +198,7 @@
                 <p class="mx-auto max-w-2xl text-base font-normal leading-normal text-text-secondary">Join the BPSU Bulletin community to get personalized updates, contribute your own announcements, and be a part of a more informed and engaged campus.</p>
             </div>
             <!-- Original button text and icon -->
-            <a class="flex h-12 cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-brand px-8 text-base font-bold text-white transition-opacity hover:opacity-90" href="#">
+            <a class="flex h-12 cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-brand px-8 text-base font-bold text-white transition-opacity hover:opacity-90" href="/register">
                 <span class="truncate">Join the Community</span>
                 <span class="material-symbols-outlined">group_add</span>
             </a>
