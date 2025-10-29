@@ -79,7 +79,7 @@ $router->post("/account", "controllers/account_centre/user_activity_log.php");
 $router->patch("/blog/editor", "controllers/blog/edit.php");
 $router->patch("/blog/publish", "controllers/blog/schedule.php");
 
-$router->patch("/user_profile", "controllers/account_centre/edit.php");
+$router->patch("/account", "controllers/account_centre/edit_user_info.php");
 
 $router->patch("/user_profile/image", "controllers/image/profile/edit.php");
 $router->patch(

@@ -38,6 +38,8 @@
   <!-- Info Section -->
   <form action="/account" method="POST"   class="bg-overlay-dark/50 w-[90%] max-w-6xl rounded-lg mt-8 mb-10 flex flex-col lg:flex-row gap-10 p-6">
     <!-- Left Column -->
+      <input type="hidden" name="_method" value="PATCH">
+      <input type="hidden" name="user_id" value="<?php echo $id; ?>">
     <div class="flex-1">
       <h2 class="text-lg font-semibold text-red-500 mb-2">Name</h2>
       <div class="bg-card-dark/20 p-4 rounded-lg text-white space-y-4">
@@ -78,10 +80,7 @@
         <h2 class="text-lg font-semibold text-red-500 mt-6 mb-2">Bio</h2>
         <div class="bg-card-dark/20 p-4 rounded-lg text-white">
             <textarea name="bio" id="bio" rows="6" placeholder="Describe yourself" 
-              class="focus:outline-none bg-card-dark border-b border-red-500 w-full p-2 text-white placeholder:text-gray-400 placeholder:text-center resize-none text-center rounded">
-              <?php echo $bio ?>
-            
-            </textarea>
+              class="focus:outline-none bg-card-dark border-b border-red-500 w-full p-2 text-white placeholder:text-gray-400 resize-none rounded"><?php echo $bio ?></textarea>
        
         </div>
         
