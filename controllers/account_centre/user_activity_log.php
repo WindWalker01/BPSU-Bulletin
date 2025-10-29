@@ -53,9 +53,6 @@ $followed_authors = $db
     )
     ->get();
 
-$user = $db->query("SELECT * FROM users WHERE id = :id", ["id" => $id])->find();
-
-
 render("account_activity_log.view.php", [
     "account_id" => $account["id"],
     "url" => $account["secure_url"],
@@ -68,4 +65,3 @@ render("account_activity_log.view.php", [
         $account["id"] === new Authenticator()->getLoggedInUserId(), // checks if the id uri is the same as the logged in user
     "followed_authors" => $followed_authors,
 ]);
-

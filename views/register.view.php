@@ -1,3 +1,12 @@
+<main class="flex min-h-screen">
+        
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-16">
+            <div class="w-full max-w-lg space-y-8">
+                
+  
+                <div>
+                    <img src="/assets/logo.webp" class="w-35 h-35">
+                </div>
 
     <main class="flex min-h-screen">
         <!-- Left Column: Form Content -->

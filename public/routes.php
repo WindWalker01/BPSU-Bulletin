@@ -8,8 +8,8 @@ $router->get("/register", "controllers/registration/show.php")->only("guest");
 $router->get("/login", "controllers/login/show.php")->only("guest");
 $router->get("/logout", "controllers/login/logout.php")->only("auth");
 $router->get("/home", "controllers/home/home.php");
-
 $router->get("/blog/publish", "controllers/blog/publish.php");
+
 
 $router
     ->get("/blog/editor", "controllers/blog/editor/show.php")
@@ -45,6 +45,8 @@ $router
     ->get("/notifications", "controllers/notifications/show.php")
     ->only("auth");
 
+$router->get("/search", "controllers/search.php");
+
 //POST
 
 $router
@@ -78,7 +80,7 @@ $router->post("/account", "controllers/account_centre/user_activity_log.php");
 $router->patch("/blog/editor", "controllers/blog/edit.php");
 $router->patch("/blog/publish", "controllers/blog/schedule.php");
 
-$router->patch("/user_profile", "controllers/account_centre/edit.php");
+$router->patch("/account", "controllers/account_centre/edit_user_info.php");
 
 $router->patch("/user_profile/image", "controllers/image/profile/edit.php");
 $router->patch(
