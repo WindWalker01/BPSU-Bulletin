@@ -30,6 +30,9 @@
                                    placeholder="john.doe@gmail.com"
                                    class="w-full px-4 py-3 bg-[var(--color-card-dark)] border-0 rounded-lg text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand)]">
                         </div>
+                        <?php if (!empty($errors['email'])): ?>
+                            <p class="text-red-500 text-sm mt-1"><?= htmlspecialchars($errors['email']) ?></p>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Password Input -->
@@ -56,6 +59,9 @@
                                 <span class="material-symbols-outlined fill-1" style="font-size: 20px;">visibility_off</span>
                             </span>
                         </div>
+                         <?php if (!empty($errors['password'])): ?>
+                            <p class="text-red-500 text-sm mt-1"><?= htmlspecialchars($errors['password']) ?></p>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Create Account Button -->
@@ -112,11 +118,6 @@
             <!-- Red Tint Overlay -->
               <div class="absolute inset-0 bg-[var(--color-brand)] mix-blend-multiply opacity-50"></div>
 
-            <!-- 
-              Gradient Fade Overlay: 
-              This creates the fade from the background color (left) to transparent (right),
-              achieving the effect from the image.
-            -->
             <div class="absolute inset-0 opacity-80 bg-gradient-to-r from-[var(--color-bg-dark)] via-[var(--color-bg-dark)]/50 to-transparent"></div>
         </div>
     </main>

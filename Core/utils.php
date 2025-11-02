@@ -147,12 +147,7 @@ function getBadgeColor($categoryValue)
             return 'bg-pink-500/20 text-pink-300';
         case 'Enrollment & Documents':
             return 'bg-blue-500/20 text-blue-300';
-        // case 'Campus Life':
-        //     return 'bg-teal-500/20 text-teal-300';
-        // case 'Opportunities':
-        //     return 'bg-indigo-500/20 text-indigo-300';
-      
         default:
-            return 'bg-brand/20 text-brand'; // Default color
+            return 'bg-brand/20 text-brand'; 
     }
 }
