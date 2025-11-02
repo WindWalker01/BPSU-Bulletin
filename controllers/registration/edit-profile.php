@@ -17,18 +17,20 @@ $auth = new Authenticator();
 
 $email = $_SESSION['registration_data']['email'];
 $hashed_password = $_SESSION['registration_data']['password_hash'];
+$auth_provider = $_SESSION['registration_data']['auth_provider'] ?? 'LOCAL';
 $username = $_POST['username'];
 $campus = $_POST['campus'];
 $profile_image_file = $_FILES['profile_image'];
 
 $db->query(
     "INSERT INTO users (role, email, password, username, campus, account_status, created_at, auth_provider)
-     VALUES ('USER', :email, :password, :username, :campus, 'ACTIVE', NOW(), 'LOCAL')",
+     VALUES ('USER', :email, :password, :username, :campus, 'ACTIVE', NOW(), :auth_provider)",
     [
         'email' => $email,
         'password' => $hashed_password,
         'username' => $username,
-        'campus' => $campus
+        'campus' => $campus,
+        'auth_provider' => $auth_provider
     ]
 );
 
@@ -61,7 +63,6 @@ if (isset($profile_image_file) && $profile_image_file['error'] === UPLOAD_ERR_OK
     }
 }
 
-// 6. Insert the profile image (default or uploaded)
 $db->query(
     "INSERT INTO profile_images (user_id, secure_url, asset_id)
      VALUES (:id, :url, :asset)",
