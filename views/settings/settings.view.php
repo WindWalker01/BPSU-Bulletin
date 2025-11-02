@@ -75,6 +75,23 @@
                 <span class="material-symbols-outlined text-text-secondary">chevron_right</span>
             </a>
         </section>
+         <!-- About the App  -->
+         <section class="mb-8">
+            <h2 class="text-xl font-semibold text-text-primary mb-4">Learn About Bulletin</h2>
+                        <div class="border-b border-card-dark mt-4"></div>
+            <a href="/about" class="flex items-center justify-between py-4 px-2 -mx-2 rounded-lg hover:bg-brand/5 transition-colors duration-200 group">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-brand/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-brand">contract</span>
+                    </div>
+                    <div>
+                        <p class="text-text-primary font-medium">Explore the BPSU Bulletin</p>
+                        <p class="text-text-secondary text-sm">Find details about our purpose, policies, and contact page.</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-text-secondary">chevron_right</span>
+            </a>
+        </section>
 
         <!-- Danger Zone Section -->
         <section class="">

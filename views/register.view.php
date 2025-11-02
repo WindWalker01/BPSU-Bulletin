@@ -93,7 +93,7 @@
                         </button>
                 </form>
                 <!-- Login Link -->
-                <div class="text-sm text-center text-[var(--color-text-secondary)]">
+                <div class="text-sm text-right text-[var(--color-text-secondary)]">
                     Already have an account?
                     <a href="/login" class="font-medium text-[var(--color-brand)] hover:text-[var(--color-brand-hover)] hover:underline">
                         Login
