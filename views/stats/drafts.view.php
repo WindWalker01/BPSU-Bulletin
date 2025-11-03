@@ -6,9 +6,6 @@
           
           <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 p-4">
             <h1 class="text-[#ffffff] text-2xl sm:text-[32px] font-bold leading-tight">Your Posts</h1>
-            <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#c00000] hover:bg-[#d55454] text-[#ffffff] text-sm font-medium leading-normal transition-colors">
-              <span class="truncate">New Post</span>
-            </button>
           </div>
 
           <div class="px-4 py-3">
@@ -144,7 +141,7 @@
                         <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">0</td>
                         
                         <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
-                          <a href="/edit?id=<?= $blog['id'] ?>" class="text-[#FDE047] hover:text-[#facc15] cursor-pointer transition-colors">Edit</a> | 
+                          <a href="/blog/editor?blog_id=<?= $blog['id'] ?>" class="text-[#FDE047] hover:text-[#facc15] cursor-pointer transition-colors">Edit</a> | 
                           <a href="/delete?id=<?= $blog['id'] ?>" class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Delete</a>
                         </td>
                       </tr>
