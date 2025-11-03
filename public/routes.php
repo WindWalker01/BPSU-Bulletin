@@ -49,6 +49,8 @@ $router->get("/search", "controllers/search.php");
 
 //POST
 
+$router->post("/report", "controllers/moderate/report.php");
+
 $router
     ->post("/register", "controllers/registration/create.php")
     ->only("guest");

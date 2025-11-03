@@ -132,7 +132,10 @@
     </p>
 
     <form action="/report" method="POST" class="space-y-4">
-      <input type="hidden" id="reportCommentId" name="comment_id">
+      <input type="hidden" id="reportId" name="id">
+      <input type="hidden" id="reportType" name="reportType">
+      <input type="hidden" name="_method" value="POST">
+      <input type="hidden" name="blogId" value="<?= $blog_id ?>">
 
       <!-- CATEGORY RADIO OPTIONS -->
       <div class="space-y-3">
@@ -420,16 +423,12 @@ document.querySelectorAll('input[name="category"]').forEach(input => {
         document.querySelector('#reportModal button[type="submit"]').disabled = false;
     });
 });
-function openReportModal(commentId, reportType) {
+function openReportModal(id, reportType) {
     document.getElementById('reportModal').classList.remove('hidden');
-    document.getElementById('reportCommentId').value = commentId;
+    document.getElementById('reportId').value = id;
+    document.getElementById('reportType').value = reportType;
 
-    if(reportType === "COMMENT"){
-        console.log(reportType);
-    }else if(reportType === "BLOG"){
-        console.log(reportType);
-
-    }
+    console.log(id);_
 
 }
 function closeReportModal() {

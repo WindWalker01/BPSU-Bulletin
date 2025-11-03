@@ -35,7 +35,7 @@
     </div>
 
     <!-- Blog Content -->
-    <article class="tiptap-content mb-12">
+    <article class="tiptap ProseMirror">
         <?= $blog_html ?>
     </article>
     

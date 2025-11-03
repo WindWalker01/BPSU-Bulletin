@@ -48,6 +48,11 @@ function getLoggedInRole()
     return new Authenticator()->getLoggedInRole();
 }
 
+function getLoggedInUserId()
+{
+    return new Authenticator()->getLoggedInUserId();
+}
+
 function timeAgo($datetime)
 {
     $tz = new DateTimeZone("Asia/Manila"); // your local timezone
@@ -121,13 +126,17 @@ function extractFirstImageFromTiptap($content)
         $data = json_decode($data, true); // Second decode
     }
 
-    if (empty($data) || !isset($data['content']) || !is_array($data['content'])) {
+    if (
+        empty($data) ||
+        !isset($data["content"]) ||
+        !is_array($data["content"])
+    ) {
         return null; // No valid content found
     }
 
-    foreach ($data['content'] as $node) {
-        if ($node['type'] === 'image' && isset($node['attrs']['src'])) {
-            return $node['attrs']['src']; // Return the src of the first image
+    foreach ($data["content"] as $node) {
+        if ($node["type"] === "image" && isset($node["attrs"]["src"])) {
+            return $node["attrs"]["src"]; // Return the src of the first image
         }
     }
 
@@ -137,22 +146,22 @@ function extractFirstImageFromTiptap($content)
 function getBadgeColor($categoryValue)
 {
     switch ($categoryValue) {
-        case 'University Annoucements':
-            return 'bg-brand/20 text-brand';
-        case 'Organizations':
-            return 'bg-green-500/20 text-green-300';
-        case 'Scholarship':
-            return 'bg-yellow-500/20 text-yellow-300';
-        case 'Achievement':
-            return 'bg-pink-500/20 text-pink-300';
-        case 'Enrollment & Documents':
-            return 'bg-blue-500/20 text-blue-300';
+        case "University Annoucements":
+            return "bg-brand/20 text-brand";
+        case "Organizations":
+            return "bg-green-500/20 text-green-300";
+        case "Scholarship":
+            return "bg-yellow-500/20 text-yellow-300";
+        case "Achievement":
+            return "bg-pink-500/20 text-pink-300";
+        case "Enrollment & Documents":
+            return "bg-blue-500/20 text-blue-300";
         // case 'Campus Life':
         //     return 'bg-teal-500/20 text-teal-300';
         // case 'Opportunities':
         //     return 'bg-indigo-500/20 text-indigo-300';
-      
+
         default:
-            return 'bg-brand/20 text-brand'; // Default color
+            return "bg-brand/20 text-brand"; // Default color
     }
 }
