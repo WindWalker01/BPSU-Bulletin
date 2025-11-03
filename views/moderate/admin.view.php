@@ -77,30 +77,6 @@
                     "badge_color" => $badge_color_map[$comment["report_type"]],
                 ]); ?>
             <?php endforeach; ?>
-
-            <tr
-            class="hover:bg-card-dark/40 transition-colors duration-200"
-            >
-            <td class="px-4 sm:px-5 py-4 flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-text-gray/20"></div>
-                <div>
-                <p class="font-medium">Maria Clara</p>
-                <p class="text-xs text-text-secondary">
-                    BPSU Balanga Campus
-                </p>
-                </div>
-            </td>
-            <td class="px-4 sm:px-5 py-4">
-                <span
-                class="bg-accent-navy/20 text-accent-navy text-xs font-medium px-3 py-1">Spam</span>
-            </td>
-            <td class="px-4 sm:px-5 py-4">Jose Rizal</td>
-            <td class="px-4 sm:px-5 py-4 text-right space-x-2 sm:space-x-3">
-                <a href="#" class="text-accent-blue hover:underline">View</a>
-                <a href="#" class="text-brand hover:underline">Ban</a>
-                <a href="#" class="text-text-secondary hover:underline">Decline</a>
-            </td>
-            </tr>
         </tbody>
         </table>
     </div>
