@@ -40,19 +40,19 @@ class Database
         CONSTRAINT `blogs_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
-        "CREATE TABLE `user_reports` (
+        "CREATE TABLE `comment_reports` (
         `id` int NOT NULL AUTO_INCREMENT,
         `user_id` int DEFAULT NULL,
-        `reported_id` int DEFAULT NULL,
-        `report_type` enum('SEXUAL','VIOLENT','HARMFUL','HARRASSMENT','SELF_HARM') DEFAULT NULL,
-        `reason_description` text,
+        `comment_id` int DEFAULT NULL,
+        `report_type` enum('SEXUAL','VIOLENT','HARMFUL','HARASSMENT','SELF_HARM') DEFAULT NULL,
+        `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
         `created_at` timestamp NULL DEFAULT NULL,
         `status` enum('PENDING','RESOLVED') DEFAULT NULL,
         PRIMARY KEY (`id`),
         KEY `user_id` (`user_id`),
-        KEY `reported_id` (`reported_id`),
-        CONSTRAINT `user_reports_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-        CONSTRAINT `user_reports_ibfk_2` FOREIGN KEY (`reported_id`) REFERENCES `users` (`id`)
+        KEY `reported_id` (`comment_id`),
+        CONSTRAINT `comment_reports_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `comment_reports_ibfk_2` FOREIGN KEY (`comment_id`) REFERENCES `users` (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `user_preferences` (
@@ -160,17 +160,17 @@ class Database
         "CREATE TABLE `blog_reports` (
         `id` int NOT NULL AUTO_INCREMENT,
         `user_id` int DEFAULT NULL,
-        `target_id` int DEFAULT NULL,
-        `report_type` enum('SEXUAL','VIOLENT','HARMFUL','HARRASSMENT','SELF_HARM') DEFAULT NULL,
+        `blog_id` int DEFAULT NULL,
+        `report_type` enum('SEXUAL','VIOLENT','HARMFUL','HARASSMENT','SELF_HARM') DEFAULT NULL,
         `reason` text,
         `status` enum('PENDING','RESOLVED') DEFAULT NULL,
         `created_at` timestamp NULL DEFAULT NULL,
         PRIMARY KEY (`id`),
         KEY `user_id` (`user_id`),
-        KEY `target_id` (`target_id`),
+        KEY `target_id` (`blog_id`),
         CONSTRAINT `blog_reports_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-        CONSTRAINT `blog_reports_ibfk_2` FOREIGN KEY (`target_id`) REFERENCES `blogs` (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
+        CONSTRAINT `blog_reports_ibfk_2` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `blog_reactions` (
         `id` int NOT NULL AUTO_INCREMENT,
@@ -197,7 +197,6 @@ class Database
         KEY `admin_id` (`admin_id`),
         CONSTRAINT `admin_logs_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
-
 
         "CREATE TABLE `profile_images` (
         `id` int NOT NULL AUTO_INCREMENT,
