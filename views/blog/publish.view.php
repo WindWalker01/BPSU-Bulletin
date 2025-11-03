@@ -1,8 +1,4 @@
 <style>
-  /* This is the updated style block. 
-    It now correctly fades out days from the previous/next month.
-  */
-
   .flatpickr-calendar {
     background: var(--color-overlay-dark) !important;
     border: 1px solid var(--color-card-dark) !important;
@@ -59,11 +55,7 @@
   .flatpickr-day {
     color: var(--color-text-secondary) !important;
   }
-  
-  /* ===============================================================
-    THIS IS THE NEW FIX: Fades out prev/next month days
-    ===============================================================
-  */
+
   .flatpickr-day.prevMonthDay,
   .flatpickr-day.nextMonthDay {
     color: var(--color-text-secondary) !important;
