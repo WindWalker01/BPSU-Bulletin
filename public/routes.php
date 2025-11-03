@@ -10,16 +10,16 @@ $router->get("/logout", "controllers/login/logout.php")->only("auth");
 $router->get("/home", "controllers/home/home.php");
 $router->get("/blog/publish", "controllers/blog/publish.php");
 
-
 $router
     ->get("/blog/editor", "controllers/blog/editor/show.php")
     ->only("author");
 
-$router->get("/account", "controllers/account_centre/user_activity_log.php");
-$router->get(
-    "/user_profile",
-    "controllers/account_centre/user_edit_profile.php",
-);
+$router
+    ->get("/account", "controllers/account_centre/user_activity_log.php")
+    ->only("auth");
+$router
+    ->get("/user_profile", "controllers/account_centre/user_edit_profile.php")
+    ->only("auth");
 
 $router->get("/categories", "controllers/categories.php");
 $router->get(
@@ -87,4 +87,3 @@ $router->patch(
     "/notification/marked",
     "controllers/notifications/marked_as_read.php",
 );
-
