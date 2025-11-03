@@ -1,5 +1,4 @@
 <?php
-// This is the content for your new 'scheduled.php' controller
 
 use Core\App;
 use Core\Database;
@@ -15,14 +14,26 @@ if (!$current_user_id) {
 
 $posts = $db->query(
     "SELECT 
-        id, 
-        title, 
-        blog_status 
-    FROM blogs
+        b.id, 
+        b.title, 
+        b.blog_status,
+        COALESCE(v.views_count, 0) as views_count, 
+        COALESCE(c.comments_count, 0) as comments_count
+    FROM blogs b
+    LEFT JOIN (
+        SELECT blog_id, COUNT(*) as views_count 
+        FROM blog_views 
+        GROUP BY blog_id
+    ) v ON b.id = v.blog_id
+    LEFT JOIN (
+        SELECT blog_id, COUNT(*) as comments_count 
+        FROM comments 
+        GROUP BY blog_id
+    ) c ON b.id = c.blog_id
     WHERE 
-        blog_status = 'SCHEDULED' AND author_id = :author_id
+        b.blog_status = 'SCHEDULED' AND b.author_id = :author_id
     ORDER BY 
-        scheduled_at ASC",
+        b.scheduled_at ASC",
     ['author_id' => $current_user_id]
 )->get();
 

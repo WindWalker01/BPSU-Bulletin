@@ -1,16 +1,16 @@
 <main class="flex min-h-screen">
         
         <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-16">
-            <div class="w-full max-w-lg space-y-8">
+            <div class="w-full max-w-lg">
                 
   
                 <div class="flex justify-center">
-                    <img src="/assets/logo.webp" class="w-35 h-35">
+                    <img src="/assets/logo.webp" class="w-30 h-18 sm:w-35 sm:h-20">
                 </div>
 
    
                 <div>
-                    <h1 class="text-2xl text-center sm:text-3xl font-bold text-[var(--color-text-primary)]">
+                    <h1 class="text-2xl mt-4 text-center sm:text-3xl font-bold text-[var(--color-text-primary)]">
                         Be Part of the BPSU Bulletin!
                     </h1>
                     <p class="mt-2 text-center text-[var(--color-text-secondary)]" style="animation-delay: 0.2s;">
@@ -24,7 +24,7 @@
                 
                     <!-- Email Input -->
                     <div  style="animation-delay: 0.3s;">
-                        <label for="email" class="block text-sm font-medium text-[var(--color-text-secondary)]">Email</label>
+                        <label for="email" class="block text-sm mt-8 font-medium text-[var(--color-text-secondary)]">Email</label>
                         <div class="mt-1">
                             <input id="email" name="email" type="email" autocomplete="email" required
                                    placeholder="john.doe@gmail.com"
@@ -87,7 +87,7 @@
                 </form>
                 <form  action="/login_google" method="GET">
                         <button type="submit"
-                                class="w-full flex items-center justify-center py-3 px-4 border border-[var(--color-card-dark)] rounded-lg shadow-sm bg-[var(--color-overlay-dark)] text-sm font-medium text-[var(--color-text-primary)] hover:bg-[var(--color-card-light)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-brand)] transition-colors">
+                                class="w-full flex mt-5 items-center justify-center py-3 px-4 border border-[var(--color-card-dark)] rounded-lg shadow-sm bg-[var(--color-overlay-dark)] text-sm font-medium text-[var(--color-text-primary)] hover:bg-[var(--color-card-light)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-brand)] transition-colors">
                             <!-- Google G Logo SVG -->
                             <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="#C00000" d="M43.611 20.083H42V20H24V28H35.303C33.61 32.657 29.17 36 24 36C17.373 36 12 30.627 12 24C12 17.373 17.373 12 24 12C26.855 12 29.413 13.111 31.458 14.851L37.019 9.289C33.373 6.172 28.941 4 24 4C12.954 4 4 12.954 4 24C4 35.046 12.954 44 24 44C35.046 44 44 35.046 44 24C44 22.659 43.862 21.35 43.611 20.083Z"></path>
@@ -99,7 +99,7 @@
                         </button>
                 </form>
                 <!-- Login Link -->
-                <div class="text-sm text-center text-[var(--color-text-secondary)]">
+                <div class="text-sm text-end mt-3 text-[var(--color-text-secondary)]">
                     Already have an account?
                     <a href="/login" class="font-medium text-[var(--color-brand)] hover:text-[var(--color-brand-hover)] hover:underline">
                         Login

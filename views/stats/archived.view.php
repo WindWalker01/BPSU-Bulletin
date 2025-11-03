@@ -6,7 +6,6 @@
           
           <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 p-4">
             <h1 class="text-[#ffffff] text-2xl sm:text-[32px] font-bold leading-tight">Your Posts</h1>
-           
           </div>
 
           <div class="px-4 py-3">
@@ -47,51 +46,26 @@
                 <div class="relative">
                   <button id="categories-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
                     <p class="text-[#ffffff] text-sm font-medium leading-normal">Categories</p>
-                    <div class="text-[#ffffff]">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                      </svg>
-                    </div>
+                    <div class="text-[#ffffff]"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg></div>
                   </button>
                   <div id="categories-menu" class="absolute z-10 top-full left-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
-                    <ul class="py-2">
-                      <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Technology</a></li>
-                      <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Lifestyle</a></li>
-                      <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Travel</a></li>
-                      <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Food</a></li>
-                    </ul>
-                  </div>
+                     </div>
                 </div>
                 <div class="relative">
                   <button id="tags-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
                     <p class="text-[#ffffff] text-sm font-medium leading-normal">Tags</p>
-                    <div class="text-[#ffffff]">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                      </svg>
-                    </div>
+                    <div class="text-[#ffffff]"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg></div>
                   </button>
                   <div id="tags-menu" class="absolute z-10 top-full left-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
-                    <div class="p-4 flex flex-wrap gap-2">
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#3b82f6]/20 text-[#3b82f6] text-xs font-medium cursor-pointer hover:bg-[#3b82f6]/40">AI</span>
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium cursor-pointer hover:bg-[#22c55e]/40">Productivity</span>
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#a855f7]/20 text-[#a855f7] text-xs font-medium cursor-pointer hover:bg-[#a855f7]/40">Europe</span>
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#FDE047]/20 text-[#FDE047] text-xs font-medium cursor-pointer hover:bg-[#FDE047]/40">Tips</span>
-                      <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#c00000]/20 text-[#d55454] text-xs font-medium cursor-pointer hover:bg-[#c00000]/40">Tech</span>
-                    </div>
-                  </div>
+                     </div>
                 </div>
                 <div class="relative">
                   <button id="date-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
                     <p class="text-[#ffffff] text-sm font-medium leading-normal whitespace-nowrap">Date</p>
-                    <div class="text-[#ffffff]">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                      </svg>
-                    </div>
+                    <div class="text-[#ffffff]"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg></div>
                   </button>
                   <div id="date-menu" class="absolute z-10 top-full left-0 lg:right-0 lg:left-auto mt-2 w-72 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg p-4 hidden dropdown-menu">
-                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -133,19 +107,35 @@
                           </span>
                         </td>
                         
-                        <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">0</td>
-                        <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">0</td>
+                        <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal">
+                           <?= $blog['views_count'] ?? 0 ?>
+                        </td>
+                        <td class="px-4 py-4 text-[#a3a3a3] text-sm font-normal leading-normal hidden sm:table-cell">
+                           <?= $blog['comments_count'] ?? 0 ?>
+                        </td>
                         
                         <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
-                          <a href="/unarchive?id=<?= $blog['id'] ?>" class="text-[#22c55e] hover:text-[#4ade80] cursor-pointer transition-colors">Unarchive</a> | 
-                          <a href="/delete-permanent?id=<?= $blog['id'] ?>" class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Delete</a>
+                          
+                          <form action="/unarchive" method="POST" style="display: inline;">
+                              <input type="hidden" name="id" value="<?= $blog['id'] ?>">
+                              <button type="submit" class="text-[#22c55e] hover:text-[#4ade80] cursor-pointer transition-colors bg-transparent border-none p-0 font-bold leading-normal">Unarchive</button>
+                          </form> | 
+
+                          <button type="button" 
+                                class="open-delete-modal text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors bg-transparent border-none p-0 font-bold leading-normal"
+                                data-blog-id="<?= $blog['id'] ?>"
+                                data-redirect-to="/archived"
+                                data-message="Are you sure you want to permanently delete this post? This action cannot be undone.">
+                          Delete
+                        </button>
+
                         </td>
-                      </tr>
+                        </tr>
                     <?php endforeach; ?>
                   <?php endif; ?>
 
                 </tbody>
-                </table>
+              </table>
             </div>
           </div>
 
@@ -153,6 +143,28 @@
       </div>
     </div>
   </div>
+
+  <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 hidden">
+  <div class="w-full max-w-sm rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] p-6 shadow-lg">
+    <h3 class="text-lg font-bold text-white">Confirm Deletion</h3>
+    <p id="modal-message-text" class="mt-2 text-sm text-[#a3a3a3]">
+      Are you sure you want to delete this post?
+    </p>
+
+    <form id="modal-delete-form" action="/delete" method="POST" class="mt-6 flex justify-end gap-4">
+      
+      <input type="hidden" id="modal-blog-id" name="id" value="">
+      <input type="hidden" id="modal-redirect-to" name="redirect_to" value="">
+
+      <button id="modal-cancel-btn" type="button" class="rounded-lg cursor-pointer bg-[#2e2e2e] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#3a3a3a]">
+        Cancel
+      </button>
+      <button type="submit" class="rounded-lg cursor-pointer bg-[#c00000] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#d55454]">
+        Delete
+      </button>
+    </form>
+  </div>
+</div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -207,6 +219,45 @@
       window.addEventListener('click', () => {
         closeAllMenus();
       });
+      
+      const deleteModal = document.getElementById('delete-modal');
+      const modalCancelBtn = document.getElementById('modal-cancel-btn');
+      const modalDeleteForm = document.getElementById('modal-delete-form');
+      const modalBlogIdInput = document.getElementById('modal-blog-id');
+      const modalRedirectInput = document.getElementById('modal-redirect-to');
+      const modalMessageText = document.getElementById('modal-message-text');
+      const allDeleteButtons = document.querySelectorAll('.open-delete-modal');
+
+      if (deleteModal) {
+        const openModal = (event) => {
+          const button = event.currentTarget;
+          const blogId = button.dataset.blogId;
+          const redirectUrl = button.dataset.redirectTo;
+          const message = button.dataset.message;
+
+          modalBlogIdInput.value = blogId;
+          modalRedirectInput.value = redirectUrl;
+          modalMessageText.textContent = message;
+
+          deleteModal.classList.remove('hidden');
+        };
+
+        const closeModal = () => {
+          deleteModal.classList.add('hidden');
+        };
+
+        allDeleteButtons.forEach(button => {
+          button.addEventListener('click', openModal);
+        });
+
+        modalCancelBtn.addEventListener('click', closeModal);
+
+        deleteModal.addEventListener('click', (event) => {
+          if (event.target === deleteModal) {
+            closeModal();
+          }
+        });
+      }
     });
   </script>
 

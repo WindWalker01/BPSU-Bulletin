@@ -60,7 +60,7 @@ if (isUserLoggedIn()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $data["title"] ?? "BPSU Bulletin" ?></title>
-    
+    <link rel="icon" type="image/x-icon" href="/assets/tablogo.png">
     <script>
         (function() {
             // This function applies the theme to the <html> tag
@@ -77,12 +77,9 @@ if (isUserLoggedIn()) {
                 }
             }
 
-            // Get the saved theme or default to 'system'
             const savedTheme = localStorage.getItem('theme') || 'system';
             applyTheme(savedTheme);
 
-            // Add a listener to update the theme if the system preference changes
-            // This is only needed if the user's saved choice is 'system'
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
                 if (localStorage.getItem('theme') === 'system') {
                     applyTheme('system');
@@ -92,6 +89,8 @@ if (isUserLoggedIn()) {
     </script>
     <link href="/css/tailwind.css" rel="stylesheet">
     <link href="/css/tiptap.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 </head>
@@ -111,7 +110,7 @@ if (isUserLoggedIn()) {
 
       <!-- Logo -->
       <a href="/" class="flex items-center max-sm:absolute max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2">
-        <img src="/assets/logo.webp" class="w-18 sm:w-23" alt="BPSU Bulletin">
+        <img src="/assets/logo.webp" class="w-15 sm:w-20" alt="BPSU Bulletin">
       </a>
 
       <!-- Search bar for desktop only -->

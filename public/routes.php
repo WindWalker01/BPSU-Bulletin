@@ -49,7 +49,9 @@ $router
 $router->get("/search", "controllers/search.php");
 
 //POST
-
+$router->post('/archive', 'controllers/stats/archive.php');
+$router->post('/delete', 'controllers/stats/delete.php');
+$router->post('/unarchive', 'controllers/stats/unarchive.php');
 $router
     ->post("/register", "controllers/registration/create.php")
     ->only("guest");

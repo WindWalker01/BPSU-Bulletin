@@ -71,13 +71,13 @@
                       </div>
                     </button>
                     <div id="tags-menu" class="absolute z-10 top-full left-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
-                       <div class="p-4 flex flex-wrap gap-2">
-                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#3b82f6]/20 text-[#3b82f6] text-xs font-medium cursor-pointer hover:bg-[#3b82f6]/40">AI</span>
-                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium cursor-pointer hover:bg-[#22c55e]/40">Productivity</span>
-                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#a855f7]/20 text-[#a855f7] text-xs font-medium cursor-pointer hover:bg-[#a855f7]/40">Europe</span>
-                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#FDE047]/20 text-[#FDE047] text-xs font-medium cursor-pointer hover:bg-[#FDE047]/40">Tips</span>
-                         <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#c00000]/20 text-[#d55454] text-xs font-medium cursor-pointer hover:bg-[#c00000]/40">Tech</span>
-                       </div>
+                        <div class="p-4 flex flex-wrap gap-2">
+                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#3b82f6]/20 text-[#3b82f6] text-xs font-medium cursor-pointer hover:bg-[#3b82f6]/40">AI</span>
+                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium cursor-pointer hover:bg-[#22c55e]/40">Productivity</span>
+                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#a855f7]/20 text-[#a855f7] text-xs font-medium cursor-pointer hover:bg-[#a855f7]/40">Europe</span>
+                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#FDE047]/20 text-[#FDE047] text-xs font-medium cursor-pointer hover:bg-[#FDE047]/40">Tips</span>
+                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#c00000]/20 text-[#d55454] text-xs font-medium cursor-pointer hover:bg-[#c00000]/40">Tech</span>
+                        </div>
                     </div>
                   </div>
                   <div class="relative">
@@ -90,13 +90,12 @@
                       </div>
                     </button>
                     <div id="date-menu" class="absolute z-10 top-full left-0 lg:right-0 lg:left-auto mt-2 w-72 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg p-4 hidden dropdown-menu">
-                      </div>
+                    </div>
                   </div>
               </div>
             </div>
           </div>
 
-          
           <h3 class="text-[#ffffff] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Published</h3>
           <div class="px-4 py-3">
             <div class="overflow-x-auto rounded-lg border border-[#2e2e2e] bg-[#1a1a1a]/50">
@@ -141,10 +140,21 @@
                         
                         <td class="px-4 py-4 text-[#a3a3a3] text-sm font-bold leading-normal tracking-[0.015em] hidden md:table-cell">
                           <a href="/blog/editor?blog_id=<?= $blog['id'] ?>" class="text-[#c00000] hover:text-[#d55454] cursor-pointer transition-colors">Edit</a> | 
-                          <a href="/archive?id=<?= $blog['id'] ?>" class="text-[#3b82f6] hover:text-[#406a9d] cursor-pointer transition-colors">Archive</a> | 
-                          <a href="/delete?id=<?= $blog['id'] ?>" class="text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors">Delete</a>
+                          
+                          <form action="/archive" method="POST" style="display: inline;">
+                              <input type="hidden" name="id" value="<?= $blog['id'] ?>">
+                              <button type="submit" class="text-[#3b82f6] hover:text-[#406a9d] cursor-pointer transition-colors bg-transparent border-none p-0 font-bold leading-normal">Archive</button>
+                          </form> | 
+
+                          <button type="button" 
+                                  class="open-delete-modal text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors bg-transparent border-none p-0 font-bold leading-normal"
+                                  data-blog-id="<?= $blog['id'] ?>"
+                                  data-redirect-to="/stats"
+                                  data-message="Are you sure you want to delete this post? This action is permanent.">
+                            Delete
+                          </button>
                         </td>
-                      </tr>
+                        </tr>
                     <?php endforeach; ?>
                   <?php endif; ?>
 
@@ -153,60 +163,111 @@
             </div>
           </div>
 
+    <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 hidden">
+      <div class="w-full max-w-sm rounded-lg border border-[#3a3a3a] bg-[#1a1a1a] p-6 shadow-lg">
+        <h3 class="text-lg font-bold text-white">Confirm Deletion</h3>
+        <p id="modal-message-text" class="mt-2 text-sm text-[#a3a3a3]">
+          Are you sure you want to delete this post?
+        </p>
+
+        <form id="modal-delete-form" action="/delete" method="POST" class="mt-6 flex justify-end gap-4">
+          
+          <input type="hidden" id="modal-blog-id" name="id" value="">
+          <input type="hidden" id="modal-redirect-to" name="redirect_to" value="">
+
+          <button id="modal-cancel-btn" type="button" class="rounded-lg cursor-pointer bg-[#2e2e2e] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#3a3a3a]">
+            Cancel
+          </button>
+          <button type="submit" class="rounded-lg bg-[#c00000] cursor-pointer px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#d55454]">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+
     
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // --- Your Existing Dropdown Script (Unchanged) ---
       const buttons = [
         document.getElementById('categories-button'),
         document.getElementById('tags-button'),
         document.getElementById('date-button')
       ];
-
       const menus = [
         document.getElementById('categories-menu'),
         document.getElementById('tags-menu'),
         document.getElementById('date-menu')
       ];
-
       const allMenus = document.querySelectorAll('.dropdown-menu');
 
-      // Function to close all menus
       const closeAllMenus = () => {
-        allMenus.forEach(menu => {
-          menu.classList.add('hidden');
-        });
+        allMenus.forEach(menu => menu.classList.add('hidden'));
       };
 
-      // Toggle logic for each button
       buttons.forEach((button, index) => {
         if (button) {
           button.addEventListener('click', (event) => {
-            event.stopPropagation(); // Stop click from bubbling up to the window
+            event.stopPropagation();
             const menu = menus[index];
             if (menu) {
               const isHidden = menu.classList.contains('hidden');
-              closeAllMenus(); // Close all menus first
+              closeAllMenus();
               if (isHidden) {
-                menu.classList.remove('hidden'); // Open the clicked one
+                menu.classList.remove('hidden');
               }
             }
           });
         }
       });
 
-      // Stop clicks inside the menu from closing it
       menus.forEach(menu => {
         if (menu) {
-          menu.addEventListener('click', (event) => {
-            event.stopPropagation();
-          });
+          menu.addEventListener('click', (event) => event.stopPropagation());
         }
       });
 
-      // Click away to close
       window.addEventListener('click', () => {
         closeAllMenus();
       });
+
+      const deleteModal = document.getElementById('delete-modal');
+      const modalCancelBtn = document.getElementById('modal-cancel-btn');
+      const modalDeleteForm = document.getElementById('modal-delete-form');
+      const modalBlogIdInput = document.getElementById('modal-blog-id');
+      const modalRedirectInput = document.getElementById('modal-redirect-to');
+      const modalMessageText = document.getElementById('modal-message-text');
+      const allDeleteButtons = document.querySelectorAll('.open-delete-modal');
+
+      const openModal = (event) => {
+        const button = event.currentTarget;
+        const blogId = button.dataset.blogId;
+        const redirectUrl = button.dataset.redirectTo;
+        const message = button.dataset.message;
+
+        modalBlogIdInput.value = blogId;
+        modalRedirectInput.value = redirectUrl;
+        modalMessageText.textContent = message;
+
+        deleteModal.classList.remove('hidden');
+      };
+
+      const closeModal = () => {
+        deleteModal.classList.add('hidden');
+      };
+
+      allDeleteButtons.forEach(button => {
+        button.addEventListener('click', openModal);
+      });
+
+      modalCancelBtn.addEventListener('click', closeModal);
+
+      deleteModal.addEventListener('click', (event) => {
+        if (event.target === deleteModal) {
+          closeModal();
+        }
+      });
+
     });
   </script>
 

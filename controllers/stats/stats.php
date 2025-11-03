@@ -6,14 +6,11 @@ use Core\Authenticator;
 $db = App::resolve(Database::class);
 $current_user_id = (new Authenticator())->getLoggedInUserId();
 
-// If no user is logged in, they can't see "Their Posts"
 if (!$current_user_id) {
     redirect('/login'); 
     exit();
 }
 
-// 1. THE CORRECT QUERY
-// This query joins the blogs, views, and comments tables to get the counts.
 $posts = $db->query(
     "SELECT 
         b.id, 
