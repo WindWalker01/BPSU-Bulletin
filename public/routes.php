@@ -48,6 +48,7 @@ $router
 
 $router->get("/search", "controllers/search.php");
 
+
 //POST
 $router->post('/archive', 'controllers/stats/archive.php');
 $router->post('/delete', 'controllers/stats/delete.php');

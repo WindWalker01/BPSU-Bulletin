@@ -19,6 +19,36 @@ date_default_timezone_set("Asia/Manila");
 
 $db = App::resolve(Database::class);
 
+$auth = new Authenticator();
+$user_id = $auth->getLoggedInUserId();
+$blog_id = $_GET['id'];
+
+// Only track if user is logged in
+if ($user_id) {
+    $existingView = $db->query(
+        "SELECT id FROM blog_views WHERE user_id = :user_id AND blog_id = :blog_id",
+        [
+            'user_id' => $user_id,
+            'blog_id' => $blog_id
+        ]
+    )->find();
+
+    if (!$existingView) {
+        // Insert new view
+        $db->query(
+            "INSERT INTO blog_views (user_id, blog_id, viewed_at, platform)
+             VALUES (:user_id, :blog_id, NOW(), :platform)",
+            [
+                'user_id' => $user_id,
+                'blog_id' => $blog_id,
+                'platform' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
+            ]
+        );
+
+
+    }
+}
+
 $blog = $db
     ->query(
         "SELECT * FROM blogs 
@@ -112,6 +142,14 @@ $isFollowed = $db
     )
     ->findOrFail();
 
+    $totalViews = $db->query(
+    "SELECT COUNT(*) AS total FROM blog_views WHERE blog_id = :blog_id",
+    ['blog_id' => $id]
+        )->find();
+
+        $viewCount = $totalViews['total'] ?? 0;
+
+
 // Render the page
 render("blog/blog.view.php", [
     "blog_html" => $html,
@@ -133,6 +171,7 @@ render("blog/blog.view.php", [
     "isOwner" =>
         $blog["author_id"] === new Authenticator()->getLoggedInUserId(),
     "isFollowed" => $isFollowed === null ? 0 : 1,
+    "view_count" => $viewCount,
 ]);
 
 // Recursive render

@@ -1,20 +1,12 @@
 <?php
-// controllers/home/home.php
-
-// === 1. SETUP ===
 require_once __DIR__ . '/../../Core/Database.php'; 
 require_once __DIR__ . '/../../Core/utils.php'; 
 $config = require __DIR__ . '/../../config/config.php';
 $db = new \Core\Database($config);
 
 
+
 if (isset($_GET['page']) && is_numeric($_GET['page'])) {
-    
-    // ===============================================
-    // == JOB B: HANDLE "LOAD MORE" (JSON) REQUEST ==
-    // ===============================================
-    
-    // This part is already correct.
     header('Content-Type: application/json');
 
     $postsPerPage = 9;   // How many posts to load per click
@@ -36,7 +28,8 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             ANY_VALUE(bi.secure_url) AS featured_image,
             ANY_VALUE(c.value) AS category_name,
             COALESCE(ANY_VALUE(likes.likes_count), 0) AS likes_count,
-            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count
+            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count,
+            COALESCE(ANY_VALUE(views.view_count), 0) AS view_count
         FROM blogs AS b
         LEFT JOIN users AS u ON b.author_id = u.id
         LEFT JOIN profile_images AS pi ON u.id = pi.user_id
@@ -49,6 +42,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         LEFT JOIN (
             SELECT blog_id, COUNT(id) as comments_count FROM comments GROUP BY blog_id
         ) AS comments ON b.id = comments.blog_id
+         LEFT JOIN (
+            SELECT blog_id, COUNT(DISTINCT user_id) as view_count FROM blog_views GROUP BY blog_id
+        ) AS views ON b.id = views.blog_id
         WHERE 
             b.blog_status = 'ACTIVE' AND b.published_at IS NOT NULL AND b.published_at <= NOW()
         GROUP BY b.id
@@ -74,7 +70,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             "link" => "/blog?id=" . $row['id'],
             "image" => $row['featured_image'] ?? 'https://via.placeholder.com/640x360?text=No+Image',
             "likes" => $row['likes_count'],
-            "comments" => $row['comments_count']
+            "comments" => $row['comments_count'],
+            "views" => $row['view_count']
+
         ];
     }
 
@@ -83,12 +81,6 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
 
 } else {
 
-    // ===============================================
-    // == JOB A: RENDER THE HTML PAGE (Page 1)      ==
-    // ===============================================
-    
-    // --- THIS IS THE FIX ---
-    // Change limit from 10 to 7 (3 featured + 4 grid)
     $limit = 7; 
     
     $sql = "
@@ -99,7 +91,8 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             ANY_VALUE(bi.secure_url) AS featured_image,
             ANY_VALUE(c.value) AS category_name,
             COALESCE(ANY_VALUE(likes.likes_count), 0) AS likes_count,
-            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count
+            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count,
+            COALESCE(ANY_VALUE(views.view_count), 0) AS view_count
         FROM blogs AS b
         LEFT JOIN users AS u ON b.author_id = u.id
         LEFT JOIN profile_images AS pi ON u.id = pi.user_id
@@ -112,6 +105,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         LEFT JOIN (
             SELECT blog_id, COUNT(id) as comments_count FROM comments GROUP BY blog_id
         ) AS comments ON b.id = comments.blog_id
+        LEFT JOIN (
+            SELECT blog_id, COUNT(DISTINCT user_id) as view_count FROM blog_views GROUP BY blog_id
+        ) AS views ON b.id = views.blog_id
         WHERE 
             b.blog_status = 'ACTIVE' AND b.published_at IS NOT NULL AND b.published_at <= NOW()
         GROUP BY b.id
@@ -121,7 +117,6 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
     
     $db_posts = $db->query($sql)->get();
 
-    // Transform data
     $posts_data = [];
     foreach ($db_posts as $row) {
         $category = $row['category_name'] ?? 'General';
@@ -133,21 +128,22 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             "badgeColor" => getBadgeColor($category),
             "title" => $row['title'],
             "excerpt" => extractFirstParagraphFromTiptap($row['content']) ?? '',
-            "link" => "/blog?id=" . $row['id'], 
-            "image" => $row['featured_image'] ?? extractFirstImageFromTiptap($row['content']) ?? 'https://via.placeholder.com/640x360?text=No+Image',
+            "link" => "/blog?id=" . $row['id'],
+           "image" => $row['featured_image'] ?? extractFirstImageFromTiptap($row['content']) ?? 'https://via.placeholder.com/640x360?text=No+Image',
             "likes" => $row['likes_count'],
-            "comments" => $row['comments_count']
+            "comments" => $row['comments_count'],
+            "views" => $row['view_count']
+
         ];
     }
 
-    // These lines are already correct (3 featured, the rest are grid)
     $featured_posts = array_slice($posts_data, 0, 3);
     $grid_posts = array_slice($posts_data, 3); 
 
-    // Render the view and pass it the new variables
     render('home.view.php', [
         "title" => "Home Page",
         "featured_posts" => $featured_posts, // Pass featured posts
         "grid_posts" => $grid_posts        // Pass grid posts
     ]);
+    
 }

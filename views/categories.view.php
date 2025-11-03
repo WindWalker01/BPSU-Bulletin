@@ -1,13 +1,13 @@
 <div class="flex justify-end pt-10 pr-30">
   <div>
     <label class="text-gray-400 text-2xl block text-right">Sort By</label>
-    <select name="program" id="program"
+    <select name="program" id="campus"
       class="focus:outline-none text-white bg-brand brand border-red-500 w-60 mt-3 p-2 rounded cursor-pointer">
       <option value="Select" class="text-center">Select a Campus</option>
-      <option value="Main" class="text-center">Main Campus</option>
-      <option value="Abucay" class="text-center">Abucay Campus</option>
-      <option value="Balanga" class="text-center">Balanga Campus</option>
-      <option value="Orani" class="text-center">Orani Campus</option>
+      <option value="Main" class="text-center" <?php echo $campus === "MAIN" ? "selected": ""?> >Main Campus</option>
+      <option value="Abucay" class="text-center" <?php echo $campus === "ABUCAY" ? "selected": ""?> >Abucay Campus</option>
+      <option value="Balanga" class="text-center" <?php echo $campus === "BALANGA" ? "selected": ""?> >Balanga Campus</option>
+      <option value="Orani" class="text-center" <?php echo $campus === "ORANI" ? "selected": ""?> >Orani Campus</option>
     </select>
   </div>
 </div>
@@ -74,7 +74,7 @@
         <h2 class="text-2xl font-semibold mb-4">University Announcements</h2>
           <p class="mb-6 text-base text-gray-300">Here are the latest news and updates about the university.</p>
             <div class="border-1 w-255 border-gray-500"></div>
-              <a href="announcement"
+              <a href="/announcement"
                 class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
               bg-brand hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
                 flex justify-center items-center h-10 w-40 absolute inset-x-220 inset-y-150">
