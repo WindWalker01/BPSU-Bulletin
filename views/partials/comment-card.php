@@ -8,22 +8,34 @@
     </a>
 
     <div class='flex-1'>
-        <a href="/account?id=<?= $user_id ?>">
 
             <div class='flex items-center gap-2 text-sm text-text-secondary'>
-                <span class='font-semibold text-text-primary'><?= htmlspecialchars(
-                    $username,
-                ) ?></span>
+                <a href="/account?id=<?= $user_id ?>">
+
+                    <span class='font-semibold text-text-primary'><?= htmlspecialchars(
+                        $username,
+                    ) ?></span>
+                </a>
+
                 <span>• <?= htmlspecialchars($created_at) ?></span>
+
+                <button 
+                    type="button"
+                    class="flex items-center gap-1 text-text-brand hover:text-brand-hover <?= isUserLoggedIn()
+                        ? ""
+                        : "hidden" ?>"
+                    onclick='openReportModal(<?= $comment_id ?>, "COMMENT")'
+                >
+                    <span class="material-symbols-outlined text-base">flag</span>
+                    Report
+                </button>
             </div>
-        </a>
-        
+
         <p class='mt-1 text-text-secondary'><?= htmlspecialchars(
             $content,
         ) ?></p>
 
         <div class='flex items-center gap-4 mt-2 text-sm text-text-secondary'>
-            
             <button class="hover:text-brand-hover flex items-center gap-1 <?= isUserLoggedIn()
                 ? ""
                 : "hidden" ?> reaction-button up-button">
@@ -55,6 +67,8 @@
                     : "hidden" ?>'>
                 Reply
             </button>
+
+
         </div>
 
         <form action='/reply' method='POST' class='hidden mt-3 space-y-2'>
