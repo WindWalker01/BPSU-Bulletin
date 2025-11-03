@@ -55,6 +55,12 @@
           <span class="material-symbols-outlined text-base md:text-base">chat_bubble</span>
           <?= htmlspecialchars($comments ?? 0) ?>
         </button>
+
+        <button class="flex items-center gap-1 text-text-secondary">
+          <span class="material-symbols-outlined text-base md:text-base">visibility</span>
+          <?= htmlspecialchars($views ?? 0) ?>
+        </button>
+
       </div>
       <button
         class="flex items-center md:text-xs gap-1 text-text-secondary hover:text-brand transition-colors cursor-pointer"
