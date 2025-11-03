@@ -47,9 +47,11 @@ $router
 
 $router->get("/search", "controllers/search.php");
 
+$router->get("/admin", "controllers/moderate/show.php");
+
 //POST
 
-$router->post("/report", "controllers/moderate/report.php");
+$router->post("/report", "controllers/moderate/report.php"); // temporary must be admin only
 
 $router
     ->post("/register", "controllers/registration/create.php")

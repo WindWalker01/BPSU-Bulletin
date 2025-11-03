@@ -146,6 +146,8 @@
             "HARMFUL" => "Harmful or dangerous acts",
             "HARASSMENT" => "Harassment or bullying",
             "SELF_HARM" => "Suicide or self-harm content",
+            "SPAM" =>
+                "Irrelevant or repetitive content intended to promote or clutter discussions.",
         ];
         foreach ($categories as $value => $label): ?>
         <label class="flex items-start gap-3 cursor-pointer group p-2 rounded-md hover:bg-overlay-dark/40 transition">

@@ -12,7 +12,7 @@ $db = App::resolve(Database::class);
 
 if ($report_type === "BLOG") {
     $db->query(
-        "INSERT INTO blog_reports (`user_id`, `blog_id`, `report_type`, `reason`, `status`, `created_at`)
+        "INSERT INTO blog_reports (`reporter_id`, `blog_id`, `report_type`, `reason`, `status`, `created_at`)
          VALUES (:user, :blog, :report, :reason, 'PENDING', NOW())",
         [
             "user" => getLoggedInUserId(),
@@ -23,7 +23,7 @@ if ($report_type === "BLOG") {
     );
 } elseif ($report_type === "COMMENT") {
     $db->query(
-        "INSERT INTO comment_reports (`user_id`, `comment_id`, `report_type`, `reason`, `status`, `created_at`)
+        "INSERT INTO comment_reports (`reporter_id`, `comment_id`, `report_type`, `reason`, `status`, `created_at`)
          VALUES (:user, :comment, :report, :reason, 'PENDING', NOW())",
         [
             "user" => getLoggedInUserId(),
