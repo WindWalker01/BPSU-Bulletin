@@ -144,15 +144,6 @@
        Transition variables 
     **************************************************/
 
-  --tt-transition-duration-short: 0.1s;
-  --tt-transition-duration-default: 0.2s;
-  --tt-transition-duration-long: 0.64s;
-  --tt-transition-easing-default: cubic-bezier(0.46, 0.03, 0.52, 0.96);
-  --tt-transition-easing-cubic: cubic-bezier(0.65, 0.05, 0.36, 1);
-  --tt-transition-easing-quart: cubic-bezier(0.77, 0, 0.18, 1);
-  --tt-transition-easing-circ: cubic-bezier(0.79, 0.14, 0.15, 0.86);
-  --tt-transition-easing-back: cubic-bezier(0.68, -0.55, 0.27, 1.55);
-
   /****************** 
   Contrast variables
   ******************/
@@ -166,8 +157,6 @@
   ::before,
   ::after {
     box-sizing: border-box;
-    transition: none var(--tt-transition-duration-default)
-      var(--tt-transition-easing-default);
   }
 }
 
@@ -397,97 +386,7 @@
     0px 16px 48px rgba(0, 0, 0, 0.5), 0px 12px 24px rgba(0, 0, 0, 0.24),
     0px 6px 8px rgba(0, 0, 0, 0.22);
 }
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes zoomIn {
-  from {
-    transform: scale(0.95);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes zoomOut {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(0.95);
-  }
-}
-
-@keyframes zoom {
-  0% {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slideFromTop {
-  from {
-    transform: translateY(-0.5rem);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideFromRight {
-  from {
-    transform: translateX(0.5rem);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideFromLeft {
-  from {
-    transform: translateX(-0.5rem);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideFromBottom {
-  from {
-    transform: translateY(0.5rem);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 .tiptap.ProseMirror {
   --blockquote-bg-color: var(--tt-gray-light-900);
 
@@ -783,7 +682,6 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: all 0.2s ease;
 
     &:hover {
       border-color: var(--tiptap-image-upload-border-hover);
@@ -848,7 +746,6 @@
       position: absolute;
       inset: 0;
       background-color: var(--tiptap-image-upload-progress-bg);
-      transition: all 300ms ease-out;
     }
 
     .tiptap-image-upload-preview-content {
@@ -1045,9 +942,6 @@
           position: relative;
           cursor: pointer;
           background-color: var(--tt-checklist-bg-color);
-          transition:
-            background-color 80ms ease-out,
-            border-color 80ms ease-out;
 
           &::before {
             content: "";
@@ -1250,9 +1144,6 @@
 .tiptap.ProseMirror {
   /* // Base styles for inline threads */
   .tiptap-thread.tiptap-thread--unresolved.tiptap-thread--inline {
-    transition:
-      color 0.2s ease-in-out,
-      background-color 0.2s ease-in-out;
     color: var(--thread-text);
     border-bottom: 2px dashed var(--tt-color-yellow-base);
     font-weight: 600;
