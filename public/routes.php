@@ -111,3 +111,17 @@ $router
 $router
     ->patch("/admin/ban_user", "controllers/moderate/ban_user.php")
     ->only("admin");
+
+$router
+    ->patch(
+        "/admin/decline_ban_blog",
+        "controllers/moderate/decline_blog_report.php",
+    )
+    ->only("admin");
+
+$router
+    ->patch(
+        "/admin/decline_ban_comment",
+        "controllers/moderate/decline_comment_report.php",
+    )
+    ->only("admin");

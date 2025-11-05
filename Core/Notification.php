@@ -62,7 +62,7 @@ class Notification
             [
                 "receiver" => $receiver,
                 "title" => "your blog",
-                "description" => "Removed",
+                "description" => "Banned",
                 "sender" => getLoggedInUserId(),
                 "category" => "IMPORTANT",
                 "blog" => $source,

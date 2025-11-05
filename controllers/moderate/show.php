@@ -27,7 +27,8 @@ $blogs_reports = $db
         br.reason,
         br.status,
         br.created_at,
-        b.title
+        b.title,
+        b.author_id
         FROM blog_reports br
         JOIN blogs b 
         ON br.blog_id = b.id
@@ -45,6 +46,7 @@ $blogs_reports = $db
             FROM blog_reports
             WHERE status = 'RESOLVED'
         )
+        AND b.blog_status != 'BANNED'
         ORDER BY br.created_at DESC;
 ",
     )
@@ -61,6 +63,8 @@ $comment_reports = $db
         cr.status,
         cr.created_at,
         c.blog_id,
+        c.user_id,
+        c.id AS comment_id,
 
         -- Reporter info
         ru.username AS reporter_username,
@@ -94,8 +98,6 @@ $appeals = $db
         "SELECT users.username as appealed_by, appeals.reason, appeals.id as appeal_id FROM appeals INNER JOIN users ON users.id = appeals.author_id",
     )
     ->get();
-
-// dd(["blogs" => $blogs_reports, "comments" => $comment_reports]);
 
 render("moderate/admin.view.php", [
     "blogs_reports" => $blogs_reports,

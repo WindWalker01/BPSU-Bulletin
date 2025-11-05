@@ -50,6 +50,8 @@
                 "reporter_name" => $blog["reporter_name"],
                 "blog_id" => $blog["blog_id"],
                 "badge_color" => $badge_color_map[$blog["report_type"]],
+                "author_id" => $blog["author_id"],
+                "report_id" => $blog["report_id"],
             ]); ?>
           <?php endforeach; ?>
         </tbody>
@@ -82,6 +84,9 @@
                 "reporter_username" => $comment["reporter_username"],
                 "blog_id" => $comment["blog_id"],
                 "badge_color" => $badge_color_map[$comment["report_type"]],
+                "report_id" => $comment["report_id"],
+                "user_id" => $comment["user_id"],
+                "comment_id" => $comment["comment_id"],
             ]); ?>
           <?php endforeach; ?>
         </tbody>
@@ -149,7 +154,98 @@
   tabs[0].click();
 </script>
 
+<script>
+function banBlog(blogId, authorId, reportId) {
+  fetch(`/admin/ban_blog`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ blogId, authorId, reportId })
+  })
+  .then(response => {
+    if (response.ok) {
+      alert('Blog has been banned.');
+      window.location.reload();
+    } else {
+      alert('Failed to ban blog.');
+    }
+  });
+}
+</script>
 
+<script>
+function declineBlogReport(id) {
+  fetch(`/admin/decline_ban_blog`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id })
+  })
+  .then(response => {
+    window.location.reload();
+  });
+}
+</script>
+
+
+<script>
+function banUser(id, reportId) {
+  fetch(`/admin/ban_user?id=${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id, reportId  })
+  })
+  .then(response => {
+   if (response.ok) {
+      alert('User has been banned.');
+      window.location.reload();
+    } else {
+      alert('Failed to ban user.');
+    }
+  });
+}
+</script>
+
+
+<script>
+function removeComment(id, reportId ) {
+  fetch(`/admin/ban_comment?commentId=${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id, reportId  })
+  })
+  .then(response => {
+    if (response.ok) {
+      alert('Comment has been removed.');
+      window.location.reload();
+    } else {
+      alert('Failed to remove comment.');
+    }
+  });
+}
+</script>
+
+
+<script>
+function declineComment(id) {
+  fetch(`/admin/decline_ban_comment`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id })
+  })
+  .then(response => {
+    window.location.reload();
+  });
+}
+</script>
 
 
 <?php view("partials/footer.php"); ?>
