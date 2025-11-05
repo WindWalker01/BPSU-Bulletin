@@ -1,28 +1,22 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(40px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-@layer utilities {
-  .animate-fade-up {
+@keyframes fadeUp {
+  from {
     opacity: 0;
-    animation: fade-up 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-timeline: view();
-    animation-range: entry 0% cover 35%;
-    will-change: opacity, transform;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.3s ease-out forwards;
+  }
+}
 
 @theme {
   --font-family-sans:
@@ -32,7 +26,7 @@
   /* Brand colors (same in both modes) */
   --color-brand: #c00000;
   --color-brand-hover: #d55454;
-  
+
   --color-text-brand: #c00000;
 
   /* Light mode colors (default) */
@@ -52,6 +46,29 @@
   --color-accent-dark-green: #248045;
   --color-accent-blue: #3b82f6;
   --color-accent-navy: #406a9d;
+
+  /* Moderation flag colors (light mode) */
+  --color-flag-sexual-bg: #fbcfe8; /* pink-200 */
+  --color-flag-sexual-text: #831843; /* pink-800 */
+
+  --color-flag-violent-bg: #fecaca; /* red-200 */
+  --color-flag-violent-text: #7f1d1d; /* red-800 */
+
+  --color-flag-harmful-bg: #fed7aa; /* orange-200 */
+  --color-flag-harmful-text: #7c2d12; /* orange-800 */
+
+  --color-flag-harassment-bg: #e9d5ff; /* purple-200 */
+  --color-flag-harassment-text: #581c87; /* purple-800 */
+
+  --color-flag-self-harm-bg: #bfdbfe; /* blue-200 */
+  --color-flag-self-harm-text: #1e3a8a; /* blue-800 */
+
+  --color-flag-appeal-bg: #2dd4bf;
+  --color-flag-appeal-text: #0d9488;
+
+  /* Moderation flag colors (light mode) */
+  --color-flag-spam-bg: #fef08a;
+  --color-flag-spam-text: #78350f;
 }
 
 /* Dark mode overrides */
@@ -65,6 +82,28 @@
   --color-text-secondary: #a3a3a3;
   --color-text-dark: #ffffff;
   --color-text-gray: #a3a3a3;
+
+  /* Moderation flag colors (dark mode) */
+  --color-flag-sexual-bg: rgba(131, 24, 67, 0.4); /* pink-900/40 */
+  --color-flag-sexual-text: #f9a8d4; /* pink-300 */
+
+  --color-flag-violent-bg: rgba(127, 29, 29, 0.4); /* red-900/40 */
+  --color-flag-violent-text: #fca5a5; /* red-300 */
+
+  --color-flag-harmful-bg: rgba(124, 45, 18, 0.4); /* orange-900/40 */
+  --color-flag-harmful-text: #fdba74; /* orange-300 */
+
+  --color-flag-harassment-bg: rgba(88, 28, 135, 0.4); /* purple-900/40 */
+  --color-flag-harassment-text: #d8b4fe; /* purple-300 */
+
+  --color-flag-self-harm-bg: rgba(30, 58, 138, 0.4); /* blue-900/40 */
+  --color-flag-self-harm-text: #93c5fd; /* blue-300 */
+
+  --color-flag-spam-bg: rgba(120, 53, 15, 0.4); /* yellow-900/40 */
+  --color-flag-spam-text: #fde68a; /* yellow-300 */
+
+  --color-flag-appeal-bg: #0d9488;
+  --color-flag-appeal-text: #5eead4;
 }
 
 @layer utilities {
@@ -79,14 +118,15 @@
   }
 
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0);
     }
     50% {
       transform: translateY(-4px);
     }
-}
- .animate-float {
+  }
+  .animate-float {
     animation: float 1.5s ease-in-out infinite;
   }
 }

@@ -48,8 +48,19 @@ $router
 
 $router->get("/search", "controllers/search.php");
 
+$router->get("/admin", "controllers/moderate/show.php");
+$router->get("/banned", "controllers/banned.php");
+
+$router->get("/appeal", "controllers/appeal/show.php")->only("author");
+$router
+    ->get("/appeal_sucess", "controllers/appeal/success.php")
+    ->only("author");
 
 //POST
+
+$router->post("/report", "controllers/moderate/report.php"); // temporary must be admin only
+
+$router->post("/appeal", "controllers/appeal/create.php")->only("author");
 
 $router
     ->post("/register", "controllers/registration/create.php")
@@ -89,3 +100,29 @@ $router->patch(
     "/notification/marked",
     "controllers/notifications/marked_as_read.php",
 );
+
+$router
+    ->patch("/admin/ban_comment", "controllers/moderate/ban_comment.php")
+    ->only("admin");
+
+$router
+    ->patch("/admin/ban_blog", "controllers/moderate/ban_blog.php")
+    ->only("admin");
+
+$router
+    ->patch("/admin/ban_user", "controllers/moderate/ban_user.php")
+    ->only("admin");
+
+$router
+    ->patch(
+        "/admin/decline_ban_blog",
+        "controllers/moderate/decline_blog_report.php",
+    )
+    ->only("admin");
+
+$router
+    ->patch(
+        "/admin/decline_ban_comment",
+        "controllers/moderate/decline_comment_report.php",
+    )
+    ->only("admin");

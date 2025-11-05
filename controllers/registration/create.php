@@ -1,3 +1,4 @@
+<?php
 use Core\App;
 use Core\Database;
 use Core\Authenticator;
@@ -17,7 +18,7 @@ if ($auth->isUserExist($email)) {
 }
 
 // create user account
-$id = $db->query(
+$db->query(
     "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
 ('USER', 'Ruzzel', :email, :password, 'ACTIVE', NOW(), 'LOCAL');",
     [
@@ -32,17 +33,9 @@ $auth->generateToken($email);
 // gets the registered user id because its the last inserted row
 $id = $db->getLastInsertID();
 
-if (!$signedIn) {
-    redirect("/login");
-
-    exit();
-}
-
 $role = $auth->getLoggedInRoleWithEmail($email);
 
 $auth->generateToken($email, $role);
-
-redirect("/");
 
 $db->query(
     "INSERT INTO `user_preferences` (
