@@ -11,6 +11,7 @@ $badge_color_map = [
     "HARASSMENT" => "bg-flag-harassment-bg text-flag-harassment-text",
     "SELF_HARM" => "bg-flag-self-harm-bg text-flag-self-harm-text",
     "SPAM" => "bg-flag-spam-bg text-flag-spam-text",
+    "APPEAL" => "bg-flag-appeal-bg text-flag-appeal-text",
 ];
 
 $blogs_reports = $db
@@ -88,10 +89,17 @@ $comment_reports = $db
     )
     ->get();
 
+$appeals = $db
+    ->query(
+        "SELECT users.username as appealed_by, appeals.reason, appeals.id as appeal_id FROM appeals INNER JOIN users ON users.id = appeals.author_id",
+    )
+    ->get();
+
 // dd(["blogs" => $blogs_reports, "comments" => $comment_reports]);
 
 render("moderate/admin.view.php", [
     "blogs_reports" => $blogs_reports,
     "badge_color_map" => $badge_color_map,
     "comment_reports" => $comment_reports,
+    "appeals" => $appeals,
 ]);

@@ -27,7 +27,7 @@ $db->query(
         "user_id" => (int) $user_id,
         "blog_id" => (int) $blog_id,
         "parent_id" => (int) $parent_id,
-        "content" => $content,
+        "content" => str_replace(["\n", "\r"], "", $content),
     ],
 );
 

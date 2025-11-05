@@ -21,8 +21,8 @@ if ($user_id === null) {
 $db = App::resolve(Database::class);
 
 $db->query(
-    "INSERT INTO comments (`user_id`, `blog_id`, `content`, `like_count`, `dislike_count`, `parent_id`, `created_at`)
-    VALUES (:user_id, :blog_id, :content, 0, 0, NULL, NOW())",
+    "INSERT INTO comments (`user_id`, `blog_id`, `content`, `like_count`, `dislike_count`, `parent_id`, `created_at`, `status`)
+    VALUES (:user_id, :blog_id, :content, 0, 0, NULL, NOW(), 'ACTIVE')",
     [
         "user_id" => $user_id,
         "blog_id" => $blog_id,

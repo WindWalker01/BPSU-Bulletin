@@ -48,7 +48,8 @@
                     <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
                         <span class="material-symbols-outlined text-xl">share</span> Share
                     </button>
-
+                    
+                    <?php if (getLoggedInRole() !== "ADMIN"): ?>
                     <button 
                         type="button"
                         class="flex items-center gap-1 text-text-secondary hover:text-brand <?= isUserLoggedIn()
@@ -59,6 +60,24 @@
                         <span class="material-symbols-outlined text-base">flag</span>
                         Report
                     </button>
+                    <?php else: ?>
+                      <button 
+                        type="button"
+                        class="flex items-center gap-1 text-text-secondary hover:text-yellow-500 <?= isUserLoggedIn()
+                            ? ""
+                            : "hidden" ?>"
+                        onclick="openModerationPanel(
+                                'blog',
+                                <?= $blog_id ?>, 
+                                '<?= htmlspecialchars($title) ?>', 
+                                '<?= htmlspecialchars($author_name) ?>', 
+                                '<?= htmlspecialchars($author_profile) ?>', 
+                                '<?= $author_id ?>'
+                            )">
+                        <span class="material-symbols-outlined text-base">gavel</span>
+                        Moderate
+                    </button>
+                    <?php endif; ?>
                 </div>
 
             </div>
@@ -196,6 +215,76 @@
   </div>
 </div>
 
+
+<!-- MODERATION MODAL -->
+<div 
+  id="moderationModal" 
+  class="hidden fixed inset-0 bg-overlay-dark/80 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+>
+  <div class="bg-overlay-dark rounded-2xl shadow-xl w-full max-w-lg p-6 border border-card-dark animate-fade-up max-h-[90vh] overflow-y-auto">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4 sticky top-0 bg-overlay-dark/90 backdrop-blur-sm z-10 pb-2">
+      <h2 class="text-lg font-semibold text-text-primary flex items-center gap-1">
+        <span class="material-symbols-outlined text-brand">gavel</span>
+        Moderate Content
+      </h2>
+      <button 
+        type="button" 
+        onclick="closeModerationModal()" 
+        class="text-text-secondary hover:text-text-primary transition"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Comment Info -->
+    <div class="bg-bg-dark border border-card-dark rounded-md p-3 text-sm text-text-secondary mb-5 overflow-y-auto max-h-[40vh]">
+      <div class="flex flex-row items-start gap-3">
+        <a href="" id="moderationCommentAccountLink" class="flex-shrink-0">
+          <img src="" class="w-9 h-9 rounded-full" alt="Avatar" id="moderationCommentAvatar">
+        </a>
+        <div class="flex-1 space-y-1">
+          <span class="font-semibold text-text-primary block" id="moderationCommentUsername"></span>
+          <p id="moderationCommentText" class="leading-relaxed break-words">
+            Loading content details...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="space-y-2">
+      <button 
+        type="button"
+        onclick="deleteComment()"
+        class="w-full px-4 py-2 rounded-md bg-brand hover:bg-brand-hover text-sm text-white transition flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined text-base">delete</span>
+        Delete Content
+      </button>
+
+      <button 
+        type="button"
+        onclick="banUser()"
+        class="w-full px-4 py-2 rounded-md bg-yellow-500 hover:bg-yellow-600 text-sm text-black transition flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined text-base">block</span>
+        Ban User
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex justify-end mt-5">
+      <button 
+        type="button" 
+        onclick="closeModerationModal()" 
+        class="px-3 py-1.5 text-sm rounded-md text-text-secondary hover:text-text-primary transition"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
 
 
 
@@ -437,6 +526,53 @@ function closeReportModal() {
     document.getElementById('reportModal').classList.add('hidden');
 }
 </script>
+
+
+<script>
+let selectedId = null;
+let moderationType = null;
+
+function openModerationPanel(moderation, commentId, content, username, avatar, accountId) {
+  selectedId = commentId;
+  moderationType = moderation;
+
+  document.getElementById("moderationCommentText").textContent = content;
+  document.getElementById("moderationCommentUsername").textContent = `${username}: `;
+  document.getElementById("moderationCommentAvatar").src = avatar;
+  document.getElementById("moderationCommentAccountLink").href = `/account?id=${accountId}`;
+  
+  document.getElementById("moderationModal").classList.remove("hidden");
+}
+
+function closeModerationModal() {
+  document.getElementById("moderationModal").classList.add("hidden");
+}
+
+function deleteComment() {
+  if (!confirm("Are you sure you want to delete this content?")) return;
+
+  let uri = moderationType === "comment" ? `/admin/ban_comment?commentId=${selectedId}` : `/admin/ban_blog?blogId=${selectedId}&authorId=${<?= $author_id ?>}`; 
+
+
+  fetch(`${uri}`, { method: 'PATCH' })
+    .then(res => res.json())
+    .then(data => alert(data.message || "Comment deleted."))
+    .finally(closeModerationModal);
+
+    window.location.reload();
+}
+
+function banUser() {
+  if (!confirm("Ban the user who posted this comment?")) return;
+  fetch(`/admin/ban_user?id=${selectedId}&by=comment`, { method: 'PATCH' })
+    .then(res => res.json())
+    .then(data => alert(data.message || "User banned."))
+    .finally(closeModerationModal);
+
+    window.location.reload();
+}
+</script>
+
 
 
 <?php view("partials/footer.php"); ?>

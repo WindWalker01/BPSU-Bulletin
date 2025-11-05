@@ -1,5 +1,7 @@
 <?php
 use Core\Authenticator;
+use Core\App;
+use Core\Database;
 
 function dd($value)
 {
@@ -51,6 +53,22 @@ function getLoggedInRole()
 function getLoggedInUserId()
 {
     return new Authenticator()->getLoggedInUserId();
+}
+
+function handleBannedUsers()
+{
+    $db = App::resolve(Database::class);
+
+    $as = $db
+        ->query("SELECT account_status FROM users WHERE id = :id", [
+            "id" => getLoggedInUserId(),
+        ])
+        ->find()["account_status"];
+
+    if ($as === "BANNED") {
+        redirect("/banned");
+        exit();
+    }
 }
 
 function timeAgo($datetime)

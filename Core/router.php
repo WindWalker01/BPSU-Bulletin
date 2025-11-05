@@ -47,6 +47,9 @@ class Router
                 strtoupper($method) === $route["method"]
             ) {
                 Middleware::resolve($route["middleware"]);
+                if ($uri === "banned") {
+                    handleBannedUsers();
+                }
                 return require base_path($route["controller"]);
             }
         }
@@ -66,16 +69,15 @@ class Router
     }
 
     protected function abort($code)
-{
-    http_response_code($code);
-    $view = base_path("views/{$code}.view.php");
+    {
+        http_response_code($code);
+        $view = base_path("views/{$code}.view.php");
 
-    if (file_exists($view)) {
-        require $view;
-    } else {
-        echo "Error {$code}";
+        if (file_exists($view)) {
+            require $view;
+        } else {
+            echo "Error {$code}";
+        }
+        die();
     }
-    die();
-}
-
 }

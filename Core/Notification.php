@@ -18,6 +18,58 @@ class Notification
         $this->mail = new PHPMailer(true);
     }
 
+    function createRemovedCommentNotification($receiver, $source)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`,
+            `title`,
+            `description`,
+            `sender_id`,
+            `is_read`,
+            `category`,
+            `blog_id`,
+            `created_at`,
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'COMMENT')",
+            [
+                "receiver" => $receiver,
+                "title" => "your comment",
+                "description" => "Removed",
+                "sender" => getLoggedInUserId(),
+                "category" => "IMPORTANT",
+                "blog" => $source,
+            ],
+        );
+    }
+
+    function createRemovedBlogNotification($receiver, $source)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`,
+            `title`,
+            `description`,
+            `sender_id`,
+            `is_read`,
+            `category`,
+            `blog_id`,
+            `created_at`,
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'BLOG')",
+            [
+                "receiver" => $receiver,
+                "title" => "your blog",
+                "description" => "Removed",
+                "sender" => getLoggedInUserId(),
+                "category" => "IMPORTANT",
+                "blog" => $source,
+            ],
+        );
+    }
+
     function createBlogNotification($sender, $blog)
     {
         // Get all the followers that has enabled in app notification

@@ -63,9 +63,12 @@
   --color-flag-self-harm-bg: #bfdbfe; /* blue-200 */
   --color-flag-self-harm-text: #1e3a8a; /* blue-800 */
 
+  --color-flag-appeal-bg: #2dd4bf;
+  --color-flag-appeal-text: #0d9488;
+
   /* Moderation flag colors (light mode) */
-  --color-flag-spam-bg: #fef08a; /* yellow-200 */
-  --color-flag-spam-text: #78350f; /* yellow-800 */
+  --color-flag-spam-bg: #fef08a;
+  --color-flag-spam-text: #78350f;
 }
 
 /* Dark mode overrides */
@@ -98,6 +101,9 @@
 
   --color-flag-spam-bg: rgba(120, 53, 15, 0.4); /* yellow-900/40 */
   --color-flag-spam-text: #fde68a; /* yellow-300 */
+
+  --color-flag-appeal-bg: #0d9488;
+  --color-flag-appeal-text: #5eead4;
 }
 
 @layer utilities {

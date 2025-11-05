@@ -29,6 +29,11 @@ $blog = $db
     )
     ->find();
 
+if ($blog["blog_status"] === "BANNED") {
+    redirect("/appeal?blog={$id}");
+    exit();
+}
+
 $html = new \Tiptap\Editor([
     "extensions" => [
         new \Tiptap\Extensions\StarterKit([
@@ -55,8 +60,10 @@ $comments = $db
         c.like_count,
         c.created_at,
         c.dislike_count,
+        c.status,
         u.username,
         u.role,
+        u.account_status,
         COALESCE(pi.secure_url, 'https://res.cloudinary.com/dz4qgnk5v/image/upload/v1760538796/default_profile_xgg15t.jpg') AS avatar_url
     FROM comments c
     JOIN users u ON c.user_id = u.id
@@ -160,7 +167,7 @@ function renderComments($parent_id, $tree, $level = 0, $db)
             "indent" => $indent,
             "username" => $c["username"],
             "avatar" => $c["avatar_url"],
-            "content" => $c["content"],
+            "content" => trim($c["content"]),
             "like_count" => $c["like_count"],
             "dislike_count" => $c["dislike_count"],
             "created_at" => timeAgo($c["created_at"]),
@@ -168,6 +175,8 @@ function renderComments($parent_id, $tree, $level = 0, $db)
             "reply_parent_id" => $c["id"],
             "user_reaction" => $reaction["reaction_id"],
             "user_id" => $c["user_id"],
+            "status" => $c["status"],
+            "user_status" => $c["account_status"],
         ]);
 
         // Recursive call
