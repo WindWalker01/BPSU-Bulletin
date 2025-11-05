@@ -8,12 +8,14 @@ $config = require __DIR__ . '/../../config/config.php';
 $db = new \Core\Database($config);
 
 
+
 if (isset($_GET['page']) && is_numeric($_GET['page'])) {
     
     // ===============================================
     // == JOB B: HANDLE "LOAD MORE" (JSON) REQUEST ==
     // ===============================================
     
+
     // This part is already correct.
     header('Content-Type: application/json');
 
@@ -36,7 +38,8 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             ANY_VALUE(bi.secure_url) AS featured_image,
             ANY_VALUE(c.value) AS category_name,
             COALESCE(ANY_VALUE(likes.likes_count), 0) AS likes_count,
-            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count
+            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count,
+            COALESCE(ANY_VALUE(views.view_count), 0) AS view_count
         FROM blogs AS b
         LEFT JOIN users AS u ON b.author_id = u.id
         LEFT JOIN profile_images AS pi ON u.id = pi.user_id
@@ -49,6 +52,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         LEFT JOIN (
             SELECT blog_id, COUNT(id) as comments_count FROM comments GROUP BY blog_id
         ) AS comments ON b.id = comments.blog_id
+         LEFT JOIN (
+            SELECT blog_id, COUNT(DISTINCT user_id) as view_count FROM blog_views GROUP BY blog_id
+        ) AS views ON b.id = views.blog_id
         WHERE 
             b.blog_status = 'ACTIVE' AND b.published_at IS NOT NULL AND b.published_at <= NOW()
         GROUP BY b.id
@@ -74,7 +80,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             "link" => "/blog?id=" . $row['id'],
             "image" => $row['featured_image'] ?? 'https://via.placeholder.com/640x360?text=No+Image',
             "likes" => $row['likes_count'],
-            "comments" => $row['comments_count']
+            "comments" => $row['comments_count'],
+            "views" => $row['view_count']
+
         ];
     }
 
@@ -99,7 +107,8 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             ANY_VALUE(bi.secure_url) AS featured_image,
             ANY_VALUE(c.value) AS category_name,
             COALESCE(ANY_VALUE(likes.likes_count), 0) AS likes_count,
-            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count
+            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count,
+            COALESCE(ANY_VALUE(views.view_count), 0) AS view_count
         FROM blogs AS b
         LEFT JOIN users AS u ON b.author_id = u.id
         LEFT JOIN profile_images AS pi ON u.id = pi.user_id
@@ -112,6 +121,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         LEFT JOIN (
             SELECT blog_id, COUNT(id) as comments_count FROM comments GROUP BY blog_id
         ) AS comments ON b.id = comments.blog_id
+        LEFT JOIN (
+            SELECT blog_id, COUNT(DISTINCT user_id) as view_count FROM blog_views GROUP BY blog_id
+        ) AS views ON b.id = views.blog_id
         WHERE 
             b.blog_status = 'ACTIVE' AND b.published_at IS NOT NULL AND b.published_at <= NOW()
         GROUP BY b.id
@@ -136,7 +148,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             "link" => "/blog?id=" . $row['id'], 
             "image" => $row['featured_image'] ?? extractFirstImageFromTiptap($row['content']) ?? 'https://via.placeholder.com/640x360?text=No+Image',
             "likes" => $row['likes_count'],
-            "comments" => $row['comments_count']
+            "comments" => $row['comments_count'],
+            "views" => $row['view_count']
+
         ];
     }
 
@@ -150,4 +164,5 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         "featured_posts" => $featured_posts, // Pass featured posts
         "grid_posts" => $grid_posts        // Pass grid posts
     ]);
+    
 }

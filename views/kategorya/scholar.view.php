@@ -1,7 +1,137 @@
-<a href="categories" class="absolute inset-x-60 inset-y-30 text-gray-400 font-normal text-sm md:text-base w-15 h-5">← Back</a>
-<a href="categories" class="absolute inset-x-400 inset-y-30 text-gray-400 font-normal text-sm md:text-base w-15 h-5">Next →</a>
+<div class="dark bg-bg-dark/50 min-h-screen">
+  <div class="w-10xl max-w-[80%] mx-auto md:px-0 pt-8 sm:pt-12 md:pt-16">
 
-<h1 class="text-4xl text-white absolute inset-x-60 inset-y-50 font-bold">University Scholars</h1>
-    <p class="text-sm text-white/50 absolute inset-x-62 inset-y-65">Financial aid opppurtunities.</p>
+    <div class="flex items-center justify-between">
+      <a href="/categories" class="text-text-secondary font-normal text-sm md:text-base hover:text-text-primary transition flex items-center gap-1">
+          ← Back to Categories
+      </a>
+
+        <?php if ($page < $totalPages): ?>
+            <a href="?page=<?= $page + 1 ?>" 
+                class="text-text-secondary hover:text-text-primary text-sm flex items-center justify-center gap-1 transition">
+                Next →
+            </a>
+        <?php endif; ?>
+    </div>
+
+    <div class="mt-8">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold">University Scholarship</h1>
+       <p class="text-base sm:text-lg text-text-secondary mt-1">Information about financial aid and scholarship programs.</p>
+    </div>
+
+        <form method="GET" action="" class="flex flex-col sm:flex-row gap-4 mt-8">
+            <div class="relative flex-grow">
+                <input 
+                id="searchInput"
+                name="search"
+                type="text" 
+                placeholder="Search scholarships..." 
+                value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
+                class="w-full px-4 py-2 bg-transparent border border-white/20 rounded-lg text-sm placeholder-text-secondary focus:border-brand focus:ring-1 focus:ring-brand transition"
+                >
+            </div>
+
+            <div class="relative w-full sm:w-40 flex-shrink-0">
+                <select id="sortOrder" class="appearance-none w-full bg-transparent border border-white/20 rounded-lg text-sm py-2 px-3 pr-8 focus:border-brand focus:ring-1 focus:ring-brand transition">
+                <option value="newest" class="bg-bg-dark text-text-primary" selected>Newest</option>
+                <option value="oldest" class="bg-bg-dark text-text-primary">Oldest</option>
+                </select>
+                <span class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-text-secondary text-xs">
+                ▼
+                </span>
+            </div>
+        </form>
+
+    <?php if (empty($blogs)): ?>
+        <p class="text-text-secondary text-center mt-10 italic">No scholarships found in this category.</p>
+    <?php endif; ?>
+
+    <div id="scholarshipContainer" class="mt-8 space-y-4">
+        <?php foreach ($blogs as $b): ?>
+            <?php 
+                $excerpt = extractFirstParagraphFromTiptap(json_decode($b['content'], true)); ?>
+
+            <a href="/blog/view?id=<?= $b['id'] ?>" class="block scholarship-card" data-date="<?= htmlspecialchars($b['created_at']) ?>"> 
+                <div class="bg-card-dark/10 p-5 sm:p-6 rounded-xl border border-white/10 relative 
+                            hover:bg-brand-hover/10 hover:border-brand/30 transition-all duration-300 group">
+                    
+                    <p class="ml-auto font-bold text-accent-green text-xs tracking-wider absolute top-4 right-5 
+                                px-2 py-1 rounded-full bg-green-500/20">
+                        University Scholarships
+                    </p>
+
+                    <div class="flex items-center space-x-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-brand flex-shrink-0"
+                              style="background-image: url('<?= htmlspecialchars($b['author_avatar'] ?? '') ?>'); background-size: cover; background-position: center;">
+                        </div>
+                        
+                        <div>
+                            <p class="text-sm font-semibold text-text-primary">
+                                <?= htmlspecialchars($b['username']) ?>
+                            </p>
+                            <p class="text-xs text-text-secondary">
+                                Published on <?= date('F d, Y', strtotime($b['created_at'])) ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <h2 class="text-lg sm:text-xl font-semibold leading-snug mt-3 group-hover:text-brand transition">
+                        <?= htmlspecialchars($b['title']) ?>
+                    </h2>
+                      <p class="text-sm text-text-secondary mt-2 line-clamp-3">
+                          <?= htmlspecialchars($excerpt ?: "No content preview available.") ?>
+                      </p>
+                </div>
+            </a>
+        <?php endforeach; ?>
+    </div>
+
+<div class="flex justify-start items-center mt-10 text-text-secondary gap-4">
+    
+    <form method="GET" action="" class="flex items-center gap-2 mb-10">
+        <label for="page" class="text-sm">Page</label>
+
+        <select 
+            name="page" 
+            id="page" 
+            onchange="this.form.submit()" 
+            class= " border-card-dark/50 border-3 bg-overlay-dark text-sm text-text-secondary rounded-md py-2 px-3 hover:border-brand transition">
+
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <option 
+                    value="<?= $i ?>" 
+                    <?= $i === $page ? 'selected' : '' ?> 
+                    class="bg-bg-dark/10 text-text-primary"
+                >
+                    <?= $i ?>
+                </option>
+            <?php endfor; ?>
+        </select>
+
+        <span class="text-sm">of <?= $totalPages ?></span>
+    </form>
+</div>
+
+
+<script>
+  const select = document.getElementById('sortOrder');
+  const container = document.getElementById('scholarshipContainer');
+
+  select.addEventListener('change', () => {
+    const cards = Array.from(container.querySelectorAll('.scholarship-card'));
+    const order = select.value;
+
+    // Sort by date
+    cards.sort((a, b) => {
+      const dateA = new Date(a.dataset.date);
+      const dateB = new Date(b.dataset.date);
+      return order === 'newest' ? dateB - dateA : dateA - dateB;
+    });
+
+    // Re-append sorted cards
+    cards.forEach(card => container.appendChild(card));
+  });
+</script>
+
 
 <?php view("partials/footer.php"); ?>
