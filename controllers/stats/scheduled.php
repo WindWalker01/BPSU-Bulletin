@@ -12,6 +12,25 @@ if (!$current_user_id) {
     exit();
 }
 
+$search_term = $_GET['search'] ?? '';
+$sort_order = $_GET['sort'] ?? 'asc'; 
+
+$sql_params = ['author_id' => $current_user_id];
+$search_sql = '';
+$order_by_sql = '';
+
+if (!empty($search_term)) {
+    $search_sql = " AND b.title LIKE :search"; 
+    $sql_params['search'] = '%' . $search_term . '%';
+}
+
+if ($sort_order === 'desc') {
+    $order_by_sql = "b.scheduled_at DESC";
+} else {
+    $order_by_sql = "b.scheduled_at ASC";
+}
+
+
 $posts = $db->query(
     "SELECT 
         b.id, 
@@ -32,12 +51,15 @@ $posts = $db->query(
     ) c ON b.id = c.blog_id
     WHERE 
         b.blog_status = 'SCHEDULED' AND b.author_id = :author_id
+        {$search_sql}
     ORDER BY 
-        b.scheduled_at ASC",
-    ['author_id' => $current_user_id]
+        {$order_by_sql}",
+    $sql_params
 )->get();
 
 
 render('stats/scheduled.view.php', [ 
-    'scheduled_blogs' => $posts
+    'scheduled_blogs' => $posts,
+    'search_term' => $search_term, // Pass search term
+    'sort_order' => $sort_order     // Pass sort order
 ]);

@@ -1,5 +1,3 @@
-controllers/stats/archived.php
-
 <?php
 
 use Core\App;
@@ -14,7 +12,24 @@ if (!$current_user_id) {
     exit();
 }
 
-// UPDATED QUERY to include views and comments
+$search_term = $_GET['search'] ?? '';
+$sort_order = $_GET['sort'] ?? 'desc'; 
+
+$sql_params = ['author_id' => $current_user_id];
+$search_sql = '';
+$order_by_sql = '';
+
+if (!empty($search_term)) {
+    $search_sql = " AND b.title LIKE :search"; 
+    $sql_params['search'] = '%' . $search_term . '%';
+}
+
+if ($sort_order === 'asc') {
+    $order_by_sql = "b.updated_at ASC"; 
+} else {
+    $order_by_sql = "b.updated_at DESC"; 
+}
+
 $posts = $db->query(
     "SELECT 
         b.id, 
@@ -35,11 +50,14 @@ $posts = $db->query(
     ) c ON b.id = c.blog_id
     WHERE 
         b.blog_status = 'DELETED' AND b.author_id = :author_id
+        {$search_sql}
     ORDER BY 
-        b.updated_at DESC",
-    ['author_id' => $current_user_id]
+        {$order_by_sql}",
+    $sql_params
 )->get();
 
 render('stats/archived.view.php', [ 
-    'archived_blogs' => $posts 
+    'archived_blogs' => $posts,
+    'search_term' => $search_term, // Pass search term
+    'sort_order' => $sort_order     // Pass sort order
 ]);

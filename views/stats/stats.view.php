@@ -19,11 +19,19 @@
                   </button>
                   <input
                     placeholder="Search posts by title"
-                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#ffffff] focus:outline-0 focus:ring-0 border-none bg-[#1a1a1a]/50 bg-blur-sm focus:border-none h-full placeholder:text-[#a3a3a3] px-4 rounded-l-none pl-2 text-base font-normal leading-normal"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#ffffff] focus:outline-0 focus:ring-0 border-none bg-[#1a1a1a]/50 bg-blur-sm focus:border-none h-full placeholder:text-[#a3a3a3] px-4 rounded-l-none pl-2 text-base font-normal leading-normal <?php if (!empty($search_term)): ?>rounded-r-none<?php endif; /* */ ?>"
                     name="search"
                     value="<?= htmlspecialchars($search_term ?? '') ?>"
                   />
-                </div>
+                  
+                  <?php if (!empty($search_term)): ?>
+                    <a href="/stats" class="text-[#a3a3a3] flex border-none bg-[#1a1a1a]/50 bg-blur-sm items-center justify-center pr-4 rounded-r-lg hover:text-white transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31l-66.34,66.35a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                      </svg>
+                    </a>
+                  <?php endif; ?>
+                  </div>
               </label>
             </form>
           </div>
@@ -55,42 +63,42 @@
               <div class="rounded-lg border border-[#2e2e2e] bg-[#1a1a1a]/50 p-4 sm:p-6">
                   
                   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                      <div class="bg-[#2e2e2e]/50 rounded-lg p-4">
-                          <p class="text-sm font-medium text-[#a3a3a3]">Today's Views</p>
-                          <p class="text-3xl font-bold text-white"><?= $todays_views ?></p>
-                      </div>
-                      <div class="bg-[#2e2e2e]/50 rounded-lg p-4">
-                          <p class="text-sm font-medium text-[#a3a3a3]">Past 7 Days</p>
-                          <p class="text-3xl font-bold text-white"><?= $total_7_day_views ?></p>
-                      </div>
-                      <div class="bg-[#2e2e2e]/50 rounded-lg p-4">
-                          <p class="text-sm font-medium text-[#a3a3a3]">Past 30 Days</p>
-                          <p class="text-3xl font-bold text-white"><?= $total_30_day_views ?></p>
-                      </div>
+                        <div class="bg-[#2e2e2e]/50 rounded-lg p-4">
+                            <p class="text-sm font-medium text-[#a3a3a3]">Today's Views</p>
+                            <p class="text-3xl font-bold text-white"><?= $todays_views ?></p>
+                        </div>
+                        <div class="bg-[#2e2e2e]/50 rounded-lg p-4">
+                            <p class="text-sm font-medium text-[#a3a3a3]">Past 7 Days</p>
+                            <p class="text-3xl font-bold text-white"><?= $total_7_day_views ?></p>
+                        </div>
+                        <div class="bg-[#2e2e2e]/50 rounded-lg p-4">
+                            <p class="text-sm font-medium text-[#a3a3a3]">Past 30 Days</p>
+                            <p class="text-3xl font-bold text-white"><?= $total_30_day_views ?></p>
+                        </div>
                   </div>
 
                   <div class="flex justify-end gap-2 mb-4">
-                      <div class="relative">
-                          <button id="chart-range-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
-                            <p id="chart-range-text" class="text-[#ffffff] text-sm font-medium leading-normal whitespace-nowrap">Last 30 Days</p>
-                            <div class="text-[#ffffff]">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                                <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                              </svg>
+                        <div class="relative">
+                            <button id="chart-range-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
+                              <p id="chart-range-text" class="text-[#ffffff] text-sm font-medium leading-normal whitespace-nowrap">Last 30 Days</p>
+                              <div class="text-[#ffffff]">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                                  <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                                </svg>
+                              </div>
+                            </button>
+                            <div id="chart-range-menu" class="absolute z-10 top-full right-0 mt-2 w-48 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
+                              <ul class="py-2">
+                                <li><a href="#" class="chart-range-item block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2" data-range="24h">Last 24 hours</a></li>
+                                <li><a href="#" class="chart-range-item block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2" data-range="7d">Last 7 days</a></li>
+                                <li><a href="#" class="chart-range-item block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2" data-range="30d">Last 30 days</a></li>
+                              </ul>
                             </div>
-                          </button>
-                          <div id="chart-range-menu" class="absolute z-10 top-full right-0 mt-2 w-48 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
-                            <ul class="py-2">
-                              <li><a href="#" class="chart-range-item block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2" data-range="24h">Last 24 hours</a></li>
-                              <li><a href="#" class="chart-range-item block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2" data-range="7d">Last 7 days</a></li>
-                              <li><a href="#" class="chart-range-item block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2" data-range="30d">Last 30 days</a></li>
-                            </ul>
-                          </div>
-                      </div>
+                        </div>
                   </div>
                   
                   <div class="relative h-64 sm:h-80">
-                      <canvas id="viewsChart"></canvas>
+                        <canvas id="viewsChart"></canvas>
                   </div>
               </div>
           </div>
@@ -114,9 +122,9 @@
                     <tr class="border-t border-[#2e2e2e]">
                       <td colspan="5" class="px-4 py-4 text-center text-[#a3a3a3] text-sm font-normal leading-normal">
                         <?php if (!empty($search_term)): ?>
-                            No published posts found matching "<?= htmlspecialchars($search_term) ?>".
+                          No published posts found matching "<?= htmlspecialchars($search_term) ?>".
                         <?php else: ?>
-                            No published posts found.
+                          No published posts found.
                         <?php endif; ?>
                       </td>
                     </tr>
