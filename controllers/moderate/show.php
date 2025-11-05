@@ -95,7 +95,13 @@ $comment_reports = $db
 
 $appeals = $db
     ->query(
-        "SELECT users.username as appealed_by, appeals.reason, appeals.id as appeal_id FROM appeals INNER JOIN users ON users.id = appeals.author_id",
+        "SELECT 
+        users.username as appealed_by, 
+        appeals.reason,
+        appeals.blog_id, 
+        appeals.id as appeal_id 
+        FROM appeals 
+        INNER JOIN users ON users.id = appeals.author_id",
     )
     ->get();
 
