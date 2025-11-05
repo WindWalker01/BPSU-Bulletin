@@ -32,27 +32,13 @@
         ></div>
       </label>
     </div>
-
-    <div class="border-t border-card-dark flex justify-between items-center p-4">
-      <div>
-        <p class="text-text-primary font-medium">Content Updates</p>
-        <p class="text-text-secondary text-sm">
-          Be alerted by email when an announcement is edited or updated by an
-          author.
-        </p>
-      </div>
-      <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" value="" class="sr-only peer" checked />
-        <div
-          class="w-11 h-6 bg-card-dark rounded-full peer peer-focus:ring-2 peer-focus:ring-brand-hover peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand"
-        ></div>
-      </label>
-    </div>
+       
+  
   </div>
 
   <section class="mt-8">
     <h2 class="text-xl font-semibold text-text-primary mb-4">
-      In-App Notifications
+      Activity Notifications
     </h2>
     <div class="bg-overlay-dark/50 border border-card-dark rounded-lg">
       <div class="flex justify-between items-center p-4">
@@ -89,14 +75,14 @@
 
   <section class="mt-8">
     <h2 class="text-xl font-semibold text-text-primary mb-4">
-      Push Notifications
+     Profile & Personal Info
     </h2>
     <div class="bg-overlay-dark/50 border border-card-dark rounded-lg">
       <div class="flex justify-between items-center p-4">
         <div>
-          <p class="text-text-primary font-medium">Important Announcements</p>
+          <p class="text-text-primary font-medium">Display Email</p>
           <p class="text-text-secondary text-sm">
-            Get notified right away for important updates.
+           Turn this on to let other users see your email address on the Bulletin.
           </p>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">
@@ -109,9 +95,9 @@
 
       <div class="border-t border-card-dark flex justify-between items-center p-4">
         <div>
-          <p class="text-text-primary font-medium">New Posts</p>
+          <p class="text-text-primary font-medium">Lock Your Profile</p>
           <p class="text-text-secondary text-sm">
-            Push alerts when new announcements are posted.
+            Make your profile visible only to your followers.
           </p>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">

@@ -364,7 +364,7 @@ if (isUserLoggedIn()) {
 <!-- Overlay -->
 <label for="sidebar-toggle" class="fixed inset-0  bg-opacity-50 hidden cursor-pointer z-35" id="sidebar-overlay"></label>
 
-<div class="pt-16 min-h-screen transition-all duration-300" id="main-content">
+<div class="pt-16 min-h-screen transition-all duration-30" id="main-content">
     <?= $slot ?? "" ?>
 </div>
 <?php else: ?>

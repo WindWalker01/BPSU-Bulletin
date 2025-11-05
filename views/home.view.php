@@ -135,6 +135,9 @@
                     <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
                         <span class="material-symbols-outlined text-xl">share</span> Share
                     </button>
+                    <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-xl">visibility</span> ${M(post.views, 0)} views
+                    </button>
                 </div>
             </article>
             `;

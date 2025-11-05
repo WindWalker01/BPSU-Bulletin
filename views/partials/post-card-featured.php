@@ -42,6 +42,9 @@
         <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
         <span class="material-symbols-outlined text-xl">chat_bubble</span> <?= htmlspecialchars($post['comments']) ?>
         </button>
+        <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+        <span class="material-symbols-outlined text-xl">visibility</span> <?= htmlspecialchars($post['views'] ?? 0) ?> views
+        </button>
     </div>
     <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
         <span class="material-symbols-outlined text-xl">share</span> Share
