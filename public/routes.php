@@ -4,13 +4,11 @@
 $router->get("/", "controllers/index.php");
 $router->get("/blog", "controllers/blog/show.php");
 
-$router
-    ->get("/register", "controllers/registration/show.php")
-    ->only(["guest", "admin"]);
+$router->get("/register", "controllers/registration/show.php")->only(["guest"]);
 $router
     ->get("/edit-profile", "controllers/registration/edit-profile-show.php")
     ->only(["guest"]);
-$router->get("/login", "controllers/login/show.php")->only(["guest", "admin"]);
+$router->get("/login", "controllers/login/show.php")->only(["guest"]);
 $router
     ->get("/logout", "controllers/login/logout.php")
     ->only(["auth", "admin"]);
@@ -96,23 +94,17 @@ $router
 
 $router
     ->post("/register", "controllers/registration/create.php")
-    ->only(["guest", "admin"]);
+    ->only(["guest"]);
 
 $router
     ->post("/edit-profile", "controllers/registration/edit-profile.php")
-    ->only(["guest", "admin"]);
-$router
-    ->post("/login", "controllers/login/login.php")
-    ->only(["guest", "admin"]);
-$router
-    ->get("/login_google", "controllers/oauth/login.php")
-    ->only(["guest", "admin"]);
+    ->only(["guest"]);
+$router->post("/login", "controllers/login/login.php")->only(["guest"]);
+$router->get("/login_google", "controllers/oauth/login.php")->only(["guest"]);
 $router
     ->get("/google_callback", "controllers/oauth/google-callback.php")
-    ->only(["guest", "admin"]);
-$router
-    ->post("/logout", "controllers/login/logout.php")
-    ->only(["auth", "admin"]);
+    ->only(["guest"]);
+$router->post("/logout", "controllers/login/logout.php")->only(["auth"]);
 
 $router
     ->post("/blog", "controllers/blog/create.php")
