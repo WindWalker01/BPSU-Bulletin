@@ -1,7 +1,14 @@
-<div class="min-h-screen bg-bg-dark/80 flex flex-col items-center pt-24 px-4 relative">
+
+<div class="min-h-screen flex flex-col items-center pt-24 px-4 relative">
   <!-- Top Section -->
-  <div class="w-full flex justify-end max-w-6xl">
-    <a href="account" class="text-gray-400 font-normal text-sm md:text-base">← Back</a>
+  <div class="w-full flex justify-start max-w-6xl">
+      <div class="w-full flex justify-start max-w-6xl">
+    <a href="/account" class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-6 group">
+                     <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+                        Back
+    </a>
+  </div>
+
   </div>
   <!-- Profile Picture Section -->
   <div class="flex flex-col items-center mt-10 relative">
@@ -85,7 +92,23 @@
               Confirm?
             </button>
         </div>
-    </form>
+        <h2 class="text-lg font-semibold text-red-500 mt-6 mb-2">Bio</h2>
+        <div class="bg-card-dark/20 p-4 rounded-lg text-white">
+            <textarea name="bio" id="bio" rows="6" placeholder="Describe yourself" 
+              class="focus:outline-none bg-card-dark border-b border-red-500 w-full p-2 text-white placeholder:text-gray-400 resize-none rounded"><?php echo $bio ?></textarea>
+       
+        </div>
+        
+        <div class="flex">
+          <button type="submit" 
+            class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
+                  bg-brand hover:bg-brand/80 text-white font-semibold py-2 px-4 rounded-lg
+                  flex justify-center items-center h-10 w-40 mt-4 mx-auto">
+            Save Changes
+          </button>
+      </div>
+      </form>
+
   </div>
 </div>
 

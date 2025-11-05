@@ -1,8 +1,7 @@
 <?php
 // views/partials/post-card-featured.php
-// This is the "main-featured" card, based on your JS function
 ?>
-<article class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm space-y-4 bg-blur-sm">
+<article class="relative group bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm space-y-4 bg-blur-sm">
     <div class="flex items-center gap-3">
     <img
         alt="<?= htmlspecialchars($post['author']) ?> avatar"
@@ -26,8 +25,8 @@
         />
     </div>
 
-    <a class="block" href="<?= htmlspecialchars($post['link']) ?>">
-    <h2 class="text-2xl font-bold tracking-tight text-text-primary hover:text-brand transition-colors">
+    <a class="block after:absolute after:inset-0 after:z-0" href="<?= htmlspecialchars($post['link']) ?>">
+    <h2 class="text-2xl font-bold tracking-tight text-text-primary group-hover:text-brand transition-colors">
         <?= htmlspecialchars($post['title']) ?>
     </h2>
     <p class="mt-2 text-sm text-text-secondary leading-relaxed">
@@ -35,7 +34,7 @@
     </p>
     </a>
 
-    <div class="pt-4 border-t border-card-dark flex items-center justify-between text-sm">
+    <div class="relative z-10 pt-4 border-t border-card-dark flex items-center justify-between text-sm">
     <div class="flex items-center gap-4">
         <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
         <span class="material-symbols-outlined text-xl">thumb_up</span> <?= htmlspecialchars($post['likes']) ?>
