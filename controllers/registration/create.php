@@ -29,6 +29,15 @@ if (!empty($errors)) {
 }
 
 $hashed_password = password_hash($password, PASSWORD_ARGON2ID);
+// create user account
+$db->query(
+    "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
+('USER', 'Ruzzel', :email, :password, 'ACTIVE', NOW(), 'LOCAL');",
+    [
+        "email" => $email,
+        "password" => $hashed_pasword,
+    ],
+);
 
 $_SESSION['registration_data'] = [
     'email' => $email,

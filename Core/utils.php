@@ -1,5 +1,7 @@
 <?php
 use Core\Authenticator;
+use Core\App;
+use Core\Database;
 
 date_default_timezone_set('Asia/Manila');
 
@@ -48,6 +50,27 @@ function isUserLoggedIn()
 function getLoggedInRole()
 {
     return new Authenticator()->getLoggedInRole();
+}
+
+function getLoggedInUserId()
+{
+    return new Authenticator()->getLoggedInUserId();
+}
+
+function handleBannedUsers()
+{
+    $db = App::resolve(Database::class);
+
+    $as = $db
+        ->query("SELECT account_status FROM users WHERE id = :id", [
+            "id" => getLoggedInUserId(),
+        ])
+        ->find()["account_status"];
+
+    if ($as === "BANNED") {
+        redirect("/banned");
+        exit();
+    }
 }
 
 function timeAgo($datetime)
@@ -123,13 +146,17 @@ function extractFirstImageFromTiptap($content)
         $data = json_decode($data, true); // Second decode
     }
 
-    if (empty($data) || !isset($data['content']) || !is_array($data['content'])) {
+    if (
+        empty($data) ||
+        !isset($data["content"]) ||
+        !is_array($data["content"])
+    ) {
         return null; // No valid content found
     }
 
-    foreach ($data['content'] as $node) {
-        if ($node['type'] === 'image' && isset($node['attrs']['src'])) {
-            return $node['attrs']['src']; // Return the src of the first image
+    foreach ($data["content"] as $node) {
+        if ($node["type"] === "image" && isset($node["attrs"]["src"])) {
+            return $node["attrs"]["src"]; // Return the src of the first image
         }
     }
 

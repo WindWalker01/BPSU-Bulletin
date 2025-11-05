@@ -1,5 +1,3 @@
-controllers/settings/preferences-update.php
-
 <?php
 
 use Core\App;

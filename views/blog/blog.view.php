@@ -44,9 +44,42 @@
                     </button>   
                 </div>
 
-                <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
-                    <span class="material-symbols-outlined text-xl">share</span> Share
-                </button>
+                <div class="flex gap-6">
+                    <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                        <span class="material-symbols-outlined text-xl">share</span> Share
+                    </button>
+                    
+                    <?php if (getLoggedInRole() !== "ADMIN"): ?>
+                    <button 
+                        type="button"
+                        class="flex items-center gap-1 text-text-secondary hover:text-brand <?= isUserLoggedIn()
+                            ? ""
+                            : "hidden" ?>"
+                        onclick='openReportModal(<?= $blog_id ?>, "BLOG")'
+                    >
+                        <span class="material-symbols-outlined text-base">flag</span>
+                        Report
+                    </button>
+                    <?php else: ?>
+                      <button 
+                        type="button"
+                        class="flex items-center gap-1 text-text-secondary hover:text-yellow-500 <?= isUserLoggedIn()
+                            ? ""
+                            : "hidden" ?>"
+                        onclick="openModerationPanel(
+                                'blog',
+                                <?= $blog_id ?>, 
+                                '<?= htmlspecialchars($title) ?>', 
+                                '<?= htmlspecialchars($author_name) ?>', 
+                                '<?= htmlspecialchars($author_profile) ?>', 
+                                '<?= $author_id ?>'
+                            )">
+                        <span class="material-symbols-outlined text-base">gavel</span>
+                        Moderate
+                    </button>
+                    <?php endif; ?>
+                </div>
+
             </div>
 
             <hr class="text-text-secondary my-6">
@@ -97,7 +130,166 @@
                 </div>
             </div>
 
-            </aside> </div> </div> <script>
+            </aside> </div> </div> 
+
+            
+<!-- REPORT MODAL -->
+<div id="reportModal" class="hidden fixed inset-0 bg-overlay-dark/80 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-overlay-dark rounded-2xl shadow-xl w-[90%] max-w-md p-6 border border-card-dark animate-fade-up">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold text-text-primary">Report</h2>
+      <button type="button" onclick="closeReportModal()" class="text-text-secondary hover:text-text-primary transition">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Title + Info -->
+    <p class="text-sm font-medium text-text-primary mb-1">What's going on?</p>
+    <p class="text-xs text-text-secondary mb-4">
+      We'll check for all Community Guidelines, so don't worry about making the perfect choice.
+    </p>
+
+    <form action="/report" method="POST" class="space-y-4">
+      <input type="hidden" id="reportId" name="id">
+      <input type="hidden" id="reportType" name="reportType">
+      <input type="hidden" name="_method" value="POST">
+      <input type="hidden" name="blogId" value="<?= $blog_id ?>">
+
+      <!-- CATEGORY RADIO OPTIONS -->
+      <div class="space-y-3">
+        <?php
+        $categories = [
+            "SEXUAL" => "Sexual content",
+            "VIOLENT" => "Violent or repulsive content",
+            "HARMFUL" => "Harmful or dangerous acts",
+            "HARASSMENT" => "Harassment or bullying",
+            "SELF_HARM" => "Suicide or self-harm content",
+            "SPAM" =>
+                "Irrelevant or repetitive content intended to promote or clutter discussions.",
+        ];
+        foreach ($categories as $value => $label): ?>
+        <label class="flex items-start gap-3 cursor-pointer group p-2 rounded-md hover:bg-overlay-dark/40 transition">
+          <input 
+            type="radio" 
+            name="category" 
+            value="<?= $value ?>" 
+            required
+            class="mt-1.5 appearance-none w-4 h-4 rounded-full border border-text-secondary checked:border-[5px] checked:border-brand checked:bg-transparent transition"
+          >
+          <span class="text-sm text-text-secondary group-hover:text-text-primary transition"><?= $label ?></span>
+        </label>
+        <?php endforeach;
+        ?>
+      </div>
+
+      <!-- ADDITIONAL DETAILS -->
+      <div class="mt-5">
+        <label class="block text-sm text-text-secondary mb-1">Additional details (optional):</label>
+        <textarea 
+          name="reason"
+          rows="3"
+          class="w-full bg-bg-dark border border-brand/30 rounded-md p-2 text-sm text-text-primary focus:ring-1 focus:ring-brand-hover focus:outline-none placeholder:text-text-gray"
+          placeholder="Add any extra context..."
+        ></textarea>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="flex justify-end mt-5 gap-2">
+        <button 
+            type="button" 
+            onclick="closeReportModal()" 
+            class="px-3 py-1.5 text-sm rounded-md text-text-secondary hover:text-text-primary transition"
+        >
+          Cancel
+        </button>
+        <button
+            disabled
+            type="submit" 
+            class="px-4 py-1.5 rounded-md text-sm text-text-primary bg-brand hover:bg-brand-hover transition"
+        >
+          Report
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- MODERATION MODAL -->
+<div 
+  id="moderationModal" 
+  class="hidden fixed inset-0 bg-overlay-dark/80 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+>
+  <div class="bg-overlay-dark rounded-2xl shadow-xl w-full max-w-lg p-6 border border-card-dark animate-fade-up max-h-[90vh] overflow-y-auto">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4 sticky top-0 bg-overlay-dark/90 backdrop-blur-sm z-10 pb-2">
+      <h2 class="text-lg font-semibold text-text-primary flex items-center gap-1">
+        <span class="material-symbols-outlined text-brand">gavel</span>
+        Moderate Content
+      </h2>
+      <button 
+        type="button" 
+        onclick="closeModerationModal()" 
+        class="text-text-secondary hover:text-text-primary transition"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Comment Info -->
+    <div class="bg-bg-dark border border-card-dark rounded-md p-3 text-sm text-text-secondary mb-5 overflow-y-auto max-h-[40vh]">
+      <div class="flex flex-row items-start gap-3">
+        <a href="" id="moderationCommentAccountLink" class="flex-shrink-0">
+          <img src="" class="w-9 h-9 rounded-full" alt="Avatar" id="moderationCommentAvatar">
+        </a>
+        <div class="flex-1 space-y-1">
+          <span class="font-semibold text-text-primary block" id="moderationCommentUsername"></span>
+          <p id="moderationCommentText" class="leading-relaxed break-words">
+            Loading content details...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="space-y-2">
+      <button 
+        type="button"
+        onclick="deleteComment()"
+        class="w-full px-4 py-2 rounded-md bg-brand hover:bg-brand-hover text-sm text-white transition flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined text-base">delete</span>
+        Delete Content
+      </button>
+
+      <button 
+        type="button"
+        onclick="banUser()"
+        class="w-full px-4 py-2 rounded-md bg-yellow-500 hover:bg-yellow-600 text-sm text-black transition flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined text-base">block</span>
+        Ban User
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex justify-end mt-5">
+      <button 
+        type="button" 
+        onclick="closeModerationModal()" 
+        class="px-3 py-1.5 text-sm rounded-md text-text-secondary hover:text-text-primary transition"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+            
+<script>
 lucide.createIcons();
 
 
@@ -216,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (clickedButton) {
             const wrapper = clickedButton.closest('.reaction-wrapper');
             
-            // ❌ FIX 1: Retrieve commentId correctly from the hidden element
+            // Retrieve commentId correctly from the hidden element
             const commentIdElement = wrapper.querySelector('.comment-id');
             // If you used the data attribute method:
             // const commentId = wrapper.dataset.commentId; 
@@ -287,7 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else dislikeChange = 1;
         }
         
-        // ❌ FIX 2: Apply the immediate (fake) count update correctly
+        // Apply the immediate (fake) count update correctly
         likeCountEl.textContent = parseInt(likeCountEl.textContent) + likeChange;
         dislikeCountEl.textContent = parseInt(dislikeCountEl.textContent) + dislikeChange;
 
@@ -315,5 +507,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
+<script>
+document.querySelectorAll('input[name="category"]').forEach(input => {
+    input.addEventListener('change', () => {
+        document.querySelector('#reportModal button[type="submit"]').disabled = false;
+    });
+});
+function openReportModal(id, reportType) {
+    document.getElementById('reportModal').classList.remove('hidden');
+    document.getElementById('reportId').value = id;
+    document.getElementById('reportType').value = reportType;
+
+    console.log(id);_
+
+}
+function closeReportModal() {
+    document.getElementById('reportModal').classList.add('hidden');
+}
+</script>
+
+
+<script>
+let selectedId = null;
+let moderationType = null;
+
+function openModerationPanel(moderation, commentId, content, username, avatar, accountId) {
+  selectedId = commentId;
+  moderationType = moderation;
+
+  document.getElementById("moderationCommentText").textContent = content;
+  document.getElementById("moderationCommentUsername").textContent = `${username}: `;
+  document.getElementById("moderationCommentAvatar").src = avatar;
+  document.getElementById("moderationCommentAccountLink").href = `/account?id=${accountId}`;
+  
+  document.getElementById("moderationModal").classList.remove("hidden");
+}
+
+function closeModerationModal() {
+  document.getElementById("moderationModal").classList.add("hidden");
+}
+
+function deleteComment() {
+  if (!confirm("Are you sure you want to delete this content?")) return;
+
+  let uri = moderationType === "comment" ? `/admin/ban_comment?commentId=${selectedId}` : `/admin/ban_blog?blogId=${selectedId}&authorId=${<?= $author_id ?>}`; 
+
+
+  fetch(`${uri}`, { method: 'PATCH' })
+    .then(res => res.json())
+    .then(data => alert(data.message || "Comment deleted."))
+    .finally(closeModerationModal);
+
+    window.location.reload();
+}
+
+function banUser() {
+  if (!confirm("Ban the user who posted this comment?")) return;
+  fetch(`/admin/ban_user?id=${selectedId}&by=comment`, { method: 'PATCH' })
+    .then(res => res.json())
+    .then(data => alert(data.message || "User banned."))
+    .finally(closeModerationModal);
+
+    window.location.reload();
+}
+</script>
+
+
 
 <?php view("partials/footer.php"); ?>

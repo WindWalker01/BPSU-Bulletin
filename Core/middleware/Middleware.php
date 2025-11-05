@@ -10,6 +10,7 @@ class Middleware
         "guest" => Guest::class,
         "auth" => Authenticated::class,
         "author" => Author::class,
+        "admin" => Admin::class,
     ];
 
     public static function resolve($key)

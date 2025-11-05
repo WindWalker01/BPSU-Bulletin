@@ -7,6 +7,13 @@ $db = new \Core\Database($config);
 
 
 if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    
+    // ===============================================
+    // == JOB B: HANDLE "LOAD MORE" (JSON) REQUEST ==
+    // ===============================================
+    
+
+    // This part is already correct.
     header('Content-Type: application/json');
 
     $postsPerPage = 9;   // How many posts to load per click
@@ -128,8 +135,8 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             "badgeColor" => getBadgeColor($category),
             "title" => $row['title'],
             "excerpt" => extractFirstParagraphFromTiptap($row['content']) ?? '',
-            "link" => "/blog?id=" . $row['id'],
-           "image" => $row['featured_image'] ?? extractFirstImageFromTiptap($row['content']) ?? 'https://via.placeholder.com/640x360?text=No+Image',
+            "link" => "/blog?id=" . $row['id'], 
+            "image" => $row['featured_image'] ?? extractFirstImageFromTiptap($row['content']) ?? 'https://via.placeholder.com/640x360?text=No+Image',
             "likes" => $row['likes_count'],
             "comments" => $row['comments_count'],
             "views" => $row['view_count']
