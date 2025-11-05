@@ -80,10 +80,7 @@
              loadMoreBtn.style.display = 'none';
         }
 
-        /**
-         * UPDATED: This function now creates a FEATURED card,
-         * matching your 'post-card-featured.php' partial.
-         */
+
         function createPostCard(post) {
             const M = (data, fallback) => data ?? fallback;
             const excerpt = M(post.excerpt, ''); 
@@ -122,22 +119,21 @@
                         ${excerpt} 
                     </p>
                 </a>
-
-                <div class="relative z-10 pt-4 border-t border-card-dark flex items-center justify-between text-sm">
-                    <div class="flex items-center gap-4">
-                        <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
-                            <span class="material-symbols-outlined text-xl">thumb_up</span> ${M(post.likes, 0)}
-                        </button>
-                        <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
-                            <span class="material-symbols-outlined text-xl">chat_bubble</span> ${M(post.comments, 0)}
-                        </button>
-                    </div>
+                <div class="pt-4 border-t border-card-dark flex items-center justify-between text-sm">
+                <div class="flex items-center gap-4">
                     <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
-                        <span class="material-symbols-outlined text-xl">share</span> Share
+                    <span class="material-symbols-outlined text-xl">thumb_up</span> ${M(post.likes, 0)}
+                    </button>
+                    <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-xl">chat_bubble</span> ${M(post.comments, 0)}
                     </button>
                     <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
                     <span class="material-symbols-outlined text-xl">visibility</span> ${M(post.views, 0)} views
                     </button>
+                </div>
+                <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-xl">share</span> Share
+                </button>
                 </div>
             </article>
             `;

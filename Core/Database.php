@@ -58,7 +58,7 @@ class Database
         "CREATE TABLE `user_preferences` (
         `id` int NOT NULL AUTO_INCREMENT,
         `user_id` int DEFAULT NULL,
-        `theme_preference` enum('LIGHT','DARK') DEFAULT NULL,
+        `theme_preference` enum('LIGHT','DARK', 'SYSTEM') DEFAULT NULL,
         `email_notification` tinyint(1) DEFAULT NULL,
         `push_notification` tinyint(1) DEFAULT NULL,
         `reaction_notification` tinyint(1) DEFAULT NULL,
@@ -138,7 +138,6 @@ class Database
         `user_id` int DEFAULT NULL,
         `blog_id` int DEFAULT NULL,
         `viewed_at` timestamp NULL DEFAULT NULL,
-        `platform` varchar(255) DEFAULT NULL,
         PRIMARY KEY (`id`),
         KEY `blog_id` (`blog_id`),
         KEY `user_id` (`user_id`),
@@ -205,7 +204,7 @@ class Database
         `asset_id` text,
         PRIMARY KEY (`id`),
         KEY `user_id` (`user_id`),
-        CONSTRAINT `profile_images_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+        CONSTRAINT `profile_images_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
 
         "CREATE TABLE `blog_images` (
@@ -260,7 +259,7 @@ class Database
         (5, 'Enrollment & Documents');",
 
         "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
-        ('AUTHOR', 'test_author', 'testAuthor@gmail.com', '\$argon2id\$v=19\$m=65536,t=4,p=1\$NUhHTjVwY1gybzRMT1RKcQ\$svAFH9wXoxmYwFc1vidrXDYgypWuqiLMYIjVAjbiyQQ', 'ACTIVE', '2025-10-10 14:29:05', 'LOCAL');",
+        ('AUTHOR', 'test_author', 'testAuthor@gmail.com', '\$argon2id\$v=19\$m=65536,t=4,p=1\$NUhHTjVwY1gybzRMT1RKcQ\$svAFH9wXoxmYwFc1vidrXDYgypWuqiLMYIjVAjbiyQQ', 'ACTIVE', '2025-10-10 14:29:05', 'LOCAL');"
     ];
 
     public function __construct($config)
@@ -359,7 +358,7 @@ class Database
 
         // add profile preferences to the author
         $testDBConnection->exec("INSERT INTO `user_preferences` (`id`, `user_id`, `theme_preference`, `email_notification`, `push_notification`, `reaction_notification`, `follow_notification`, `show_email_public`, `show_profile_public`, `created_at`, `updated_at`) VALUES
-(1, 1, 'DARK', 1, 1, 1, 1, 1, 1, '2025-10-26 12:34:00', '2025-10-26 12:34:00');");
+(0, 0, 'SYSTEM', 0, 0, 0, 0, 0, 0, '2025-10-26 12:34:00', '2025-10-26 12:34:00');");
 
         // add profile image to the sample author
         $testDBConnection->exec("INSERT INTO `profile_images` (`user_id`, `secure_url`, `asset_id`) VALUES

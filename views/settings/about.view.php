@@ -1,13 +1,13 @@
 <div class="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
 
   <a href="/settings"
-    class="inline-flex items-center gap-2 text-text-secondary hover:text-red-500 mb-6 group transition-colors duration-200">
+    class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-6 group transition-colors duration-200">
     <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
     Back
   </a>
 
-  <h1 class="text-3xl font-bold text-text-primary mb-2 hover:text-red-500 transition-colors duration-200">
-    About Bpsu Bulletin
+  <h1 class="text-3xl font-bold text-text-primary mb-2 hover:text-brand transition-colors duration-200">
+    About BPSU Bulletin
   </h1>
   <p class="text-text-secondary mb-10">
     Learn more about our purpose, policies, and contact information.
@@ -25,7 +25,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
       <div class="flex flex-col items-start text-left">
-        <span class="material-symbols-outlined text-red-500 text-3xl mb-2">campaign</span>
+        <span class="material-symbols-outlined text-brand text-3xl mb-2">campaign</span>
         <h3 class="font-bold text-text-primary mb-1">Official Announcements</h3>
         <p class="text-sm text-text-secondary">
           Receive timely and verified information directly from university departments.
@@ -33,7 +33,7 @@
       </div>
 
       <div class="flex flex-col items-start text-left">
-        <span class="material-symbols-outlined text-red-500 text-3xl mb-2">calendar_month</span>
+        <span class="material-symbols-outlined text-brand text-3xl mb-2">calendar_month</span>
         <h3 class="font-bold text-text-primary mb-1">Event Calendars</h3>
         <p class="text-sm text-text-secondary">
           Stay updated on campus events and holidays so you never miss out on what’s happening around the university.
@@ -41,7 +41,7 @@
       </div>
 
       <div class="flex flex-col items-start text-left">
-        <span class="material-symbols-outlined text-red-500 text-3xl mb-2">notifications</span>
+        <span class="material-symbols-outlined text-brand text-3xl mb-2">notifications</span>
         <h3 class="font-bold text-text-primary mb-1">Push Notifications</h3>
         <p class="text-sm text-text-secondary">
          Get notified fast about the latest news and important updates.
@@ -58,7 +58,7 @@
     </p>
 
     <button
-      class="accordion-btn flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:border-red-500 transition-all duration-200"
+      class="accordion-btn cursor-pointer flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:botext-brand transition-all duration-200"
       data-accordion-toggle aria-expanded="false">
       Acceptance of Terms
       <span class="material-symbols-outlined text-base transform transition-transform duration-200">expand_more</span>
@@ -70,7 +70,7 @@
     </div>
 
     <button
-      class="accordion-btn flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:border-red-500 transition-all duration-200"
+      class="accordion-btn cursor-pointer flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:botext-brand transition-all duration-200"
       data-accordion-toggle aria-expanded="false">
       User Responsibilities
       <span class="material-symbols-outlined text-base transform transition-transform duration-200">expand_more</span>
@@ -84,7 +84,7 @@
     </div>
 
     <button
-      class="accordion-btn flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:border-red-500 transition-all duration-200"
+      class="accordion-btn cursor-pointer flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:botext-brand transition-all duration-200"
       data-accordion-toggle aria-expanded="false">
       Content Ownership
       <span class="material-symbols-outlined text-base transform transition-transform duration-200">expand_more</span>
@@ -98,7 +98,7 @@
     </div>
 
     <button
-      class="accordion-btn flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:border-red-500 transition-all duration-200"
+      class="accordion-btn cursor-pointer flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:botext-brand transition-all duration-200"
       data-accordion-toggle aria-expanded="false">
         Account Termination
       <span class="material-symbols-outlined text-base transform transition-transform duration-200">expand_more</span>
@@ -118,7 +118,7 @@
     </p>
 
     <button
-      class="accordion-btn flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:border-red-500 transition-all duration-200"
+      class="accordion-btn cursor-pointer flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:botext-brand transition-all duration-200"
       data-accordion-toggle aria-expanded="false">
       Data Collection
       <span class="material-symbols-outlined text-base transform transition-transform duration-200">expand_more</span>
@@ -132,7 +132,7 @@
     </div>
 
     <button
-      class="accordion-btn flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:border-red-500 transition-all duration-200"
+      class="accordion-btn cursor-pointer flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:botext-brand transition-all duration-200"
       data-accordion-toggle aria-expanded="false">
       Use of Data
       <span class="material-symbols-outlined text-base transform transition-transform duration-200">expand_more</span>
@@ -146,7 +146,7 @@
     </div>
 
     <button
-      class="accordion-btn flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:border-red-500 transition-all duration-200"
+      class="accordion-btn cursor-pointer flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:botext-brand transition-all duration-200"
       data-accordion-toggle aria-expanded="false">
       Data Protection
       <span class="material-symbols-outlined text-base transform transition-transform duration-200">expand_more</span>
@@ -160,7 +160,7 @@
     </div>
 
     <button
-      class="accordion-btn flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:border-red-500 transition-all duration-200"
+      class="accordion-btn cursor-pointer flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:botext-brand transition-all duration-200"
       data-accordion-toggle aria-expanded="false">
       Data Sharing
       <span class="material-symbols-outlined text-base transform transition-transform duration-200">expand_more</span>
@@ -172,7 +172,7 @@
     </div>
 
     <button
-      class="accordion-btn flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:border-red-500 transition-all duration-200"
+      class="accordion-btn cursor-pointer flex justify-between w-full text-left font-medium text-text-primary py-4 px-5 border border-card-dark rounded-lg mb-2 hover:botext-brand transition-all duration-200"
       data-accordion-toggle aria-expanded="false">
       User Rights
       <span class="material-symbols-outlined text-base transform transition-transform duration-200">expand_more</span>
@@ -195,7 +195,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
 
-     <div class="group flex flex-col items-center p-4 rounded-xl border border-card-dark bg-overlay-dark/40 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:border-red-500 hover:bg-overlay-dark/70">
+     <div class="group flex flex-col items-center p-4 rounded-xl border border-card-dark bg-overlay-dark/40 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:botext-brand hover:bg-overlay-dark/70">
         <div class="w-24 h-24 rounded-full overflow-hidden mb-3 border-2 border-card-dark shadow-md transition-transform duration-300 group-hover:scale-105">
           <img src="/assets/ruzz.png" alt="Ruzzel P. Mendoza" class="object-cover w-full h-full">
         </div>
@@ -204,7 +204,7 @@
       </div>
 
    
-      <div class="group flex flex-col items-center p-4 rounded-xl border border-card-dark bg-overlay-dark/40 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:border-red-500 hover:bg-overlay-dark/70">
+      <div class="group flex flex-col items-center p-4 rounded-xl border border-card-dark bg-overlay-dark/40 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:botext-brand hover:bg-overlay-dark/70">
         <div class="w-24 h-24 rounded-full overflow-hidden mb-3 border-2 border-card-dark shadow-md transition-transform duration-300 group-hover:scale-105">
           <img src="/assets/unil.png" alt="Eunil Carl L. Dela Cruz" class="object-cover w-full h-full">
         </div>
@@ -213,16 +213,16 @@
       </div>
 
       
-      <div class="group flex flex-col items-center p-4 rounded-xl border border-card-dark bg-overlay-dark/40 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:border-red-500 hover:bg-overlay-dark/70">
+      <div class="group flex flex-col items-center p-4 rounded-xl border border-card-dark bg-overlay-dark/40 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:botext-brand hover:bg-overlay-dark/70">
         <div class="w-24 h-24 rounded-full overflow-hidden mb-3 border-2 border-card-dark shadow-md transition-transform duration-300 group-hover:scale-105">
-          <img src="/assets/cat.png" alt="Nathaniel D. Sto Niño" class="object-cover w-full h-full">
+          <img src="/assets/nat.png" alt="Nathaniel D. Sto Niño" class="object-cover w-full h-full">
         </div>
         <p class="font-bold text-text-primary">Nathaniel D. Sto Niño</p>
         <p class="text-sm text-text-secondary">System Integrator / Assistant Developer</p>
       </div>
 
 
-      <div class="group flex flex-col items-center p-4 rounded-xl border border-card-dark bg-overlay-dark/40 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:border-red-500 hover:bg-overlay-dark/70">
+      <div class="group flex flex-col items-center p-4 rounded-xl border border-card-dark bg-overlay-dark/40 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:botext-brand hover:bg-overlay-dark/70">
         <div class="w-24 h-24 rounded-full overflow-hidden mb-3 border-2 border-card-dark shadow-md transition-transform duration-300 group-hover:scale-105">
           <img src="/assets/lei.png" alt="Tricia Lei B. Alburo" class="object-cover w-full h-full">
         </div>

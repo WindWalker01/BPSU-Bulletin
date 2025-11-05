@@ -4,7 +4,7 @@
 
             <!-- Logo -->
             <div class="flex justify-center">
-                <img src="/assets/logo.webp" class="w-35 h-35" alt="BPSU Bulletin Logo">
+                <img src="/assets/logo.webp" class="w-35 h-20" alt="BPSU Bulletin Logo">
             </div>
 
             <!-- Heading -->

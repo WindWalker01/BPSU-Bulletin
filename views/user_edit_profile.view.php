@@ -1,4 +1,6 @@
 
+
+
 <div class="min-h-screen flex flex-col items-center pt-24 px-4 relative">
   <!-- Top Section -->
   <div class="w-full flex justify-start max-w-6xl">
@@ -10,6 +12,7 @@
   </div>
 
   </div>
+
   <!-- Profile Picture Section -->
   <div class="flex flex-col items-center mt-10 relative">
     <h2 class="text-xl md:text-2xl font-bold text-white mb-3">Profile Picture</h2>
@@ -62,35 +65,22 @@
         </div>
       </div>
 
-      <!-- Right Column -->
-      <div class="flex-1">
-        <h2 class="text-lg font-semibold text-red-500 mb-2">School Information</h2>
-        <div class="bg-card-dark/20 p-4 rounded-lg text-white space-y-4">
-            <div>
-              <label class="text-base block">Campus</label>
-              <select name="campus" id="campus" 
-                class="focus:outline-none bg-card-dark border border-red-500 w-full mt-1 p-2 rounded cursor-pointer">
-                <option value="MAIN" <?php echo $campus === "MAIN" ? "selected": ""?> >Main Campus</option>
-                <option value="ABUCAY" <?php echo $campus === "ABUCAY" ? "selected": ""?>>Abucay Campus</option>
-                <option value="BALANGA" <?php echo $campus === "BALANGA" ? "selected": ""?>>Balanga Campus</option>
-                <option value="ORANI" <?php echo $campus === "ORANI" ? "selected": ""?>>Orani Campus</option>
-                <option value="DINALUPIHAN" <?php echo $campus === "DINALUPIHAN" ? "selected": ""?> >Dinalupihan Campus</option>
-                <option value="BAGAC" <?php echo $campus === "BAGAC" ? "selected": ""?>>Bagac Campus</option>
-              </select>
-            </div>
+    <!-- Right Column -->
+    <div class="flex-1">
+      <h2 class="text-lg font-semibold text-red-500 mb-2">School Information</h2>
+      <div class="bg-card-dark/20 p-4 rounded-lg text-white space-y-4">
+          <div>
+            <label class="text-base block">Campus</label>
+            <select name="campus" id="campus" 
+              class="focus:outline-none bg-card-dark border border-red-500 w-full mt-1 p-2 rounded cursor-pointer">
+              <option value="MAIN" <?php echo $campus === "MAIN" ? "selected": ""?> >Main Campus</option>
+              <option value="ABUCAY" <?php echo $campus === "ABUCAY" ? "selected": ""?>>Abucay Campus</option>
+              <option value="BALANGA" <?php echo $campus === "BALANGA" ? "selected": ""?>>Balanga Campus</option>
+              <option value="ORANI" <?php echo $campus === "ORANI" ? "selected": ""?>>Orani Campus</option>
+              <option value="DINALUPIHAN" <?php echo $campus === "DINALUPIHAN" ? "selected": ""?> >Dinalupihan Campus</option>
+              <option value="BAGAC" <?php echo $campus === "BAGAC" ? "selected": ""?>>Bagac Campus</option>
+            </select>
           </div>
-          <h2 class="text-lg font-semibold text-red-500 mt-6 mb-2">Bio</h2>
-          <div class="bg-card-dark/20 p-4 rounded-lg text-white">
-              <textarea name="bio" id="bio" rows="6" placeholder="Describe yourself" 
-                class="focus:outline-none bg-card-dark border-b border-red-500 w-full p-2 text-white placeholder:text-gray-400 resize-none rounded"><?php echo $bio ?></textarea>
-          </div>
-          <div class="flex">
-            <button type="submit" 
-              class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
-                    bg-red-500 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
-                    flex justify-center items-center h-10 w-30 mt-4 mx-auto">
-              Confirm?
-            </button>
         </div>
         <h2 class="text-lg font-semibold text-red-500 mt-6 mb-2">Bio</h2>
         <div class="bg-card-dark/20 p-4 rounded-lg text-white">

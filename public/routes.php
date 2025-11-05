@@ -5,14 +5,14 @@ $router->get("/", "controllers/index.php");
 $router->get("/blog", "controllers/blog/show.php");
 
 $router->get("/register", "controllers/registration/show.php")->only("guest");
+$router->get("/edit-profile", "controllers/registration/edit-profile-show.php")->only("guest");
 $router->get("/login", "controllers/login/show.php")->only("guest");
 $router->get("/logout", "controllers/login/logout.php")->only("auth");
 $router->get("/home", "controllers/home/home.php");
 $router->get("/blog/publish", "controllers/blog/publish.php");
 
-$router
-    ->get("/blog/editor", "controllers/blog/editor/show.php")
-    ->only("author");
+
+$router->get("/blog/editor", "controllers/blog/editor/show.php")->only("author");
 
 $router
     ->get("/account", "controllers/account_centre/user_activity_log.php")
@@ -57,6 +57,13 @@ $router
     ->only("author");
 
 //POST
+$router->post('/settings/preferences/update', 'controllers/settings/preferences-update.php');
+$router->post('/archive', 'controllers/stats/archive.php');
+$router->post('/delete', 'controllers/stats/delete.php');
+$router->post('/unarchive', 'controllers/stats/unarchive.php');
+$router
+    ->post('/account/deactivate', 'controllers/settings/deactivate.php')
+    ->only("auth");
 
 $router->post("/report", "controllers/moderate/report.php"); // temporary must be admin only
 
@@ -65,6 +72,8 @@ $router->post("/appeal", "controllers/appeal/create.php")->only("author");
 $router
     ->post("/register", "controllers/registration/create.php")
     ->only("guest");
+
+$router->post("/edit-profile", "controllers/registration/edit-profile.php")->only("guest");
 $router->post("/login", "controllers/login/login.php")->only("guest");
 $router->get("/login_google", "controllers/oauth/login.php")->only("guest");
 $router
@@ -126,3 +135,8 @@ $router
         "controllers/moderate/decline_comment_report.php",
     )
     ->only("admin");
+
+
+// Delete
+$router->delete('/account/delete', 'controllers/settings/delete.php');
+

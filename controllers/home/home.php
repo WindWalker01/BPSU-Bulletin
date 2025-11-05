@@ -1,7 +1,4 @@
 <?php
-// controllers/home/home.php
-
-// === 1. SETUP ===
 require_once __DIR__ . '/../../Core/Database.php'; 
 require_once __DIR__ . '/../../Core/utils.php'; 
 $config = require __DIR__ . '/../../config/config.php';
@@ -91,12 +88,6 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
 
 } else {
 
-    // ===============================================
-    // == JOB A: RENDER THE HTML PAGE (Page 1)      ==
-    // ===============================================
-    
-    // --- THIS IS THE FIX ---
-    // Change limit from 10 to 7 (3 featured + 4 grid)
     $limit = 7; 
     
     $sql = "
@@ -133,7 +124,6 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
     
     $db_posts = $db->query($sql)->get();
 
-    // Transform data
     $posts_data = [];
     foreach ($db_posts as $row) {
         $category = $row['category_name'] ?? 'General';
@@ -154,11 +144,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         ];
     }
 
-    // These lines are already correct (3 featured, the rest are grid)
     $featured_posts = array_slice($posts_data, 0, 3);
     $grid_posts = array_slice($posts_data, 3); 
 
-    // Render the view and pass it the new variables
     render('home.view.php', [
         "title" => "Home Page",
         "featured_posts" => $featured_posts, // Pass featured posts

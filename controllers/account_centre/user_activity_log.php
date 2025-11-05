@@ -24,7 +24,7 @@ $account = $db
     ->findOrFail();
 
 if ($account === null) {
-    redirect("/account");
+    redirect("/404");
     exit();
 }
 

@@ -28,3 +28,4 @@ $db->query(
 );
 
 redirect("/blog/editor?blog_id=" . $db->getLastInsertID());
+exit();
