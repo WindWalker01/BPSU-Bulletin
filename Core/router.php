@@ -32,11 +32,9 @@ class Router
         return $this->add("DELETE", $uri, $controller);
     }
 
-    public function only($keys)
+    public function only($key)
     {
-        foreach ($keys as $key) {
-            $this->routes[array_key_last($this->routes)]["middleware"] = $key;
-        }
+        $this->routes[array_key_last($this->routes)]["middleware"] = $key;
 
         return $this;
     }
