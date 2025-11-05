@@ -77,7 +77,7 @@ $db->query(
     "INSERT INTO user_preferences (user_id, theme_preference, email_notification, push_notification,
      reaction_notification, follow_notification, show_email_public, show_profile_public,
      created_at, updated_at)
-     VALUES (:id, 'DARK', 1, 1, 1, 1, 1, 1, NOW(), NOW())",
+     VALUES (:id, 'SYSTEM', 0, 0, 0, 0, 0, 0, NOW(), NOW())",
     ['id' => $user_id]
 );
 

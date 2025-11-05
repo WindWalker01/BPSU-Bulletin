@@ -1,6 +1,8 @@
 <?php
 use Core\Authenticator;
 
+date_default_timezone_set('Asia/Manila');
+
 function dd($value)
 {
     echo "<pre>";
@@ -151,3 +153,5 @@ function getBadgeColor($categoryValue)
             return 'bg-brand/20 text-brand'; 
     }
 }
+
+

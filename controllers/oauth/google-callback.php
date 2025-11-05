@@ -42,6 +42,13 @@ if (isset($_GET["code"])) {
             ])
             ->find();
 
+        if ($user['account_status'] === 'DELETED') {
+            $db->query(
+                "UPDATE users SET account_status = 'ACTIVE' WHERE id = :id",
+                ['id' => $user['id']]
+            );
+        }
+
         $role = $user["role"];
 
         $auth->generateToken($user_email, $role ?? "USER");

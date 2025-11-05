@@ -26,13 +26,36 @@
         </p>
       </div>
       <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" value="" class="sr-only peer" checked />
+        <input 
+          type="checkbox" 
+          name="email_notification" 
+          class="sr-only peer preference-toggle" 
+          <?= $preferences['email_notification'] ? 'checked' : '' ?> 
+        />
         <div
           class="w-11 h-6 bg-card-dark rounded-full peer peer-focus:ring-2 peer-focus:ring-brand-hover peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand"
         ></div>
       </label>
     </div>
-       
+      <div class="border-t border-card-dark flex justify-between items-center p-4">
+    <div>
+      <p class="text-text-primary font-medium">Push Notifications</p>
+      <p class="text-text-secondary text-sm">
+        Enable in-app notifications for posts, comments, and follows.
+      </p>
+    </div>
+    <label class="relative inline-flex items-center cursor-pointer">
+      <input 
+        type="checkbox" 
+        name="push_notification" 
+        class="sr-only peer preference-toggle" 
+        <?= $preferences['push_notification'] ? 'checked' : '' ?> 
+      />
+      <div
+        class="w-11 h-6 bg-card-dark rounded-full peer peer-focus:ring-2 peer-focus:ring-brand-hover peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand"
+      ></div>
+    </label>
+  </div>
   
   </div>
 
@@ -49,7 +72,12 @@
           </p>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" value="" class="sr-only peer" />
+          <input 
+            type="checkbox" 
+            name="follow_notification" 
+            class="sr-only peer preference-toggle" 
+            <?= $preferences['follow_notification'] ? 'checked' : '' ?> 
+          />
           <div
             class="w-11 h-6 bg-card-dark rounded-full peer peer-focus:ring-2 peer-focus:ring-brand-hover peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand"
           ></div>
@@ -64,7 +92,12 @@
           </p>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" value="" class="sr-only peer" checked />
+          <input 
+            type="checkbox" 
+            name="reaction_notification" 
+            class="sr-only peer preference-toggle" 
+            <?= $preferences['reaction_notification'] ? 'checked' : '' ?> 
+          />
           <div
             class="w-11 h-6 bg-card-dark rounded-full peer peer-focus:ring-2 peer-focus:ring-brand-hover peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand"
           ></div>
@@ -86,7 +119,12 @@
           </p>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" value="" class="sr-only peer" />
+          <input 
+            type="checkbox" 
+            name="show_email_public" 
+            class="sr-only peer preference-toggle" 
+            <?= $preferences['show_email_public'] ? 'checked' : '' ?> 
+          />
           <div
             class="w-11 h-6 bg-card-dark rounded-full peer peer-focus:ring-2 peer-focus:ring-brand-hover peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand"
           ></div>
@@ -101,7 +139,12 @@
           </p>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" value="" class="sr-only peer" />
+          <input 
+            type="checkbox" 
+            name="show_profile_public" 
+            class="sr-only peer preference-toggle" 
+            <?= $preferences['show_profile_public'] ? 'checked' : '' ?> 
+          />
           <div
             class="w-11 h-6 bg-card-dark rounded-full peer peer-focus:ring-2 peer-focus:ring-brand-hover peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand"
           ></div>
@@ -145,7 +188,7 @@
           <a
             href="#"
             class="theme-option-button flex items-center gap-3 px-4 py-2 text-sm hover:text-text-primary hover:bg-card-dark"
-            data-theme="light"
+            data-theme="LIGHT"
           >
             <span class="material-symbols-outlined fill-1 text-base"
               >light_mode</span
@@ -155,7 +198,7 @@
           <a
             href="#"
             class="theme-option-button flex items-center gap-3 px-4 py-2 text-sm hover:text-text-primary hover:bg-card-dark"
-            data-theme="dark"
+            data-theme="DARK"
           >
             <span class="material-symbols-outlined fill-1 text-base"
               >dark_mode</span
@@ -165,7 +208,7 @@
           <a
             href="#"
             class="theme-option-button flex items-center gap-3 px-4 py-2 text-sm hover:text-text-primary hover:bg-card-dark"
-            data-theme="system"
+            data-theme="SYSTEM"
           >
             <span class="material-symbols-outlined fill-1 text-base"
               >desktop_windows</span
@@ -180,100 +223,129 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    
+    // --- Reusable Function to Save Preferences ---
+    async function savePreference(name, value) {
+      try {
+        const response = await fetch('/settings/preferences/update', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: name,
+            value: value
+          })
+        });
+
+        if (!response.ok) {
+          console.error('Failed to save preference');
+        }
+        
+      } catch (error) {
+        console.error('Error saving preference:', error);
+      }
+    }
+
+    // --- 1. Theme Selection Logic ---
     const themeButton = document.getElementById("themeButton");
     const themeDropdown = document.getElementById("themeDropdown");
     const themeIcon = document.getElementById("theme-icon");
     const themeText = document.getElementById("theme-text");
     const themeOptionButtons = document.querySelectorAll(".theme-option-button");
 
-    // Icons and Text for the button
     const themeMap = {
-      light: { icon: "light_mode", text: "Light" },
-      dark: { icon: "dark_mode", text: "Dark" },
-      system: { icon: "desktop_windows", text: "System" },
+      LIGHT: { icon: "light_mode", text: "Light" },
+      DARK: { icon: "dark_mode", text: "Dark" },
+      SYSTEM: { icon: "desktop_windows", text: "System" },
     };
 
-    // 1. Function to apply the theme AND update the button
     function applyTheme(theme) {
-      let effectiveTheme = theme;
+      let effectiveTheme = theme.toLowerCase();
 
-      if (theme === "system") {
-        // Check system preference
+      if (theme === "SYSTEM") {
         const systemThemeMatcher = window.matchMedia(
           "(prefers-color-scheme: dark)"
         );
         effectiveTheme = systemThemeMatcher.matches ? "dark" : "light";
       }
 
-      // Apply 'dark' class to <html> element
       if (effectiveTheme === "dark") {
         document.documentElement.classList.add("dark");
       } else {
         document.documentElement.classList.remove("dark");
       }
 
-      // Update the button text and icon
       if (themeMap[theme] && themeIcon && themeText) {
         themeIcon.textContent = themeMap[theme].icon;
         themeText.textContent = themeMap[theme].text;
       }
 
-      // Save preference to localStorage
       localStorage.setItem("theme", theme);
-
-      // Close dropdown
       if (themeDropdown) {
         themeDropdown.classList.add("hidden");
       }
     }
 
-    // 2. Function to initialize the button's state on page load
     function initButtonState() {
-      const savedTheme = localStorage.getItem("theme") || "system";
+      // Use the theme from PHP as the source of truth, fall back to localStorage/system
+      const savedTheme = "<?= $preferences['theme_preference'] ?>" || localStorage.getItem("theme") || "SYSTEM";
       if (themeMap[savedTheme] && themeIcon && themeText) {
         themeIcon.textContent = themeMap[savedTheme].icon;
         themeText.textContent = themeMap[savedTheme].text;
       }
+      // Note: The theme is already applied by a script in the <head>
     }
 
-    // 3. Event Listeners
     if (themeButton && themeDropdown) {
-      // Toggle dropdown
       themeButton.addEventListener("click", (event) => {
         event.stopPropagation();
         themeDropdown.classList.toggle("hidden");
       });
 
-      // Close dropdown when clicking outside
       window.addEventListener("click", () => {
         if (!themeDropdown.classList.contains("hidden")) {
           themeDropdown.classList.add("hidden");
         }
       });
 
-      // Listen to theme option clicks
       themeOptionButtons.forEach((button) => {
         button.addEventListener("click", (e) => {
-          e.preventDefault(); // Stop the <a> tag from navigating
+          e.preventDefault();
           const newTheme = e.currentTarget.dataset.theme;
           applyTheme(newTheme);
+          // Save to database
+          savePreference('theme_preference', newTheme);
         });
       });
 
-      // Listen for changes in system theme (to update <html> tag)
       const systemThemeMatcher = window.matchMedia(
         "(prefers-color-scheme: dark)"
       );
       systemThemeMatcher.addEventListener("change", (e) => {
-        // Only re-apply if user's preference is 'system'
-        if (localStorage.getItem("theme") === "system") {
-          applyTheme("system");
+        const currentSavedPref = localStorage.getItem("theme") || "<?= $preferences['theme_preference'] ?>";
+        if (currentSavedPref === "SYSTEM") {
+          applyTheme("SYSTEM");
         }
       });
     }
 
-    // 4. Run initialization for the button
     initButtonState();
+
+    // --- 2. Toggle Switch Logic ---
+    const allToggles = document.querySelectorAll('.preference-toggle');
+
+    allToggles.forEach(toggle => {
+      toggle.addEventListener('change', (e) => {
+        const name = e.target.name;
+        const value = e.target.checked ? 1 : 0;
+        
+        // Save the change to the database
+        savePreference(name, value);
+      });
+    });
+
   });
 </script>
 

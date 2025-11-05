@@ -36,12 +36,12 @@ if ($user_id) {
     if (!$existingView) {
         // Insert new view
         $db->query(
-            "INSERT INTO blog_views (user_id, blog_id, viewed_at, platform)
-             VALUES (:user_id, :blog_id, NOW(), :platform)",
+            "INSERT INTO blog_views (user_id, blog_id, viewed_at)
+             VALUES (:user_id, :blog_id, :viewed_at)",
             [
                 'user_id' => $user_id,
                 'blog_id' => $blog_id,
-                'platform' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
+                'viewed_at' => date('Y-m-d H:i:s') 
             ]
         );
 

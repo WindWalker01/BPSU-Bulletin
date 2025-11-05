@@ -9,20 +9,23 @@
           </div>
 
           <div class="px-4 py-3">
-            <label class="flex flex-col min-w-40 h-12 w-full">
-              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
-                <div class="text-[#a3a3a3] flex border-none bg-[#1a1a1a]/50 bg-blur-sm items-center justify-center pl-4 rounded-l-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-                  </svg>
+            <form action="/stats" method="GET">
+              <label class="flex flex-col min-w-40 h-12 w-full">
+                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                  <button type="submit" class="text-[#a3a3a3] flex border-none bg-[#1a1a1a]/50 bg-blur-sm items-center justify-center pl-4 rounded-l-lg hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                    </svg>
+                  </button>
+                  <input
+                    placeholder="Search posts by title"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#ffffff] focus:outline-0 focus:ring-0 border-none bg-[#1a1a1a]/50 bg-blur-sm focus:border-none h-full placeholder:text-[#a3a3a3] px-4 rounded-l-none pl-2 text-base font-normal leading-normal"
+                    name="search"
+                    value="<?= htmlspecialchars($search_term ?? '') ?>"
+                  />
                 </div>
-                <input
-                  placeholder="Search posts by title or content"
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#ffffff] focus:outline-0 focus:ring-0 border-none bg-[#1a1a1a]/50 bg-blur-sm focus:border-none h-full placeholder:text-[#a3a3a3] px-4 rounded-l-none pl-2 text-base font-normal leading-normal"
-                  value=""
-                />
-              </div>
-            </label>
+              </label>
+            </form>
           </div>
 
           <div class="pb-3">
@@ -43,57 +46,53 @@
               </div>
 
               <div class="flex gap-2 sm:gap-3 flex-wrap">
-                  <div class="relative">
-                    <button id="categories-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
-                      <p class="text-[#ffffff] text-sm font-medium leading-normal">Categories</p>
-                      <div class="text-[#ffffff]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                          <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                        </svg>
-                      </div>
-                    </button>
-                    <div id="categories-menu" class="absolute z-10 top-full left-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
-                      <ul class="py-2">
-                        <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Technology</a></li>
-                        <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Lifestyle</a></li>
-                        <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Travel</a></li>
-                        <li><a href="#" class="block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2">Food</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="relative">
-                    <button id="tags-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
-                      <p class="text-[#ffffff] text-sm font-medium leading-normal">Tags</p>
-                      <div class="text-[#ffffff]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                          <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                        </svg>
-                      </div>
-                    </button>
-                    <div id="tags-menu" class="absolute z-10 top-full left-0 mt-2 w-56 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
-                        <div class="p-4 flex flex-wrap gap-2">
-                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#3b82f6]/20 text-[#3b82f6] text-xs font-medium cursor-pointer hover:bg-[#3b82f6]/40">AI</span>
-                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#22c55e]/20 text-[#22c55e] text-xs font-medium cursor-pointer hover:bg-[#22c55e]/40">Productivity</span>
-                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#a855f7]/20 text-[#a855f7] text-xs font-medium cursor-pointer hover:bg-[#a855f7]/40">Europe</span>
-                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#FDE047]/20 text-[#FDE047] text-xs font-medium cursor-pointer hover:bg-[#FDE047]/40">Tips</span>
-                          <span class="inline-flex items-center justify-center rounded-full px-3 py-1 bg-[#c00000]/20 text-[#d55454] text-xs font-medium cursor-pointer hover:bg-[#c00000]/40">Tech</span>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="relative">
-                    <button id="date-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
-                      <p class="text-[#ffffff] text-sm font-medium leading-normal whitespace-nowrap">Date</p>
-                      <div class="text-[#ffffff]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                          <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                        </svg>
-                      </div>
-                    </button>
-                    <div id="date-menu" class="absolute z-10 top-full left-0 lg:right-0 lg:left-auto mt-2 w-72 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg p-4 hidden dropdown-menu">
-                    </div>
-                  </div>
               </div>
             </div>
+          </div>
+
+          <h3 class="text-[#ffffff] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Statistics</h3>
+          <div class="px-4 py-3">
+              <div class="rounded-lg border border-[#2e2e2e] bg-[#1a1a1a]/50 p-4 sm:p-6">
+                  
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                      <div class="bg-[#2e2e2e]/50 rounded-lg p-4">
+                          <p class="text-sm font-medium text-[#a3a3a3]">Today's Views</p>
+                          <p class="text-3xl font-bold text-white"><?= $todays_views ?></p>
+                      </div>
+                      <div class="bg-[#2e2e2e]/50 rounded-lg p-4">
+                          <p class="text-sm font-medium text-[#a3a3a3]">Past 7 Days</p>
+                          <p class="text-3xl font-bold text-white"><?= $total_7_day_views ?></p>
+                      </div>
+                      <div class="bg-[#2e2e2e]/50 rounded-lg p-4">
+                          <p class="text-sm font-medium text-[#a3a3a3]">Past 30 Days</p>
+                          <p class="text-3xl font-bold text-white"><?= $total_30_day_views ?></p>
+                      </div>
+                  </div>
+
+                  <div class="flex justify-end gap-2 mb-4">
+                      <div class="relative">
+                          <button id="chart-range-button" class="flex h-8 cursor-pointer shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#2e2e2e] hover:bg-[#3a3a3a] pl-4 pr-2 transition-colors">
+                            <p id="chart-range-text" class="text-[#ffffff] text-sm font-medium leading-normal whitespace-nowrap">Last 30 Days</p>
+                            <div class="text-[#ffffff]">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                                <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                              </svg>
+                            </div>
+                          </button>
+                          <div id="chart-range-menu" class="absolute z-10 top-full right-0 mt-2 w-48 rounded-lg bg-[#1a1a1a] border border-[#3a3a3a] shadow-lg overflow-hidden hidden dropdown-menu">
+                            <ul class="py-2">
+                              <li><a href="#" class="chart-range-item block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2" data-range="24h">Last 24 hours</a></li>
+                              <li><a href="#" class="chart-range-item block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2" data-range="7d">Last 7 days</a></li>
+                              <li><a href="#" class="chart-range-item block px-4 py-2 text-[#a3a3a3] hover:bg-[#3a3a3a] hover:text-[#ffffff] rounded-md text-sm mx-2" data-range="30d">Last 30 days</a></li>
+                            </ul>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="relative h-64 sm:h-80">
+                      <canvas id="viewsChart"></canvas>
+                  </div>
+              </div>
           </div>
 
           <h3 class="text-[#ffffff] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Published</h3>
@@ -114,7 +113,11 @@
                   <?php if (empty($published_blogs)): ?>
                     <tr class="border-t border-[#2e2e2e]">
                       <td colspan="5" class="px-4 py-4 text-center text-[#a3a3a3] text-sm font-normal leading-normal">
-                        No published posts found.
+                        <?php if (!empty($search_term)): ?>
+                            No published posts found matching "<?= htmlspecialchars($search_term) ?>".
+                        <?php else: ?>
+                            No published posts found.
+                        <?php endif; ?>
                       </td>
                     </tr>
                   <?php else: ?>
@@ -147,14 +150,14 @@
                           </form> | 
 
                           <button type="button" 
-                                  class="open-delete-modal text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors bg-transparent border-none p-0 font-bold leading-normal"
-                                  data-blog-id="<?= $blog['id'] ?>"
-                                  data-redirect-to="/stats"
-                                  data-message="Are you sure you want to delete this post? This action is permanent.">
+                                class="open-delete-modal text-[#a3a3a3] hover:text-[#ffffff] cursor-pointer transition-colors bg-transparent border-none p-0 font-bold leading-normal"
+                                data-blog-id="<?= $blog['id'] ?>"
+                                data-redirect-to="/stats"
+                                data-message="Are you sure you want to delete this post? This action is permanent.">
                             Delete
                           </button>
                         </td>
-                        </tr>
+                      </tr>
                     <?php endforeach; ?>
                   <?php endif; ?>
 
@@ -178,6 +181,7 @@
           <button id="modal-cancel-btn" type="button" class="rounded-lg cursor-pointer bg-[#2e2e2e] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#3a3a3a]">
             Cancel
           </button>
+          
           <button type="submit" class="rounded-lg bg-[#c00000] cursor-pointer px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#d55454]">
             Delete
           </button>
@@ -188,16 +192,17 @@
     
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // --- Your Existing Dropdown Script (Unchanged) ---
       const buttons = [
         document.getElementById('categories-button'),
         document.getElementById('tags-button'),
-        document.getElementById('date-button')
+        document.getElementById('date-button'),
+        document.getElementById('chart-range-button') // Added chart button
       ];
       const menus = [
         document.getElementById('categories-menu'),
         document.getElementById('tags-menu'),
-        document.getElementById('date-menu')
+        document.getElementById('date-menu'),
+        document.getElementById('chart-range-menu') // Added chart menu
       ];
       const allMenus = document.querySelectorAll('.dropdown-menu');
 
@@ -212,7 +217,7 @@
             const menu = menus[index];
             if (menu) {
               const isHidden = menu.classList.contains('hidden');
-              closeAllMenus();
+              closeAllMenus(); // Close all *other* menus
               if (isHidden) {
                 menu.classList.remove('hidden');
               }
@@ -221,14 +226,18 @@
         }
       });
 
-      menus.forEach(menu => {
-        if (menu) {
-          menu.addEventListener('click', (event) => event.stopPropagation());
-        }
-      });
-
-      window.addEventListener('click', () => {
-        closeAllMenus();
+      window.addEventListener('click', (event) => {
+          let clickedOutside = true;
+          buttons.forEach(button => {
+              if (button && button.contains(event.target)) clickedOutside = false;
+          });
+          menus.forEach(menu => {
+              if (menu && menu.contains(event.target)) clickedOutside = false;
+          });
+          
+          if (clickedOutside) {
+              closeAllMenus();
+          }
       });
 
       const deleteModal = document.getElementById('delete-modal');
@@ -244,11 +253,9 @@
         const blogId = button.dataset.blogId;
         const redirectUrl = button.dataset.redirectTo;
         const message = button.dataset.message;
-
         modalBlogIdInput.value = blogId;
         modalRedirectInput.value = redirectUrl;
         modalMessageText.textContent = message;
-
         deleteModal.classList.remove('hidden');
       };
 
@@ -267,7 +274,103 @@
           closeModal();
         }
       });
+      const ctx = document.getElementById('viewsChart');
+      if (ctx) {
+          // Get ALL datasets from PHP
+          const dailyLabels = <?= $daily_chart_labels_json ?>;
+          const dailyData = <?= $daily_chart_data_json ?>;
+          const hourlyLabels = <?= $hourly_chart_labels_json ?>;
+          const hourlyData = <?= $hourly_chart_data_json ?>;
+          
+          // Get new chart dropdown elements
+          const chartRangeItems = document.querySelectorAll('.chart-range-item');
+          const chartRangeText = document.getElementById('chart-range-text');
 
+          const chartConfig = {
+              type: 'line',
+              data: {
+                  // Default to 30 days
+                  labels: dailyLabels.slice(-30), 
+                  datasets: [{
+                      label: 'Views',
+                      data: dailyData.slice(-30),
+                      fill: true,
+                      backgroundColor: 'rgba(192, 0, 0, 0.2)',
+                      borderColor: '#c00000',
+                      tension: 0.3,
+                      pointBackgroundColor: '#c00000',
+                      pointBorderColor: '#fff',
+                      pointHoverRadius: 6,
+                      pointHoverBackgroundColor: '#fff',
+                      pointHoverBorderColor: '#c00000'
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                      legend: {
+                          display: false // Hide legend
+                      },
+                      tooltip: {
+                          backgroundColor: '#1a1a1a',
+                          titleColor: '#ffffff',
+                          bodyColor: '#a3a3a3',
+                          borderColor: '#3a3a3a',
+                          borderWidth: 1,
+                          intersect: false,
+                          mode: 'index',
+                      }
+                  },
+                  scales: {
+                      y: {
+                          beginAtZero: true,
+                          grid: {
+                              color: '#2e2e2e' // Dark grid lines
+                          },
+                          ticks: {
+                              color: '#a3a3a3',
+                              precision: 0 // Ensure whole numbers for view counts
+                          }
+                      },
+                      x: {
+                          grid: {
+                              display: false
+                          },
+                          ticks: {
+                              color: '#a3a3a3'
+                          }
+                      }
+                  }
+              }
+          };
+
+          const myChart = new Chart(ctx, chartConfig);
+
+          chartRangeItems.forEach(item => {
+              item.addEventListener('click', (event) => {
+                  event.preventDefault();
+                  const range = item.dataset.range;
+                  const text = item.textContent;
+
+                  if (range === '24h') {
+                      myChart.data.labels = hourlyLabels;
+                      myChart.data.datasets[0].data = hourlyData;
+                  } else if (range === '7d') {
+                      myChart.data.labels = dailyLabels.slice(-7);
+                      myChart.data.datasets[0].data = dailyData.slice(-7);
+                  } else { // '30d'
+                      myChart.data.labels = dailyLabels.slice(-30);
+                      myChart.data.datasets[0].data = dailyData.slice(-30);
+                  }
+                  
+                  myChart.update();
+
+                  chartRangeText.textContent = text;
+                  document.getElementById('chart-range-menu').classList.add('hidden');
+              });
+          });
+      }
     });
   </script>
 

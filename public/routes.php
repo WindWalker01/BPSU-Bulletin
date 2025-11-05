@@ -12,9 +12,7 @@ $router->get("/home", "controllers/home/home.php");
 $router->get("/blog/publish", "controllers/blog/publish.php");
 
 
-$router
-    ->get("/blog/editor", "controllers/blog/editor/show.php")
-    ->only("author");
+$router->get("/blog/editor", "controllers/blog/editor/show.php")->only("author");
 
 $router->get("/account", "controllers/account_centre/user_activity_log.php");
 $router->get(
@@ -51,9 +49,14 @@ $router->get("/search", "controllers/search.php");
 
 
 //POST
+$router->post('/settings/preferences/update', 'controllers/settings/preferences-update.php');
 $router->post('/archive', 'controllers/stats/archive.php');
 $router->post('/delete', 'controllers/stats/delete.php');
 $router->post('/unarchive', 'controllers/stats/unarchive.php');
+$router
+    ->post('/account/deactivate', 'controllers/settings/deactivate.php')
+    ->only("auth");
+
 $router
     ->post("/register", "controllers/registration/create.php")
     ->only("guest");
@@ -95,3 +98,5 @@ $router->patch(
     "controllers/notifications/marked_as_read.php",
 );
 
+
+$router->delete('/account/delete', 'controllers/settings/delete.php');
