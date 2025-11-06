@@ -20,28 +20,21 @@ if ($auth->isUserExist($email)) {
 }
 
 if (!empty($errors)) {
-    render("/register/register.view.php", [
-        "title" => "Register Account",
-        "errors" => $errors,
-        "old" => ["email" => $email]
-    ], false);
+    render(
+        "/register/register.view.php",
+        [
+            "title" => "Register Account",
+            "errors" => $errors,
+            "old" => ["email" => $email],
+        ],
+        false,
+    );
     exit();
 }
 
-$hashed_password = password_hash($password, PASSWORD_ARGON2ID);
-// create user account
-$db->query(
-    "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
-('USER', 'Ruzzel', :email, :password, 'ACTIVE', NOW(), 'LOCAL');",
-    [
-        "email" => $email,
-        "password" => $hashed_pasword,
-    ],
-);
-
-$_SESSION['registration_data'] = [
-    'email' => $email,
-    'password_hash' => $hashed_password
+$_SESSION["registration_data"] = [
+    "email" => $email,
+    "password_hash" => $hashed_password,
 ];
 
 redirect("/edit-profile");
