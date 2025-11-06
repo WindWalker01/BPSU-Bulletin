@@ -3,6 +3,7 @@ use Core\App;
 use Core\Database;
 use Core\TiptapExtension\Youtube;
 use Core\Authenticator;
+use Tiptap\Marks\Underline;
 
 $id = $_GET["id"];
 
@@ -75,6 +76,11 @@ $html = new \Tiptap\Editor([
         new \Tiptap\Nodes\Image(),
         new Youtube(),
         new \Tiptap\Extensions\TextAlign(["types" => ["heading", "paragraph"]]),
+        new \Tiptap\Marks\Underline(),
+        new \Tiptap\Marks\Highlight(["multicolor" => true]),
+        new \Tiptap\Marks\Link(),
+        new \Tiptap\Marks\Subscript(),
+        new \Tiptap\Marks\Superscript(),
     ],
 ])
     ->setContent(json_decode(json_decode($blog["content"]), true))

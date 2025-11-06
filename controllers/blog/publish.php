@@ -3,6 +3,7 @@
 use Core\Database;
 use Core\App;
 use Core\TiptapExtension\Youtube;
+use Tiptap\Marks\Underline;
 
 date_default_timezone_set("Asia/Manila");
 
@@ -34,6 +35,11 @@ $html = new \Tiptap\Editor([
         new \Tiptap\Nodes\Image(),
         new Youtube(),
         new \Tiptap\Extensions\TextAlign(["types" => ["heading", "paragraph"]]),
+        new \Tiptap\Marks\Underline(),
+        new \Tiptap\Marks\Highlight(["multicolor" => true]),
+        new \Tiptap\Marks\Link(),
+        new \Tiptap\Marks\Subscript(),
+        new \Tiptap\Marks\Superscript(),
     ],
 ])
     ->setContent(json_decode(json_decode($blog["content"]), true))
