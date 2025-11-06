@@ -90,10 +90,15 @@ class Authenticator
     public function getLoggedInRole()
     {
         $config = require base_path("config/config.php");
-        $jwt = (array) JWT::decode(
-            $_COOKIE["auth_token"],
-            new Key($config["jwt-secret-key"], "HS256"),
-        );
+        $jwt =
+            (array) JWT::decode(
+                $_COOKIE["auth_token"],
+                new Key($config["jwt-secret-key"], "HS256"),
+            ) ?? null;
+
+        if ($jwt === null) {
+            return "guest";
+        }
 
         $user = App::resolve(Database::class)
             ->query("SELECT * FROM users WHERE email = :email", [

@@ -39,6 +39,15 @@ class Router
         return $this;
     }
 
+    public function onlyRoles($key, $roles)
+    {
+        $this->routes[array_key_last($this->routes)]["middleware"] = [
+            "key" => $key,
+            "params" => $roles,
+        ];
+        return $this;
+    }
+
     public function route($uri, $method)
     {
         foreach ($this->routes as $route) {
@@ -46,7 +55,8 @@ class Router
                 $route["uri"] === $uri &&
                 strtoupper($method) === $route["method"]
             ) {
-                Middleware::resolve($route["middleware"]);
+                $middleware = $route["middleware"];
+                Middleware::resolve($middleware["key"], $middleware["params"]);
                 if ($uri === "banned") {
                     handleBannedUsers();
                 }
