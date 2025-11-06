@@ -3,7 +3,7 @@ use Core\Database;
 use Core\App;
 use Core\Authenticator;
 
-$theme = 'SYSTEM'; // Default theme if user is not logged in
+$theme = "SYSTEM"; // Default theme if user is not logged in
 
 if (isUserLoggedIn()) {
     $auth = new Authenticator();
@@ -16,13 +16,15 @@ if (isUserLoggedIn()) {
         ->find();
 
     // --- FIX 1: Fetch the user's theme preference ---
-    $user_prefs = $db->query(
-        "SELECT theme_preference FROM user_preferences WHERE user_id = :id",
-        ["id" => (int) $auth->getLoggedInUserId()]
-    )->find();
+    $user_prefs = $db
+        ->query(
+            "SELECT theme_preference FROM user_preferences WHERE user_id = :id",
+            ["id" => (int) $auth->getLoggedInUserId()],
+        )
+        ->find();
 
-    if ($user_prefs && $user_prefs['theme_preference']) {
-        $theme = $user_prefs['theme_preference']; // e.g., 'DARK', 'LIGHT', 'SYSTEM'
+    if ($user_prefs && $user_prefs["theme_preference"]) {
+        $theme = $user_prefs["theme_preference"]; // e.g., 'DARK', 'LIGHT', 'SYSTEM'
     }
 
     // fetch notifications
@@ -49,7 +51,7 @@ if (isUserLoggedIn()) {
             ],
         )
         ->get();
-    
+
     $unread_count = $db
         ->query(
             "SELECT COUNT(*) AS unread_count
@@ -103,7 +105,7 @@ if (isUserLoggedIn()) {
         })();
     </script>
     <link href="/css/tailwind.css" rel="stylesheet">
-    <link href="/css/tiptap.css" rel="stylesheet">
+    <link href="/tiptap/index.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

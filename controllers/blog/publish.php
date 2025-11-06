@@ -33,9 +33,10 @@ $html = new \Tiptap\Editor([
         new \Tiptap\Nodes\CodeBlockHighlight(),
         new \Tiptap\Nodes\Image(),
         new Youtube(),
+        new \Tiptap\Extensions\TextAlign(["types" => ["heading", "paragraph"]]),
     ],
 ])
-    ->setContent(json_decode($blog["content"]))
+    ->setContent(json_decode(json_decode($blog["content"]), true))
     ->getHTML();
 
 render("blog/publish.view.php", [

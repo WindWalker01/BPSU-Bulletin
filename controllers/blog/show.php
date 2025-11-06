@@ -21,17 +21,19 @@ $db = App::resolve(Database::class);
 
 $auth = new Authenticator();
 $user_id = $auth->getLoggedInUserId();
-$blog_id = $_GET['id'];
+$blog_id = $_GET["id"];
 
 // Only track if user is logged in
 if ($user_id) {
-    $existingView = $db->query(
-        "SELECT id FROM blog_views WHERE user_id = :user_id AND blog_id = :blog_id",
-        [
-            'user_id' => $user_id,
-            'blog_id' => $blog_id
-        ]
-    )->find();
+    $existingView = $db
+        ->query(
+            "SELECT id FROM blog_views WHERE user_id = :user_id AND blog_id = :blog_id",
+            [
+                "user_id" => $user_id,
+                "blog_id" => $blog_id,
+            ],
+        )
+        ->find();
 
     if (!$existingView) {
         // Insert new view
@@ -39,13 +41,11 @@ if ($user_id) {
             "INSERT INTO blog_views (user_id, blog_id, viewed_at)
              VALUES (:user_id, :blog_id, :viewed_at)",
             [
-                'user_id' => $user_id,
-                'blog_id' => $blog_id,
-                'viewed_at' => date('Y-m-d H:i:s') 
-            ]
+                "user_id" => $user_id,
+                "blog_id" => $blog_id,
+                "viewed_at" => date("Y-m-d H:i:s"),
+            ],
         );
-
-
     }
 }
 
@@ -64,6 +64,8 @@ if ($blog["blog_status"] === "BANNED") {
     exit();
 }
 
+// dd();
+
 $html = new \Tiptap\Editor([
     "extensions" => [
         new \Tiptap\Extensions\StarterKit([
@@ -72,9 +74,10 @@ $html = new \Tiptap\Editor([
         new \Tiptap\Nodes\CodeBlockHighlight(),
         new \Tiptap\Nodes\Image(),
         new Youtube(),
+        new \Tiptap\Extensions\TextAlign(["types" => ["heading", "paragraph"]]),
     ],
 ])
-    ->setContent(json_decode($blog["content"]))
+    ->setContent(json_decode(json_decode($blog["content"]), true))
     ->getHTML();
 
 // Query all the comments and replies
@@ -149,13 +152,14 @@ $isFollowed = $db
     )
     ->findOrFail();
 
-    $totalViews = $db->query(
-    "SELECT COUNT(*) AS total FROM blog_views WHERE blog_id = :blog_id",
-    ['blog_id' => $id]
-        )->find();
+$totalViews = $db
+    ->query(
+        "SELECT COUNT(*) AS total FROM blog_views WHERE blog_id = :blog_id",
+        ["blog_id" => $id],
+    )
+    ->find();
 
-        $viewCount = $totalViews['total'] ?? 0;
-
+$viewCount = $totalViews["total"] ?? 0;
 
 // Render the page
 render("blog/blog.view.php", [
