@@ -31,6 +31,7 @@ if (!empty($errors)) {
     );
     exit();
 }
+$hashed_password = password_hash($password, PASSWORD_ARGON2ID);
 
 $_SESSION["registration_data"] = [
     "email" => $email,
