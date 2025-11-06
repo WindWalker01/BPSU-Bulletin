@@ -4,6 +4,7 @@ namespace Core;
 
 use Core\App;
 use Core\Database;
+use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -90,15 +91,15 @@ class Authenticator
     public function getLoggedInRole()
     {
         $config = require base_path("config/config.php");
-        $jwt =
-            (array) JWT::decode(
-                $_COOKIE["auth_token"],
-                new Key($config["jwt-secret-key"], "HS256"),
-            ) ?? null;
 
-        if ($jwt === null) {
+        if (!isset($_COOKIE["auth_token"])) {
             return "guest";
         }
+
+        $jwt = (array) JWT::decode(
+            $_COOKIE["auth_token"],
+            new Key($config["jwt-secret-key"], "HS256"),
+        );
 
         $user = App::resolve(Database::class)
             ->query("SELECT * FROM users WHERE email = :email", [

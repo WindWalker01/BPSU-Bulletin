@@ -105,7 +105,7 @@ if (isUserLoggedIn()) {
         })();
     </script>
     <link href="/css/tailwind.css" rel="stylesheet">
-    <link href="/tiptap/index.css" rel="stylesheet">
+    <link href="/css/tiptap.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
