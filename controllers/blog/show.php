@@ -3,7 +3,6 @@ use Core\App;
 use Core\Database;
 use Core\TiptapExtension\Youtube;
 use Core\Authenticator;
-use Tiptap\Marks\Underline;
 
 $id = $_GET["id"];
 
