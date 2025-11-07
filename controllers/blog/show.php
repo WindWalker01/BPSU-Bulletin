@@ -64,6 +64,11 @@ if ($blog["blog_status"] === "BANNED") {
     exit();
 }
 
+if ($blog["account_status"] === "BANNED") {
+    redirect("/404");
+    exit();
+}
+
 // dd();
 
 $html = new \Tiptap\Editor([

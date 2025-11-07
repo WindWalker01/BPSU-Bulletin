@@ -565,8 +565,11 @@ function deleteComment() {
 }
 
 function banUser() {
-  if (!confirm("Ban the user who posted this comment?")) return;
-  fetch(`/admin/ban_user?id=${selectedId}&by=comment`, { method: 'PATCH' })
+  if (!confirm("Ban the user who posted this content?")) return;
+  
+  let uri = moderationType === "comment" ? `/admin/ban_user?id=${selectedId}&by=comment` : `/admin/ban_user?id=${<?= $author_id ?>}`; 
+  
+  fetch(`${uri}`, { method: 'PATCH' })
     .then(res => res.json())
     .then(data => alert(data.message || "User banned."))
     .finally(closeModerationModal);
