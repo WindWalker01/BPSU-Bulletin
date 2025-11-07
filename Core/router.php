@@ -50,6 +50,11 @@ class Router
 
     public function route($uri, $method)
     {
+        if (isUserBanned() && $uri !== "/banned") {
+            redirect("/banned");
+            exit();
+        }
+
         foreach ($this->routes as $route) {
             if (
                 $route["uri"] === $uri &&
@@ -57,9 +62,7 @@ class Router
             ) {
                 $middleware = $route["middleware"];
                 Middleware::resolve($middleware["key"], $middleware["params"]);
-                if ($uri === "banned") {
-                    handleBannedUsers();
-                }
+
                 return require base_path($route["controller"]);
             }
         }

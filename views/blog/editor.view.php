@@ -73,7 +73,7 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
     <!-- Right: Publish -->
     <div class="flex items-center gap-4">
       <?php if ($editing !== "SCHEDULED" && $editing !== "ACTIVE"): ?>
-        <form action="/blog/publish" method="GET">
+        <form action="/blog/publish" method="GET" id="publishForm">
           <input type="hidden" name="blog_id" value="<?= $blog_id ?>">
           <button 
             type="submit" 
@@ -87,6 +87,47 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
     </div>
   </div>
 </header>
+
+
+<!-- TITLE REQUIRED MODAL -->
+<div 
+  id="titleRequiredModal" 
+  class="hidden fixed inset-0 bg-overlay-dark/80 backdrop-blur-sm flex items-center justify-center z-50"
+>
+  <div class="bg-overlay-dark rounded-2xl shadow-xl w-[90%] max-w-md p-6 border border-card-dark animate-fade-up">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold text-text-primary">Missing Title</h2>
+      <button 
+        type="button" 
+        onclick="closeTitleModal()" 
+        class="text-text-secondary hover:text-text-primary transition"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Message -->
+    <p class="text-sm font-medium text-text-primary mb-1">
+      Please enter a title before publishing your post.
+    </p>
+    <p class="text-xs text-text-secondary mb-4">
+      A title helps readers identify your post. Make sure to fill it out before continuing.
+    </p>
+
+    <!-- ACTION BUTTONS -->
+    <div class="flex justify-end mt-5 gap-2">
+      <button 
+        type="button" 
+        onclick="closeTitleModal()" 
+        class="px-3 py-1.5 text-sm rounded-md text-text-secondary hover:text-text-primary transition"
+      >
+        Got it
+      </button>
+    </div>
+  </div>
+</div>
+
 
 
 <script>
@@ -247,6 +288,28 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
 
     window.__autosave_stop = () => { stopped = true; clearTimeout(editorSaveTimeout); console.log("[autosave] stopped"); };
   })();
+</script>
+
+<script>
+  const form = document.getElementById('publishForm');
+  const titleModal = document.getElementById('titleRequiredModal');
+
+  form.addEventListener('submit', (e) => {
+    const title = titleInput.value.trim();
+    if (title === '') {
+      e.preventDefault();
+      openTitleModal();
+    }
+  });
+
+  function openTitleModal() {
+    titleModal.classList.remove('hidden');
+  }
+
+  function closeTitleModal() {
+    titleModal.classList.add('hidden');
+    titleInput.focus();
+  }
 </script>
 
 </body>

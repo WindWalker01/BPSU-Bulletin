@@ -88,6 +88,11 @@ function getLoggedInUserId()
     return new Authenticator()->getLoggedInUserId();
 }
 
+function isUserBanned()
+{
+    return new Authenticator()->getLoggedInAccountStatus() === "BANNED";
+}
+
 function handleBannedUsers()
 {
     $db = App::resolve(Database::class);
