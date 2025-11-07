@@ -142,7 +142,7 @@
       <form action="/blog/publish" method="POST" class="space-y-6">
   <input type="hidden" name="_method" value="PATCH">
   <input type="hidden" name="blog_id" value="<?= $blog_id ?>">
-  <input type="hidden" name="blog_id" value="<?= $raw_text_content ?>">
+  <input type="hidden" name="text_content" value="<?= $raw_text_content ?>">
   
   <input type="hidden" name="is_schedule" id="schedule-value" value="">
 

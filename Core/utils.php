@@ -2,6 +2,7 @@
 use Core\Authenticator;
 use Core\App;
 use Core\Database;
+use Core\TiptapExtension\Youtube;
 
 date_default_timezone_set("Asia/Manila");
 
@@ -91,6 +92,50 @@ function getLoggedInUserId()
 function isUserBanned()
 {
     return new Authenticator()->getLoggedInAccountStatus() === "BANNED";
+}
+
+function getTextFromTitapHtml($content)
+{
+    return new \Tiptap\Editor([
+        "extensions" => [
+            new \Tiptap\Extensions\StarterKit([
+                "codeBlock" => false,
+            ]),
+            new \Tiptap\Nodes\CodeBlockHighlight(),
+            new \Tiptap\Nodes\Image(),
+            new Youtube(),
+            new \Tiptap\Extensions\TextAlign([
+                "types" => ["heading", "paragraph"],
+            ]),
+            new \Tiptap\Marks\Underline(),
+            new \Tiptap\Marks\Highlight(["multicolor" => true]),
+            new \Tiptap\Marks\Link(),
+            new \Tiptap\Marks\Subscript(),
+            new \Tiptap\Marks\Superscript(),
+        ],
+    ])
+        ->setContent(json_decode(json_decode($content), true))
+        ->getText();
+}
+
+function analyzeReports($reports)
+{
+    $containsSpam = false;
+    $containsOther = false;
+
+    foreach ($reports as $report) {
+        $type = strtoupper($report["report_type"]); // normalize case
+        if ($type === "SPAM") {
+            $containsSpam = true;
+        } else {
+            $containsOther = true;
+        }
+    }
+
+    return [
+        "toxic" => $containsOther ? 1 : 0,
+        "spam" => $containsSpam ? 1 : 0,
+    ];
 }
 
 function handleBannedUsers()

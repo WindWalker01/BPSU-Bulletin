@@ -63,7 +63,7 @@ class IntelligentSystem
         ];
 
         // Initialize cURL
-        $ch = curl_init(`{$this->config["intelligent_system_url"]}/api/add`);
+        $ch = curl_init("{$this->config["intelligent_system_url"]}/api/add");
 
         // Configure cURL options
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -88,8 +88,8 @@ class IntelligentSystem
         $result = json_decode($response, true);
 
         // Handle the result
-        if (isset($result["classification"])) {
-            return $result["classification"];
+        if (isset($result)) {
+            return $result;
         } else {
             return null;
         }
