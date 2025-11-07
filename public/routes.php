@@ -38,7 +38,7 @@ $router
     ->onlyRoles("role", ["user", "admin", "author"]);
 $router
     ->get("/home", "controllers/home/home.php")
-    ->onlyRoles("role", ["user", "admin", "author"]);
+    ->onlyRoles("role", ["guest", "user", "admin", "author"]);
 $router
     ->get("/blog/publish", "controllers/blog/publish.php")
     ->onlyRoles("role", ["author", "admin"]);

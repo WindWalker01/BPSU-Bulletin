@@ -60,7 +60,7 @@ $blog = $db
     ->find();
 
 if ($blog["blog_status"] === "BANNED") {
-    redirect("/appeal?blog={$id}");
+    redirect("/appeal");
     exit();
 }
 

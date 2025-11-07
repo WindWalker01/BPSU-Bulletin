@@ -536,6 +536,8 @@ function openModerationPanel(moderation, commentId, content, username, avatar, a
   selectedId = commentId;
   moderationType = moderation;
 
+  console.log(moderationType);
+
   document.getElementById("moderationCommentText").textContent = content;
   document.getElementById("moderationCommentUsername").textContent = `${username}: `;
   document.getElementById("moderationCommentAvatar").src = avatar;
@@ -549,17 +551,17 @@ function closeModerationModal() {
 }
 
 function deleteComment() {
+  console.log(moderationType);
   if (!confirm("Are you sure you want to delete this content?")) return;
 
   let uri = moderationType === "comment" ? `/admin/ban_comment?commentId=${selectedId}` : `/admin/ban_blog?blogId=${selectedId}&authorId=${<?= $author_id ?>}`; 
-
 
   fetch(`${uri}`, { method: 'PATCH' })
     .then(res => res.json())
     .then(data => alert(data.message || "Comment deleted."))
     .finally(closeModerationModal);
 
-    window.location.reload();
+    // window.location.reload();
 }
 
 function banUser() {

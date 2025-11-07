@@ -20,7 +20,7 @@
 
     <!-- Button -->
     <div>
-      <a href="/dashboard"
+      <a href="/stats"
          class="inline-block bg-brand hover:bg-brand-hover/90 text-white font-medium px-6 py-2 rounded-xl shadow-md transition">
         Return to Dashboard
       </a>

@@ -9,7 +9,7 @@ $author_id = $_GET["authorId"] ?? null;
 $db = App::resolve(Database::class);
 
 // this is for the admin.view.php
-if ($blog_id === null || $author_id === null) {
+if ($blog_id === null && $author_id === null) {
     $input = json_decode(file_get_contents("php://input"), true);
 
     $blog_id = $input["blogId"] ?? null;
