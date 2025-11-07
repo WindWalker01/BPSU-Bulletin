@@ -132,7 +132,8 @@
       <h1 class="text-3xl font-bold mb-2 text-text-primary">Ready to Publish?</h1>
       
      <p class="mb-4 text-sm text-text-secondary">
-        Publishing to <span class="font-medium text-brand"><?= $username ?? $author_name ?></span>.
+        Publishing to <span class="font-medium text-brand"><?= $username ??
+            $author_name ?></span>.
       </p>
       <p class="mb-4 text-text-secondary ">
         Add tags and choose categories so your readers can easily find your post.
@@ -141,6 +142,7 @@
       <form action="/blog/publish" method="POST" class="space-y-6">
   <input type="hidden" name="_method" value="PATCH">
   <input type="hidden" name="blog_id" value="<?= $blog_id ?>">
+  <input type="hidden" name="blog_id" value="<?= $raw_text_content ?>">
   
   <input type="hidden" name="is_schedule" id="schedule-value" value="">
 

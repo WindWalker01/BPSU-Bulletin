@@ -3,7 +3,7 @@ use Core\Authenticator;
 use Core\App;
 use Core\Database;
 
-date_default_timezone_set('Asia/Manila');
+date_default_timezone_set("Asia/Manila");
 
 function dd($value)
 {
@@ -45,6 +45,37 @@ function isUserLoggedIn()
         return true;
     }
     return false;
+}
+
+function getBlogContent($content)
+{
+    $string_content = "";
+
+    $data = json_decode($content, true);
+
+    if (is_string($data)) {
+        $data = json_decode($data, true); // Second decode
+    }
+    dd($data);
+
+    $first_paragraph = null;
+
+    foreach ($data["content"] ?? [] as $node) {
+        if (
+            !$first_paragraph &&
+            $node["type"] === "paragraph" &&
+            isset($node["content"])
+        ) {
+            $texts = array_map(fn($c) => $c["text"] ?? "", $node["content"]);
+            $first_paragraph = trim(implode(" ", $texts));
+        }
+
+        if ($first_paragraph) {
+            break;
+        }
+    }
+
+    return $first_paragraph;
 }
 
 function getLoggedInRole()
@@ -166,19 +197,17 @@ function extractFirstImageFromTiptap($content)
 function getBadgeColor($categoryValue)
 {
     switch ($categoryValue) {
-        case 'University Annoucements':
-            return 'bg-brand/20 text-brand';
-        case 'Organizations':
-            return 'bg-green-500/20 text-green-300';
-        case 'Scholarship':
-            return 'bg-yellow-500/20 text-yellow-300';
-        case 'Achievement':
-            return 'bg-pink-500/20 text-pink-300';
-        case 'Enrollment & Documents':
-            return 'bg-blue-500/20 text-blue-300';
+        case "University Annoucements":
+            return "bg-brand/20 text-brand";
+        case "Organizations":
+            return "bg-green-500/20 text-green-300";
+        case "Scholarship":
+            return "bg-yellow-500/20 text-yellow-300";
+        case "Achievement":
+            return "bg-pink-500/20 text-pink-300";
+        case "Enrollment & Documents":
+            return "bg-blue-500/20 text-blue-300";
         default:
-            return 'bg-brand/20 text-brand'; 
+            return "bg-brand/20 text-brand";
     }
 }
-
-

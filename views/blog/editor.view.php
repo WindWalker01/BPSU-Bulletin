@@ -1,6 +1,5 @@
 <?php
-  $user_name = implode(' ', array_slice(explode(' ', trim($user_name)), 0, 2));
-?>
+$user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +37,8 @@
     </script>
     <link href="/css/tailwind.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=publish" />
-</head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  </head>
 <body class="bg-bg-light dark:bg-bg-dark"> <link rel="stylesheet" href="/tiptap/index.css">
 
 <header class="sticky top-0 bg-bg-light flex justify-center dark:bg-bg-dark/80 backdrop-blur-md border-b border-card-dark z-50">
@@ -50,7 +50,9 @@
       </a>
       <div class="flex flex-col leading-tight">
         <span class="text-xs lg:text-sm text-text-primary font-medium">
-          Draft in <span class="text-text-brand font-bold"><?php echo htmlspecialchars($user_name); ?> </span>
+          Draft in <span class="text-text-brand font-bold"><?php echo htmlspecialchars(
+              $user_name,
+          ); ?> </span>
         </span>
         <span id="saveStatus" class="text-xs text-text-secondary">Saved</span>
       </div>
@@ -135,6 +137,9 @@
 </script>
 
 <div id="root"></div>
+
+
+<?php view("partials/intelligent-system-modal.php"); ?>
 
 <script src="/tiptap/index.js"></script>
 

@@ -19,9 +19,11 @@ if ($blog["author_id"] !== $auth->getLoggedInUserId()) {
     exit();
 }
 
-$user = $db->query("SELECT username FROM users WHERE id = :id", [
-    "id" => $auth->getLoggedInUserId()
-])->find();
+$user = $db
+    ->query("SELECT username FROM users WHERE id = :id", [
+        "id" => $auth->getLoggedInUserId(),
+    ])
+    ->find();
 
 $user_name = $user["username"] ?? "Unknown";
 
@@ -31,5 +33,5 @@ view("blog/editor.view.php", [
     "title" => $blog["title"] ?? "Enter Title",
     "author_id" => $auth->getLoggedInUserId(),
     "editing" => $blog["blog_status"],
-    "user_name" => $user_name
+    "user_name" => $user_name,
 ]);
