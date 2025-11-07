@@ -119,6 +119,7 @@
                 "appeal_id" => $appeal["appeal_id"],
                 "badge_color" => $badge_color_map["APPEAL"],
                 "blog_id" => $appeal["blog_id"],
+                "author_id" => $appeal["author_id"],
             ]); ?>
           <?php endforeach; ?>
         </tbody>
@@ -240,6 +241,38 @@ function declineComment(id) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ id })
+  })
+  .then(response => {
+    window.location.reload();
+  });
+}
+</script>
+
+
+<script>
+function approveAppeal(blogId, appealId, authorId) {
+  fetch(`/admin/approve_appeal?blog_id=${blogId}&appeal_id=${appealId}&author_id=${authorId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ blogId, appealId, authorId })
+  })
+  .then(response => {
+    window.location.reload();
+  });
+}
+</script>
+
+
+<script>
+function rejectAppeal(blogId, appealId, authorId) {
+  fetch(`/admin/reject_appeal?appeal_id=${appealId}&author_id=${authorId}&blog_id=${blogId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ appealId, blogId, authorId })
   })
   .then(response => {
     window.location.reload();

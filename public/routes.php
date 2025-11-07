@@ -199,6 +199,14 @@ $router
     )
     ->onlyRoles("role", ["admin"]);
 
+$router
+    ->patch("/admin/approve_appeal", "controllers/appeal/approve.php")
+    ->onlyRoles("role", ["admin"]);
+
+$router
+    ->patch("/admin/reject_appeal", "controllers/appeal/reject.php")
+    ->onlyRoles("role", ["admin"]);
+
 // DELETE — Authenticated (includes admin)
 $router
     ->delete("/account/delete", "controllers/settings/delete.php")

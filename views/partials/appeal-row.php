@@ -24,7 +24,7 @@
 
     <td class="px-4 sm:px-5 py-4 text-center space-x-2 sm:space-x-3">
         <a href="/blog?id=<?= $blog_id ?>" class="text-accent-blue hover:underline">View</a>
-        <a href="#" class="text-brand hover:underline">Approve</a>
-        <a href="#" class="text-text-secondary hover:underline">Reject</a>
+        <a href="#" onclick="approveAppeal(<?= $blog_id ?>, <?= $appeal_id ?>, <?= $author_id ?>)" class="text-brand hover:underline">Approve</a>
+        <a href="#" onclick="rejectAppeal(<?= $blog_id ?>, <?= $appeal_id ?>, <?= $author_id ?>)" class="text-text-secondary hover:underline">Reject</a>
     </td>
 </tr>

@@ -8,7 +8,7 @@ $reason = $_POST["reason"];
 $db = App::resolve(Database::class);
 
 $db->query(
-    "INSERT INTO appeals (`author_id`, `blog_id`, `reason`) VALUES (:author, :blog, :reason)",
+    "INSERT INTO appeals (`author_id`, `blog_id`, `reason`, `status`) VALUES (:author, :blog, :reason, 'PENDING')",
     ["author" => getLoggedInUserId(), "blog" => $blog_id, "reason" => $reason],
 );
 

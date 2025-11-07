@@ -99,9 +99,12 @@ $appeals = $db
         users.username as appealed_by, 
         appeals.reason,
         appeals.blog_id, 
-        appeals.id as appeal_id 
+        appeals.id as appeal_id,
+        appeals.status,
+        users.id as author_id 
         FROM appeals 
-        INNER JOIN users ON users.id = appeals.author_id",
+        INNER JOIN users ON users.id = appeals.author_id
+        WHERE appeals.status = 'PENDING'",
     )
     ->get();
 

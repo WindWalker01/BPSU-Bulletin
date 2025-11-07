@@ -18,6 +18,58 @@ class Notification
         $this->mail = new PHPMailer(true);
     }
 
+    function createApprovedAppealNotification($receiver, $source)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`,
+            `title`,
+            `description`,
+            `sender_id`,
+            `is_read`,
+            `category`,
+            `blog_id`,
+            `created_at`,
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'BLOG')",
+            [
+                "receiver" => $receiver,
+                "title" => "your appeal",
+                "description" => "Approved",
+                "sender" => getLoggedInUserId(),
+                "category" => "IMPORTANT",
+                "blog" => $source,
+            ],
+        );
+    }
+
+    function createRejectAppealNotification($receiver, $source)
+    {
+        $this->db->query(
+            "INSERT INTO notifications(
+            `receiver_id`,
+            `title`,
+            `description`,
+            `sender_id`,
+            `is_read`,
+            `category`,
+            `blog_id`,
+            `created_at`,
+            `type`
+            )
+            VALUES(:receiver, :title, :description, :sender, 0, :category, :blog, NOW(), 'BLOG')",
+            [
+                "receiver" => $receiver,
+                "title" => "your appeal",
+                "description" => "Rejected",
+                "sender" => getLoggedInUserId(),
+                "category" => "IMPORTANT",
+                "blog" => $source,
+            ],
+        );
+    }
+
     function createRemovedCommentNotification($receiver, $source)
     {
         $this->db->query(

@@ -59,7 +59,7 @@ $blog = $db
     )
     ->find();
 
-if ($blog["blog_status"] === "BANNED") {
+if ($blog["blog_status"] === "BANNED" && getLoggedInRole() !== "ADMIN") {
     redirect("/appeal");
     exit();
 }
