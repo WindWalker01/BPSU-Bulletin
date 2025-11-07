@@ -519,7 +519,7 @@ function openReportModal(id, reportType) {
     document.getElementById('reportId').value = id;
     document.getElementById('reportType').value = reportType;
 
-    console.log(id);_
+    console.log(id);
 
 }
 function closeReportModal() {

@@ -113,7 +113,7 @@ $router
 
 $router
     ->post("/report", "controllers/moderate/report.php")
-    ->onlyRoles("role", ["admin"]);
+    ->onlyRoles("role", ["admin", "user", "author"]);
 
 $router
     ->post("/appeal", "controllers/appeal/create.php")
