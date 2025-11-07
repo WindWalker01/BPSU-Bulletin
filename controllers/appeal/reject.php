@@ -24,6 +24,10 @@ $db->query("UPDATE appeals SET status = 'RESOLVED' WHERE id = :id", [
 
 new Notification()->createRejectAppealNotification($author_id, $blog_id);
 
+$db->query(
+    "INSERT INTO admin_logs(`title`, `description`, `admin_id`) VALUES ('Reject appeal', 'rejected appeal of appeal #{$appeal}')",
+);
+
 echo json_encode([
     "status" => "successful",
     "response" => "appeal has been rejected",

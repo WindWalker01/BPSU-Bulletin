@@ -21,3 +21,9 @@ $db = App::resolve(Database::class);
 $db->query("UPDATE blog_reports SET status = 'RESOLVED' WHERE id = :id", [
     "id" => $id,
 ]);
+
+$db->query(
+    "INSERT INTO admin_logs(`title`, `description`, `admin_id`) VALUES ('Decline report of blog', 'declined of banning a blog reprot #{$id}')",
+);
+
+exit();
