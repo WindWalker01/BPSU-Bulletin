@@ -15,7 +15,7 @@
 
   <!-- Profile Picture Section -->
   <div class="flex flex-col items-center mt-10 relative">
-    <h2 class="text-xl md:text-2xl font-bold text-white mb-3">Profile Picture</h2>
+    <h2 class="text-xl md:text-2xl font-bold text-text-primary mb-3">Profile Picture</h2>
 
     <div class="relative">
       <img 
@@ -38,7 +38,7 @@
   <!-- Divider -->
   <div class="h-[2px] w-[90%] max-w-6xl bg-red-500 rounded-lg mt-8"></div>
 
-    <h1 class="text-2xl md:text-3xl font-bold text-white mt-4">Profile Information</h1>
+    <h1 class="text-2xl md:text-3xl font-bold text-text-primary mt-4">Profile Information</h1>
 
   <!-- Info Section -->
     <form action="/account" method="POST" class="bg-overlay-dark/50 w-[90%] max-w-6xl rounded-lg mt-8 mb-10 flex flex-col lg:flex-row gap-10 p-6">
@@ -46,21 +46,21 @@
         <input type="hidden" name="_method" value="PATCH">
         <input type="hidden" name="user_id" value="<?php echo $id; ?>">
       <div class="flex-1">
-        <h2 class="text-lg font-semibold text-red-500 mb-2">Name</h2>
+        <h2 class="text-lg font-semibold   text-red-500 mb-2">Name</h2>
         <div class="bg-card-dark/20 p-4 rounded-lg text-white space-y-4">
             <div>
-              <label class="text-base block">Username</label>
+              <label class="text-base text-text-primary block">Username</label>
               <input type="text" name="username" placeholder="Username" value="<?php echo $username?>"
-                class="focus:outline-none border-b border-red-500 mt-1 w-full bg-transparent" />
+                class="focus:outline-none text-text-primary border-b border-red-500 mt-1 w-full bg-transparent" />
             </div>
         </div>
 
         <h2 class="text-lg font-semibold text-red-500 mt-6 mb-2">Contact Information</h2>
         <div class="bg-card-dark/20 p-4 rounded-lg text-white space-y-4">
             <div>
-              <label class="text-base block">Email Address</label>
+              <label class="text-base text-text-primary block">Email Address</label>
               <input type="text" name="email" placeholder="Email" value="<?php echo $email ?>"
-                class="focus:outline-none border-b border-red-500 mt-1 w-full bg-transparent" />
+                class="focus:outline-none border-b text-text-primary border-red-500 mt-1 w-full bg-transparent" />
             </div>
         </div>
       </div>
@@ -70,9 +70,9 @@
       <h2 class="text-lg font-semibold text-red-500 mb-2">School Information</h2>
       <div class="bg-card-dark/20 p-4 rounded-lg text-white space-y-4">
           <div>
-            <label class="text-base block">Campus</label>
+            <label class="text-base  text-text-primary block">Campus</label>
             <select name="campus" id="campus" 
-              class="focus:outline-none bg-card-dark border border-red-500 w-full mt-1 p-2 rounded cursor-pointer">
+              class="focus:outline-none bg-card-dark text-text-primary border border-red-500 w-full mt-1 p-2 rounded cursor-pointer">
               <option value="MAIN" <?php echo $campus === "MAIN" ? "selected": ""?> >Main Campus</option>
               <option value="ABUCAY" <?php echo $campus === "ABUCAY" ? "selected": ""?>>Abucay Campus</option>
               <option value="BALANGA" <?php echo $campus === "BALANGA" ? "selected": ""?>>Balanga Campus</option>
@@ -85,7 +85,7 @@
         <h2 class="text-lg font-semibold text-red-500 mt-6 mb-2">Bio</h2>
         <div class="bg-card-dark/20 p-4 rounded-lg text-white">
             <textarea name="bio" id="bio" rows="6" placeholder="Describe yourself" 
-              class="focus:outline-none bg-card-dark border-b border-red-500 w-full p-2 text-white placeholder:text-gray-400 resize-none rounded"><?php echo $bio ?></textarea>
+              class="focus:outline-none text-text-primary bg-card-dark border-b border-red-500 w-full p-2  placeholder:text-gray-400 resize-none rounded"><?php echo $bio ?></textarea>
        
         </div>
         

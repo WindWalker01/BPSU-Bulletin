@@ -7,7 +7,7 @@ $db = App::resolve(Database::class);
 // Get category ID for "University Enrollment and Documents"
 $category = $db
     ->query(
-        "SELECT id FROM categories WHERE value = 'Enrollment and Documents' LIMIT 1",
+        "SELECT id FROM categories WHERE value = 'Enrollment & Documents' LIMIT 1",
     )
     ->find();
 
