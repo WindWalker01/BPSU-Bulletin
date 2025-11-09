@@ -367,14 +367,13 @@ if (isUserLoggedIn()) {
     <i class="material-symbols-outlined">dashboard</i>
     Stats
   </a>
-  <a href="/following" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
-    <i class="material-symbols-outlined">group</i>
-    Following
-  </a>
+
+  <?php if (getLoggedInRole() === "ADMIN"): ?>
   <a href="/admin" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
     <i class="material-symbols-outlined">admin_panel_settings</i>
     Admin Panel
   </a>
+  <?php endif; ?>
 </nav>
 </aside>
 

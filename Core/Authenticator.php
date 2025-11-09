@@ -40,6 +40,28 @@ class Authenticator
         return true;
     }
 
+    public function getLoggedInAccountStatus()
+    {
+        $config = require base_path("config/config.php");
+
+        if (!isset($_COOKIE["auth_token"])) {
+            return "guest";
+        }
+
+        $jwt = (array) JWT::decode(
+            $_COOKIE["auth_token"],
+            new Key($config["jwt-secret-key"], "HS256"),
+        );
+
+        $user = App::resolve(Database::class)
+            ->query("SELECT * FROM users WHERE email = :email", [
+                "email" => $jwt["email"],
+            ])
+            ->find();
+
+        return $user["account_status"];
+    }
+
     public function generateToken($email, $role = "USER")
     {
         // create a jwt token/payload

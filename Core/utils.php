@@ -2,8 +2,9 @@
 use Core\Authenticator;
 use Core\App;
 use Core\Database;
+use Core\TiptapExtension\Youtube;
 
-date_default_timezone_set('Asia/Manila');
+date_default_timezone_set("Asia/Manila");
 
 function dd($value)
 {
@@ -47,6 +48,37 @@ function isUserLoggedIn()
     return false;
 }
 
+function getBlogContent($content)
+{
+    $string_content = "";
+
+    $data = json_decode($content, true);
+
+    if (is_string($data)) {
+        $data = json_decode($data, true); // Second decode
+    }
+    dd($data);
+
+    $first_paragraph = null;
+
+    foreach ($data["content"] ?? [] as $node) {
+        if (
+            !$first_paragraph &&
+            $node["type"] === "paragraph" &&
+            isset($node["content"])
+        ) {
+            $texts = array_map(fn($c) => $c["text"] ?? "", $node["content"]);
+            $first_paragraph = trim(implode(" ", $texts));
+        }
+
+        if ($first_paragraph) {
+            break;
+        }
+    }
+
+    return $first_paragraph;
+}
+
 function getLoggedInRole()
 {
     return new Authenticator()->getLoggedInRole();
@@ -55,6 +87,55 @@ function getLoggedInRole()
 function getLoggedInUserId()
 {
     return new Authenticator()->getLoggedInUserId();
+}
+
+function isUserBanned()
+{
+    return new Authenticator()->getLoggedInAccountStatus() === "BANNED";
+}
+
+function getTextFromTitapHtml($content)
+{
+    return new \Tiptap\Editor([
+        "extensions" => [
+            new \Tiptap\Extensions\StarterKit([
+                "codeBlock" => false,
+            ]),
+            new \Tiptap\Nodes\CodeBlockHighlight(),
+            new \Tiptap\Nodes\Image(),
+            new Youtube(),
+            new \Tiptap\Extensions\TextAlign([
+                "types" => ["heading", "paragraph"],
+            ]),
+            new \Tiptap\Marks\Underline(),
+            new \Tiptap\Marks\Highlight(["multicolor" => true]),
+            new \Tiptap\Marks\Link(),
+            new \Tiptap\Marks\Subscript(),
+            new \Tiptap\Marks\Superscript(),
+        ],
+    ])
+        ->setContent(json_decode(json_decode($content), true))
+        ->getText();
+}
+
+function analyzeReports($reports)
+{
+    $containsSpam = false;
+    $containsOther = false;
+
+    foreach ($reports as $report) {
+        $type = strtoupper($report["report_type"]); // normalize case
+        if ($type === "SPAM") {
+            $containsSpam = true;
+        } else {
+            $containsOther = true;
+        }
+    }
+
+    return [
+        "toxic" => $containsOther ? 1 : 0,
+        "spam" => $containsSpam ? 1 : 0,
+    ];
 }
 
 function handleBannedUsers()

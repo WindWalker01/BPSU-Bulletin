@@ -1,6 +1,5 @@
 <?php
-  $user_name = implode(' ', array_slice(explode(' ', trim($user_name)), 0, 2));
-?>
+$user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +37,8 @@
     </script>
     <link href="/css/tailwind.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=publish" />
-</head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  </head>
 <body class="bg-bg-light dark:bg-bg-dark"> <link rel="stylesheet" href="/tiptap/index.css">
 
 <header class="sticky top-0 bg-bg-light flex justify-center dark:bg-bg-dark/80 backdrop-blur-md border-b border-card-dark z-50">
@@ -50,7 +50,9 @@
       </a>
       <div class="flex flex-col leading-tight">
         <span class="text-xs lg:text-sm text-text-primary font-medium">
-          Draft in <span class="text-text-brand font-bold"><?php echo htmlspecialchars($user_name); ?> </span>
+          Draft in <span class="text-text-brand font-bold"><?php echo htmlspecialchars(
+              $user_name,
+          ); ?> </span>
         </span>
         <span id="saveStatus" class="text-xs text-text-secondary">Saved</span>
       </div>
@@ -71,7 +73,7 @@
     <!-- Right: Publish -->
     <div class="flex items-center gap-4">
       <?php if ($editing !== "SCHEDULED" && $editing !== "ACTIVE"): ?>
-        <form action="/blog/publish" method="GET">
+        <form action="/blog/publish" method="GET" id="publishForm">
           <input type="hidden" name="blog_id" value="<?= $blog_id ?>">
           <button 
             type="submit" 
@@ -85,6 +87,47 @@
     </div>
   </div>
 </header>
+
+
+<!-- TITLE REQUIRED MODAL -->
+<div 
+  id="titleRequiredModal" 
+  class="hidden fixed inset-0 bg-overlay-dark/80 backdrop-blur-sm flex items-center justify-center z-50"
+>
+  <div class="bg-overlay-dark rounded-2xl shadow-xl w-[90%] max-w-md p-6 border border-card-dark animate-fade-up">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold text-text-primary">Missing Title</h2>
+      <button 
+        type="button" 
+        onclick="closeTitleModal()" 
+        class="text-text-secondary hover:text-text-primary transition"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Message -->
+    <p class="text-sm font-medium text-text-primary mb-1">
+      Please enter a title before publishing your post.
+    </p>
+    <p class="text-xs text-text-secondary mb-4">
+      A title helps readers identify your post. Make sure to fill it out before continuing.
+    </p>
+
+    <!-- ACTION BUTTONS -->
+    <div class="flex justify-end mt-5 gap-2">
+      <button 
+        type="button" 
+        onclick="closeTitleModal()" 
+        class="px-3 py-1.5 text-sm rounded-md text-text-secondary hover:text-text-primary transition"
+      >
+        Got it
+      </button>
+    </div>
+  </div>
+</div>
+
 
 
 <script>
@@ -135,6 +178,9 @@
 </script>
 
 <div id="root"></div>
+
+
+<?php view("partials/intelligent-system-modal.php"); ?>
 
 <script src="/tiptap/index.js"></script>
 
@@ -242,6 +288,28 @@
 
     window.__autosave_stop = () => { stopped = true; clearTimeout(editorSaveTimeout); console.log("[autosave] stopped"); };
   })();
+</script>
+
+<script>
+  const form = document.getElementById('publishForm');
+  const titleModal = document.getElementById('titleRequiredModal');
+
+  form.addEventListener('submit', (e) => {
+    const title = titleInput.value.trim();
+    if (title === '') {
+      e.preventDefault();
+      openTitleModal();
+    }
+  });
+
+  function openTitleModal() {
+    titleModal.classList.remove('hidden');
+  }
+
+  function closeTitleModal() {
+    titleModal.classList.add('hidden');
+    titleInput.focus();
+  }
 </script>
 
 </body>

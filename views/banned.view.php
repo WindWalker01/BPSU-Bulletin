@@ -1,45 +1,57 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-bg-dark text-text-primary">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Account Banned | BPSU Bulletin</title>
-  <link href="/css/tailwind.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You Are Banned — BPSU Bulletin</title>
+  <link rel="stylesheet" href="/css/tailwind.css" />
 </head>
-<body class="flex items-center justify-center min-h-screen bg-bg-dark text-text-primary">
-  <div class="bg-overlay-dark border border-card-dark rounded-2xl shadow-xl p-8 w-[90%] max-w-md text-center animate-fade-up">
-    <span class="material-symbols-outlined text-6xl text-red-500 mb-4">block</span>
-    <h1 class="text-2xl font-semibold mb-2">Your Account Has Been Banned</h1>
-    <p class="text-sm text-text-secondary mb-6">
-      Your account has been restricted due to violations of our community guidelines.<br>
-      You can no longer post, comment, or log in.
-    </p>
-
-    <!-- Optional Appeal Section -->
-    <div class="space-y-3">
-      <p class="text-xs text-text-secondary/80">
-        If you believe this was a mistake, you may contact the admin team for review.
-      </p>
-      <a 
-        href="mailto:bpsubulletin@gmail.com" 
-        class="inline-flex items-center justify-center px-4 py-2 bg-brand hover:bg-brand-hover rounded-md text-sm text-text-primary transition"
-      >
-        <span class="material-symbols-outlined text-base mr-1">mail</span>
-        Contact Admin
-      </a>
+<body class="min-h-screen flex items-center justify-center bg-[var(--color-bg-dark)] text-[var(--color-text-primary)] p-6">
+  <main class="w-full max-w-md bg-[var(--color-overlay-dark)] border border-[var(--color-card-dark)] rounded-2xl p-8 text-center shadow-lg">
+    
+    <!-- Icon -->
+    <div class="flex justify-center mb-5">
+      <div class="bg-[var(--color-flag-violent-bg)] p-4 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[var(--color-flag-violent-text)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07M12 2a10 10 0 100 20 10 10 0 000-20z" />
+        </svg>
+      </div>
     </div>
 
-    <!-- Go Back Home -->
+    <!-- Title -->
+    <h1 class="text-2xl font-semibold text-[var(--color-brand)]">Access Denied</h1>
+
+    <!-- Message -->
+    <p class="mt-3 text-sm text-[var(--color-text-secondary)]">
+      Your account has been permanently banned from the BPSU Bulletin.
+    </p>
+    <p class="mt-1 text-sm text-[var(--color-text-gray)]">
+      You no longer have access to any features of this platform.
+    </p>
+
+    <!-- Divider -->
+    <div class="mt-6 border-t border-[var(--color-card-dark)]"></div>
+
+    <!-- Info -->
+    <div class="mt-6 text-sm text-[var(--color-text-secondary)]">
+      <p>This decision is <span class="font-semibold text-[var(--color-flag-violent-text)]">final</span> and cannot be appealed.</p>
+      <p class="mt-2">
+        If you believe this is a system error, please
+        <a href="mailto:admin@bpsubulletin.edu.ph"
+           class="text-[var(--color-brand)] hover:text-[var(--color-brand-hover)] font-medium underline underline-offset-2">
+          contact an administrator
+        </a>
+        directly.
+      </p>
+    </div>
+
+    <!-- Action -->
     <div class="mt-6">
-      <a 
-        href="/" 
-        class="text-sm text-text-secondary hover:text-text-primary transition underline underline-offset-4"
-      >
+      <a href="/" 
+         class="inline-block px-4 py-2 rounded-lg border border-[var(--color-card-dark)] bg-[var(--color-card-light)] text-[var(--color-text-dark)] text-sm font-medium hover:bg-[var(--color-card-dark)] hover:text-[var(--color-text-primary)] transition-colors">
         Return to Home
       </a>
     </div>
-  </div>
+  </main>
 </body>
 </html>
