@@ -5,15 +5,10 @@ $config = require __DIR__ . "/../../config/config.php";
 $db = new \Core\Database($config);
 
 if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
-    // ===============================================
-    // == JOB B: HANDLE "LOAD MORE" (JSON) REQUEST ==
-    // ===============================================
-
-    // This part is already correct.
     header("Content-Type: application/json");
 
-    $postsPerPage = 9; // How many posts to load per click
-    $initialLoad = 7; // 3 featured + 4 grid = 7
+    $postsPerPage = 9; 
+    $initialLoad = 7; 
     $page = (int) $_GET["page"];
 
     if ($page <= 1) {
@@ -85,7 +80,7 @@ if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
     }
 
     echo json_encode($posts);
-    exit(); // Stop script here, only send JSON
+    exit(); 
 } else {
     $limit = 7;
 
@@ -154,7 +149,7 @@ if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
 
     render("home.view.php", [
         "title" => "Home Page",
-        "featured_posts" => $featured_posts, // Pass featured posts
-        "grid_posts" => $grid_posts, // Pass grid posts
+        "featured_posts" => $featured_posts, 
+        "grid_posts" => $grid_posts, 
     ]);
 }

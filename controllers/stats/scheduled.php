@@ -60,6 +60,6 @@ $posts = $db->query(
 
 render('stats/scheduled.view.php', [ 
     'scheduled_blogs' => $posts,
-    'search_term' => $search_term, // Pass search term
-    'sort_order' => $sort_order     // Pass sort order
+    'search_term' => $search_term, 
+    'sort_order' => $sort_order     
 ]);
