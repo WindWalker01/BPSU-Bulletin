@@ -7,20 +7,24 @@
             <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm text-center">
                 
                 <img 
-                    src="<?php echo $url ?? '/images/default-avatar.png'; ?>" 
+                    src="<?php echo $url ?? "/images/default-avatar.png"; ?>" 
                     alt="Profile Picture"
                     class="w-32 h-32 rounded-full object-cover mb-4 border-2 border-card-dark mx-auto"
                 >
                 
                 <h1 class="text-text-primary text-xl font-semibold">
                     <?php
-                        echo htmlspecialchars($fname ?? ''); 
-                        echo htmlspecialchars($lname ? ' ' . $lname : '');
+                    echo htmlspecialchars($fname ?? "");
+                    echo htmlspecialchars($lname ? " " . $lname : "");
                     ?>
                 </h1>
-                <p class="text-text-brand font-extrabold text-lg break-words"><?php echo htmlspecialchars($username); ?></p>
+                <p class="text-text-brand font-extrabold text-lg break-words"><?php echo htmlspecialchars(
+                    $username,
+                ); ?></p>
                 
-                <p class="text-text-primary text-base mt-4 break-words"><?php echo htmlspecialchars($bio ?? 'No Bio.'); ?></p>
+                <p class="text-text-primary text-base mt-4 break-words"><?php echo htmlspecialchars(
+                    $bio ?? "No Bio.",
+                ); ?></p>
                 <p class="text-text-secondary text-sm mt-1">Joined <?php echo $join_date; ?></p>
 
                 
@@ -66,31 +70,7 @@
                 </div>
             </div>
 
-    <?php
-        if (!function_exists('extractFirstParagraphFromTiptap')) {
-            function extractFirstParagraphFromTiptap($contentJson) {
-                if (!is_array($contentJson) || !isset($contentJson['content'])) {
-                    return 'No content available.';  // Return a string now
-                }
 
-                foreach ($contentJson['content'] as $node) {
-                    if ($node['type'] === 'paragraph' && isset($node['content']) && is_array($node['content'])) {
-                        $text = '';
-                        foreach ($node['content'] as $child) {
-                            if (isset($child['text'])) {
-                                $text .= $child['text'];
-                            }
-                        }
-                        if ($text !== '') {
-                            return $text;  // Return concatenated paragraph text string
-                        }
-                    }
-                }
-
-                return 'No content available.';
-            }
-        }
-    ?>
 
 <div class="mt-6">
     <div id="post-tab" class="tab-content space-y-6">
@@ -98,13 +78,17 @@
             <?php if (!empty($blogs)): ?>
                 <div class="max-h-155 overflow-y-auto space-y-4 custom-scrollbar">
                     <?php foreach ($blogs as $blog): ?>
-                        <?php 
-                            $content = json_decode($blog['content'], true);
-                            $formattedDate = date("M j, Y", strtotime($blog['created_at']));
-                            $excerpt = extractFirstParagraphFromTiptap($content);
+                        <?php
+                        $content = $blog["content"];
+                        $formattedDate = date(
+                            "M j, Y",
+                            strtotime($blog["created_at"]),
+                        );
+                        // dd($content);
+                        $excerpt = extractFirstParagraphFromTiptap($content);
                         ?>
 
-                        <a href="/blog?id=<?= htmlspecialchars($blog['id']) ?>" 
+                        <a href="/blog?id=<?= htmlspecialchars($blog["id"]) ?>" 
                             class="block group rounded-xl border border-card-dark bg-card-dark/40 p-5 
                                     hover:border-brand hover:-translate-y-1 hover:shadow-lg 
                                     transition-all duration-300 ease-in-out
@@ -112,27 +96,45 @@
                                 
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex items-center space-x-3">
-                                        <img src="<?= htmlspecialchars($blog['author_image_url']) ?>" 
-                                             alt="<?= htmlspecialchars($blog['author_name'] ?? 'Author') ?>" 
+                                        <img src="<?= htmlspecialchars(
+                                            $blog["author_image_url"],
+                                        ) ?>" 
+                                             alt="<?= htmlspecialchars(
+                                                 $blog["author_name"] ??
+                                                     "Author",
+                                             ) ?>" 
                                              class="w-8 h-8 rounded-full object-cover">
                                         <div>
-                                            <p class="text-sm font-semibold text-text-primary"><?= htmlspecialchars($blog['author_name']) ?></p>
+                                            <p class="text-sm font-semibold text-text-primary"><?= htmlspecialchars(
+                                                $blog["author_name"],
+                                            ) ?></p>
                                             <p class="text-xs text-gray-400">Published on <?= $formattedDate ?></p>
                                         </div>
                                     </div>
                                     
                                     <span class="inline-block text-xs font-semibold px-2 py-1 rounded-lg whitespace-nowrap 
-                                        <?= htmlspecialchars($blog['category_color'] ?? 'bg-gray-500/20 text-gray-400') ?>">
-                                        <?= htmlspecialchars($blog['category_label'] ?? 'Uncategorized') ?>
+                                        <?= htmlspecialchars(
+                                            $blog["category_color"] ??
+                                                "bg-gray-500/20 text-gray-400",
+                                        ) ?>">
+                                        <?= htmlspecialchars(
+                                            $blog["category_label"] ??
+                                                "Uncategorized",
+                                        ) ?>
                                     </span>
                                 </div>
                                 <div>
                                     <h2 class="text-xl font-bold text-text-primary group-hover:text-brand transition">
-                                        <?= htmlspecialchars($blog['title'] ?? '1') ?>
+                                        <?= htmlspecialchars(
+                                            $blog["title"] ?? "1",
+                                        ) ?>
                                     </h2>
 
                                     <p class="text-text-secondary mt-2 line-clamp-3 leading-relaxed overflow-hidden">
-                                        <?= htmlspecialchars($excerpt ?: 'Welcome testastestasthu the Simple Editor template! This template integrates open source UI components and Tiptap extensions licensed under MIT.') ?>
+                                        <?= htmlspecialchars(
+                                            $excerpt ?:
+                                            "Welcome testastestasthu the Simple Editor template! This template integrates open source UI components and Tiptap extensions licensed under MIT.",
+                                        ) ?>
                                     </p>
                                 </div>
 
@@ -162,7 +164,8 @@
                                     <div class="flex items-center gap-3 bg-surface rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-200">
                                         <img 
                                             src="<?= htmlspecialchars(
-                                                $author["secure_url"] ?? "/images/default-avatar.png",
+                                                $author["secure_url"] ??
+                                                    "/images/default-avatar.png",
                                             ) ?>" 
                                             alt="Profile of <?= htmlspecialchars(
                                                 $author["username"],
@@ -171,7 +174,9 @@
                                         >
                                         <div class="flex flex-col min-w-0">
                                             <span class="text-sm font-medium text-text-primary truncate">
-                                                <?= htmlspecialchars($author["username"]) ?>
+                                                <?= htmlspecialchars(
+                                                    $author["username"],
+                                                ) ?>
                                             </span>
                                         </div>
                                         <span class="ml-auto text-xs bg-brand/10 text-brand font-semibold px-2 py-1 rounded-md">
