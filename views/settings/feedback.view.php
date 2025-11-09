@@ -127,12 +127,9 @@
     feedbackModal.classList.remove("hidden");
     feedbackModal.classList.add("flex");
     feedbackModal.setAttribute("aria-hidden", "false");
-
-    
     feedbackCloseBtn.disabled = true;
     feedbackCloseBtn.classList.add("opacity-50", "cursor-not-allowed");
 
-    
     setTimeout(() => {
       feedbackCloseBtn.disabled = false;
       feedbackCloseBtn.classList.remove("opacity-50", "cursor-not-allowed");
@@ -170,22 +167,20 @@
       `Feedback Type: ${type}\nTitle: ${title}\n\nDescription:\n${description}`
     );
 
+    // This is the recipient email you requested
     const recipient = "bpsubulletin@gmail.com";
     const mailtoLink = `mailto:${recipient}?subject=${subject}&body=${body}`;
 
-    
+    // This part opens the user's email client
     const a = document.createElement("a");
     a.href = mailtoLink;
     a.style.display = "none";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-
-  
     feedbackForm.reset();
 
-    
-    setTimeout(openFeedbackModal, 30000);
+    openFeedbackModal();
   });
 
 
