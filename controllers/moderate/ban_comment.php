@@ -2,6 +2,7 @@
 use Core\App;
 use Core\Database;
 use Core\Notification;
+use Core\IntelligentSystem;
 
 $comment_id = $_GET["commentId"];
 $report_id =
@@ -40,7 +41,7 @@ $db->query(
 $notifications = new Notification();
 
 $comment = $db
-    ->query("SELECT user_id, blog_id FROM comments WHERE id = :id", [
+    ->query("SELECT user_id, blog_id, content FROM comments WHERE id = :id", [
         "id" => (int) $comment_id,
     ])
     ->find();
@@ -49,5 +50,25 @@ $notifications->createRemovedCommentNotification(
     $comment["user_id"],
     $comment["blog_id"],
 );
+
+$report_type = $db
+    ->query("SELECT report_type FROM comment_reports WHERE comment_id = :id", [
+        "id" => (int) $comment_id,
+    ])
+    ->get();
+
+$analyzed = analyzeReports($report_type);
+
+$content = $comment["content"];
+
+if ($content !== null) {
+    $result = new IntelligentSystem()->addTrainingData(
+        $content,
+        $analyzed["spam"],
+        $analyzed["toxic"],
+    );
+
+    echo json_encode(["result" => $result]);
+}
 
 exit();

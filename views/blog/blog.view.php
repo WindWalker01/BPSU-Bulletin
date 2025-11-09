@@ -286,6 +286,7 @@
   </div>
 </div>
 
+<?php view("partials/intelligent-system-modal.php"); ?>
 
 
             
