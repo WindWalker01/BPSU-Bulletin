@@ -66,28 +66,87 @@
                 </div>
             </div>
 
-            <div class="mt-6">
+    <?php
+        if (!function_exists('extractFirstParagraphFromTiptap')) {
+            function extractFirstParagraphFromTiptap($contentJson) {
+                if (!is_array($contentJson) || !isset($contentJson['content'])) {
+                    return 'No content available.';  // Return a string now
+                }
 
-                <div id="post-tab" class="tab-content space-y-6">
-                    <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-                            <div class="md:col-span-2">
-                                <p class="text-sm font-semibold mb-2 text-text-secondary">Posted 2 days ago</p>
-                                <h2 class="text-xl font-semibold mb-3 text-text-primary">Example Post Title</h2>
-                                <p class="text-text-secondary text-base">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-                            <div class="md:col-span-1">
-                                <img 
-                                src="/assets/mayncrap.png" 
-                                alt="minecraft-post"
-                                class="w-full h-auto rounded-lg object-cover border border-card-dark aspect-video">
-                            </div>
-                        </div>
-                    </div>
-                    </div>
+                foreach ($contentJson['content'] as $node) {
+                    if ($node['type'] === 'paragraph' && isset($node['content']) && is_array($node['content'])) {
+                        $text = '';
+                        foreach ($node['content'] as $child) {
+                            if (isset($child['text'])) {
+                                $text .= $child['text'];
+                            }
+                        }
+                        if ($text !== '') {
+                            return $text;  // Return concatenated paragraph text string
+                        }
+                    }
+                }
+
+                return 'No content available.';
+            }
+        }
+    ?>
+
+<div class="mt-6">
+    <div id="post-tab" class="tab-content space-y-6">
+        <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm ">
+            <?php if (!empty($blogs)): ?>
+                <div class="max-h-155 overflow-y-auto space-y-4 custom-scrollbar">
+                    <?php foreach ($blogs as $blog): ?>
+                        <?php 
+                            $content = json_decode($blog['content'], true);
+                            $formattedDate = date("M j, Y", strtotime($blog['created_at']));
+                            $excerpt = extractFirstParagraphFromTiptap($content);
+                        ?>
+
+                        <a href="/blog?id=<?= htmlspecialchars($blog['id']) ?>" 
+                            class="block group rounded-xl border border-card-dark bg-card-dark/40 p-5 
+                                    hover:border-brand hover:-translate-y-1 hover:shadow-lg 
+                                    transition-all duration-300 ease-in-out
+                                    h-50 max-w-[90%] ml-10"> <div class="flex flex-col justify-between h-full">
+                                
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="<?= htmlspecialchars($blog['author_image_url']) ?>" 
+                                             alt="<?= htmlspecialchars($blog['author_name'] ?? 'Author') ?>" 
+                                             class="w-8 h-8 rounded-full object-cover">
+                                        <div>
+                                            <p class="text-sm font-semibold text-text-primary"><?= htmlspecialchars($blog['author_name']) ?></p>
+                                            <p class="text-xs text-gray-400">Published on <?= $formattedDate ?></p>
+                                        </div>
+                                    </div>
+                                    
+                                    <span class="inline-block text-xs font-semibold px-2 py-1 rounded-lg whitespace-nowrap 
+                                        <?= htmlspecialchars($blog['category_color'] ?? 'bg-gray-500/20 text-gray-400') ?>">
+                                        <?= htmlspecialchars($blog['category_label'] ?? 'Uncategorized') ?>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-text-primary group-hover:text-brand transition">
+                                        <?= htmlspecialchars($blog['title'] ?? '1') ?>
+                                    </h2>
+
+                                    <p class="text-text-secondary mt-2 line-clamp-3 leading-relaxed overflow-hidden">
+                                        <?= htmlspecialchars($excerpt ?: 'Welcome testastestasthu the Simple Editor template! This template integrates open source UI components and Tiptap extensions licensed under MIT.') ?>
+                                    </p>
+                                </div>
+
+                                </div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="text-center text-gray-400 mt-8">No posts available.</div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
 
                 <div id="follow-tab" class="hidden mt-6">
                     <?php if (empty($followed_authors)): ?>

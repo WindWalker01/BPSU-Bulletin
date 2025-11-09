@@ -51,13 +51,13 @@
             <?php 
                 $excerpt = extractFirstParagraphFromTiptap(json_decode($b['content'], true)); ?>
 
-            <a href="/blog/view?id=<?= $b['id'] ?>" class="block organization-card" data-date="<?= htmlspecialchars($b['created_at']) ?>"> 
+            <a href="/blog?id=<?= $b['id'] ?>" class="block organization-card" data-date="<?= htmlspecialchars($b['created_at']) ?>"> 
                 <div class="bg-card-dark/10 p-5 sm:p-6 rounded-xl border border-white/10 relative 
                             hover:bg-brand-hover/10 hover:border-brand/30 transition-all duration-300 group">
                     
-                    <p class="ml-auto font-bold text-accent-blue text-xs tracking-wider absolute top-4 right-5 
-                                px-2 py-1 rounded-full bg-blue-500/20">
-                        University Organization
+                    <p class="ml-auto font-bold text-green-500  text-xs tracking-wider absolute top-4 right-5 
+                                px-2 py-1 rounded-full bg-green-500/20">
+                         Organizations
                     </p>
 
                     <div class="flex items-center space-x-3 mb-2">
