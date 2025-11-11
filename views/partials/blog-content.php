@@ -20,7 +20,11 @@
         </div>
 
         <!-- Follow Button -->
-        <?php if (isUserLoggedIn() && !$isOwner): ?>
+        <?php if (
+            isUserLoggedIn() &&
+            !$isOwner &&
+            $_SERVER["PATH_INFO"] !== "/blog/publish"
+        ): ?>
             <?php view("partials/follow-button.php", [
                 "isFollowed" => $isFollowed,
                 "follow_css" =>
