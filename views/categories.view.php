@@ -17,52 +17,6 @@
                 <h1 class="text-4xl font-bold text-text-primary">Browse Categories</h1>
                 <p class="text-lg text-text-secondary mt-2">Updates, events, and official notices for the campus community.</p>
             </div>
-
-            <!-- Right: Sort By Dropdown -->
-           <div class="relative w-full md:w-60" x-data="{ open: false, selected: 'Main' }">
-                <label class="block text-sm text-text-secondary mb-2">Sort By</label>
-                
-                <!-- Custom Select Button -->
-                <button @click="open = !open"
-                    class="flex items-center justify-between pl-4 pr-3 py-2.5 rounded-lg text-white bg-brand border border-brand hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand-hover focus:ring-opacity-50 cursor-pointer w-full">
-                    
-                    <!-- Displays the selected option text -->
-                    <span x-text="selected + ' Campus'">Main Campus</span>
-                    
-                    <!-- Animated Arrow -->
-                    <span class="material-symbols-outlined transition-transform duration-300"
-                          :class="{ 'rotate-180': open }">
-                        expand_more
-                    </span>
-                </button>
-                
-                <!-- Dropdown Panel -->
-                <div x-show="open" @click.away="open = false"
-                     x-transition:enter="transition ease-out duration-100"
-                     x-transition:enter-start="opacity-0 transform scale-95"
-                     x-transition:enter-end="opacity-100 transform scale-100"
-                     x-transition:leave="transition ease-in duration-75"
-                     x-transition:leave-start="opacity-100 transform scale-100"
-                     x-transition:leave-end="opacity-0 transform scale-95"
-                     class="absolute z-10 mt-2 w-full bg-overlay-dark rounded-lg shadow-lg border border-card-dark overflow-hidden"
-                     x-cloak>
-                     
-                    <a @click="selected = 'Main'; open = false" class="block px-4 py-3 text-text-primary hover:bg-brand/10 cursor-pointer text-sm">Main Campus</a>
-                    <a @click="selected = 'Abucay'; open = false" class="block px-4 py-3 text-text-primary hover:bg-brand/10 cursor-pointer text-sm">Abucay Campus</a>
-                    <a @click="selected = 'Balanga'; open = false" class="block px-4 py-3 text-text-primary hover:bg-brand/10 cursor-pointer text-sm">Balanga Campus</a>
-                    <a @click="selected = 'Orani'; open = false" class="block px-4 py-3 text-text-primary hover:bg-brand/10 cursor-pointer text-sm">Orani Campus</a>
-                    <a @click="selected = 'Orani'; open = false" class="block px-4 py-3 text-text-primary hover:bg-brand/10 cursor-pointer text-sm">Dinalupihan Campus</a>
-                    <a @click="selected = 'Orani'; open = false" class="block px-4 py-3 text-text-primary hover:bg-brand/10 cursor-pointer text-sm">Bagac Campus</a>
-                </div>
-                
-                <!-- Hidden, real select for form submission (links to Alpine state) -->
-                <select name="program" id="campus" x-model="selected" class="hidden">
-                    <option value="Main">Main Campus</option>
-                    <option value="Abucay">Abucay Campus</option>
-                    <option value="Balanga">Balanga Campus</option>
-                    <option value="Orani">Orani Campus</option>
-                </select>
-            </div>
         </div>
 
         <!-- Category Cards Grid -->
