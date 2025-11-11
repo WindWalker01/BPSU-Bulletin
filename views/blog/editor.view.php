@@ -46,7 +46,13 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
     <!-- Left: Logo and draft status -->
     <div class="flex items-center gap-3">
       <a href="/" class="flex items-center">
-        <img src="/assets/logo.webp" class="w-12 lg:w-18" alt="BPSU Bulletin">
+        <!-- Added a placeholder fallback for the logo image -->
+        <img 
+          src="/assets/logo.webp" 
+          class="w-12 lg:w-18" 
+          alt="BPSU Bulletin"
+          onerror="this.src='https://placehold.co/72x72/c00000/white?text=Logo'; this.onerror=null;"
+        >
       </a>
       <div class="flex flex-col leading-tight">
         <span class="text-xs lg:text-sm text-text-primary font-medium">
@@ -70,7 +76,7 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
       >
     </div>
 
-    <!-- Right: Publish -->
+    <!-- Right: Publish and Exit -->
     <div class="flex items-center gap-4">
       <?php if ($editing !== "SCHEDULED" && $editing !== "ACTIVE"): ?>
         <form action="/blog/publish" method="GET" id="publishForm">
@@ -84,6 +90,17 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
           </button>
         </form>
       <?php endif; ?>
+
+      <?php if ($editing == "SCHEDULED" || $editing == "ACTIVE"): ?>
+      <a 
+        href="/stats" 
+        class="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand text-white hover:bg-brand-hover transition-colors"
+        title="Save and exit"
+      >
+        <span class="material-symbols-outlined">exit_to_app</span>
+        <span class="text-sm font-medium">Save & Exit</span>
+      </a>
+       <?php endif; ?>
     </div>
   </div>
 </header>
