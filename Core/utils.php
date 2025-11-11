@@ -247,18 +247,17 @@ function extractFirstImageFromTiptap($content)
 function getBadgeColor($categoryValue)
 {
     switch ($categoryValue) {
-        case 'University Announcements':
-            return 'bg-badge-university-bg text-badge-university-text';
-        case 'Organizations':
-            return 'bg-badge-organizations-bg text-badge-organizations-text';
-        case 'Scholarship':
-            return 'bg-badge-scholarship-bg text-badge-scholarship-text';
-        case 'Achievement':
-            return 'bg-badge-achievement-bg text-badge-achievement-text';
-        case 'Enrollment & Documents':
-            return 'bg-badge-enrollment-bg text-badge-enrollment-text';
+        case "University Announcements":
+            return "bg-badge-university-bg text-badge-university-text";
+        case "Organizations":
+            return "bg-badge-organizations-bg text-badge-organizations-text";
+        case "Scholarship":
+            return "bg-badge-scholarship-bg text-badge-scholarship-text";
+        case "Achievement":
+            return "bg-badge-achievement-bg text-badge-achievement-text";
+        case "Enrollment & Documents":
+            return "bg-badge-enrollment-bg text-badge-enrollment-text";
         default:
-            return 'bg-badge-university-bg text-badge-university-text'; 
+            return "bg-badge-university-bg text-badge-university-text";
     }
 }
-
