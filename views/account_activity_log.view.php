@@ -26,8 +26,20 @@
                     $bio ?? "No Bio.",
                 ); ?></p>
                 <p class="text-text-secondary text-sm mt-1">Joined <?php echo $join_date; ?></p>
+                
+                <?php if ($isEmailLocked): ?>
+
+                    <p class="text-text-primary text-sm mt-4 break-words"><?php echo htmlspecialchars(
+                        $email,
+                    ); ?></p>
+
+                    <p class="text-text-secondary text-sm mt-2">You can reach me here ☝️</p>
+                <?php else: ?>
+                     <p class="text-text-secondary text-sm mt-2">*************</p>
+                <?php endif; ?>
 
                 
+
                 <div class="mt-6">
                 <?php if (!isset($_GET["id"]) || $isQueryLoggedIn): ?>
                     <a href="/user_profile"
