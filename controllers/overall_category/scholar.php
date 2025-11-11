@@ -53,6 +53,7 @@ $blogs = $db
         blogs.content,
         blogs.created_at,
         users.username,
+        users.campus,
         profile_images.secure_url AS author_avatar,
         blog_images.secure_url AS blog_image
      FROM blogs

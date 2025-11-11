@@ -54,7 +54,8 @@ $blogs = $db
         blogs.created_at,
         users.username,
         profile_images.secure_url AS author_avatar,
-        blog_images.secure_url AS blog_image
+        blog_images.secure_url AS blog_image,
+        users.campus
      FROM blogs
      JOIN users ON blogs.author_id = users.id
      LEFT JOIN profile_images ON profile_images.user_id = users.id
