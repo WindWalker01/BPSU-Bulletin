@@ -33,7 +33,7 @@
                         $email,
                     ); ?></p>
 
-                    <p class="text-text-secondary text-sm mt-2">You can reach me here ☝️</p>
+                    <p class="text-text-secondary text-sm mt-2">You can reach me out here ☝️</p>
                 <?php else: ?>
                      <p class="text-text-secondary text-sm mt-2">*************</p>
                 <?php endif; ?>
