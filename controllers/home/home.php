@@ -5,6 +5,7 @@ $config = require __DIR__ . "/../../config/config.php";
 $db = new \Core\Database($config);
 
 if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
+    // ... (Your AJAX logic is all good) ...
     header("Content-Type: application/json");
 
     $postsPerPage = 9; 
@@ -147,9 +148,39 @@ if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
     $featured_posts = array_slice($posts_data, 0, 3);
     $grid_posts = array_slice($posts_data, 3);
 
+    // [MODIFIED] Query for listing the top 5 tags
+    $trending_tags_query = "
+        SELECT
+            t.name AS tag_name,
+            COUNT(bt.blog_id) AS tag_count
+        FROM
+            tags t
+        JOIN
+            blog_tags bt ON t.id = bt.tag_id
+        WHERE
+            t.name IS NOT NULL AND t.name != ''
+        GROUP BY
+            t.name
+        ORDER BY
+            tag_count DESC
+        LIMIT 5; 
+    "; 
+    
+    $display_trending_tags = $db->query($trending_tags_query)->get();
+
+    $top_tag_count = 0;
+    if (!empty($display_trending_tags)) {
+        $top_tag_count = $display_trending_tags[0]['tag_count'];
+    }
+    
+    $show_sidebar = $top_tag_count > 3;
+
+
     render("home.view.php", [
         "title" => "Home Page",
         "featured_posts" => $featured_posts, 
         "grid_posts" => $grid_posts, 
+        "show_sidebar" => $show_sidebar, 
+        "display_tags" => $display_trending_tags 
     ]);
 }

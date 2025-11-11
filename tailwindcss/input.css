@@ -103,8 +103,8 @@
   --color-text-gray: #a3a3a3;
 
   /* Draft badge colors (dark mode) */
-  --color-badge-draft-bg: rgba(250, 204, 21, 0.2); /* yellow-400/20 */
-  --color-badge-draft-text: #facc15; /* yellow-400 */
+  --color-badge-draft-bg: rgba(255, 213, 79, 0.25); /* warmer yellow with subtle glow */
+  --color-badge-draft-text: #ffe259; /* soft luminous yellow */
 
   /* Moderation flag colors (dark mode) */
   --color-flag-sexual-bg: rgba(131, 24, 67, 0.4); /* pink-900/40 */
@@ -131,8 +131,8 @@
   --color-flag-draft-bg: rgba(120, 53, 15, 0.4); 
   --color-flag-draft-text: #FDE047;
 
-    --color-badge-draft-bg: #fef3c7; /* amber-100 */
-  --color-badge-draft-text: #b45309; /* amber-700 */
+ --color-badge-draft-bg: rgba(255, 193, 7, 0.3);
+--color-badge-draft-text: #ffd54f;
 
   /* Category badge colors (dark mode) */
   --color-badge-university-bg: rgba(192, 0, 0, 0.2);

@@ -152,10 +152,10 @@
       type="text" 
       name="tags" 
       id="tags" 
-      placeholder="e.g. technology, education, ccst" 
+      placeholder="e.g. technology education ccst" 
       class="w-full pl-4 pr-4 py-2.5 bg-bg-light rounded-lg text-text-primary placeholder-text-secondary/60 border border-card-dark focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition"
     >
-     <p class="text-xs text-text-secondary mt-2">Separate tags with a comma.</p>
+     <p class="text-xs text-text-secondary mt-2">Separate tags with spaces.</p>
   </div>
 
   <div>

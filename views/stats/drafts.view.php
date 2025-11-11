@@ -115,11 +115,11 @@
                           <?= htmlspecialchars($blog['title'] ?? 'Untitled Post') ?>
                         </td>
                         
-<td class="px-4 py-4 text-sm font-normal leading-normal">
-  <span class="inline-flex items-center justify-center rounded-lg px-3 py-1 text-xs font-medium whitespace-nowrap bg-badge-draft-bg text-badge-draft-text">
-    Draft
-  </span>
-</td>
+                        <td class="px-4 py-4 text-sm font-normal leading-normal">
+                          <span class="inline-flex items-center justify-center rounded-lg px-3 py-1 text-xs font-medium whitespace-nowrap bg-badge-draft-bg text-badge-draft-text">
+                            Draft
+                          </span>
+                        </td>
                         
                         <td class="px-4 py-4 text-text-secondary text-sm font-normal leading-normal">
                           <?= $blog['views_count'] ?? 0 ?>

@@ -49,12 +49,15 @@ if ($user_id) {
     }
 }
 
+// [MODIFIED] Added LEFT JOINs to get category_id and category_name
 $blog = $db
     ->query(
-        "SELECT * FROM blogs 
-        INNER JOIN users ON blogs.author_id = users.id 
-        INNER JOIN profile_images ON profile_images.user_id = users.id
-        WHERE blogs.id = :id",
+        "SELECT *, c.value as category_name, bc.category_id FROM blogs 
+         INNER JOIN users ON blogs.author_id = users.id 
+         INNER JOIN profile_images ON profile_images.user_id = users.id
+         LEFT JOIN blog_categories AS bc ON bc.blog_id = blogs.id
+         LEFT JOIN categories AS c ON c.id = bc.category_id
+         WHERE blogs.id = :id",
         ["id" => $id],
     )
     ->find();
@@ -69,7 +72,29 @@ if ($blog["account_status"] === "BANNED") {
     exit();
 }
 
-// dd();
+
+// [MODIFIED] Query for Random Articles
+// This new query gets 3 random, active, published blogs that are not the current one.
+$related_articles_query = "
+    SELECT 
+        id, 
+        title, 
+        published_at 
+    FROM blogs
+    WHERE 
+        blog_status = 'ACTIVE' 
+        AND published_at IS NOT NULL 
+        AND published_at <= NOW()
+        AND id != :current_blog_id  -- Exclude the current blog
+    ORDER BY 
+        RAND() -- Order randomly
+    LIMIT 3
+";
+$related_articles = $db->query($related_articles_query, [
+    'current_blog_id' => $id
+])->get();
+// [END MODIFIED]
+
 
 $html = new \Tiptap\Editor([
     "extensions" => [
@@ -180,7 +205,7 @@ render("blog/blog.view.php", [
     "comment_count" => count($comments),
     "like_count" => $like_count,
     "dislike_count" => $dislike_count,
-    "current_user_reaction" => (int) $current_user_reaction["reaction_id"],
+    "current_user_reaction" => (int) ($current_user_reaction["reaction_id"] ?? 0),
     "db" => $db,
     "published_at" => DateTime::createFromFormat(
         "Y-m-d H:i:s",
@@ -193,6 +218,8 @@ render("blog/blog.view.php", [
         $blog["author_id"] === new Authenticator()->getLoggedInUserId(),
     "isFollowed" => $isFollowed === null ? 0 : 1,
     "view_count" => $viewCount,
+    "category_name" => $blog["category_name"] ?? "General",
+    "related_articles" => $related_articles, 
 ]);
 
 // Recursive render
@@ -226,15 +253,14 @@ function renderComments($parent_id, $tree, $level = 0, $db)
             "created_at" => timeAgo($c["created_at"]),
             "blog_id" => $c["blog_id"],
             "reply_parent_id" => $c["id"],
-            "user_reaction" => $reaction["reaction_id"],
+            "user_reaction" => $reaction["reaction_id"] ?? 0,
             "user_id" => $c["user_id"],
             "status" => $c["status"],
             "user_status" => $c["account_status"],
         ]);
 
-        // Recursive call
         renderComments($c["id"], $tree, $level + 1, $db);
 
-        echo "</div></div>"; // close both divs
+        echo "</div></div>"; 
     }
 }
