@@ -63,7 +63,7 @@
 
       </div>
       <button
-        class="flex items-center md:text-xs gap-1 text-text-secondary hover:text-brand transition-colors cursor-pointer"
+        class="hidden flex items-center md:text-xs gap-1 text-text-secondary hover:text-brand transition-colors cursor-pointer"
       >
         <span class="material-symbols-outlined text-base md:text-base">share</span> Share
       </button>

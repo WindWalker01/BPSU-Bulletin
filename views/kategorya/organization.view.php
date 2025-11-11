@@ -1,10 +1,14 @@
-<div class="dark bg-bg-dark/50 min-h-screen">
+<div class=" min-h-screen">
   <div class="w-10xl max-w-[80%] mx-auto md:px-0 pt-8 sm:pt-12 md:pt-16">
 
     <div class="flex items-center justify-between">
-      <a href="/categories" class="text-text-secondary font-normal text-sm md:text-base hover:text-text-primary transition flex items-center gap-1">
-          ← Back to Categories
-      </a>
+            <a
+    href="/categories"
+    class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-6 group">
+    <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1"
+      >arrow_back</span>
+    Back to Categories
+  </a>
 
         <?php if ($page < $totalPages): ?>
             <a href="?page=<?= $page + 1 ?>" 
@@ -27,12 +31,12 @@
                 type="text" 
                 placeholder="Search organizations..." 
                 value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
-                class="w-full px-4 py-2 bg-transparent border border-white/20 rounded-lg text-sm placeholder-text-secondary focus:border-brand focus:ring-1 focus:ring-brand transition"
+                class="w-full px-4 py-2 bg-transparent border border-white rounded-lg text-sm placeholder-text-secondary focus:border-brand focus:ring-1 focus:ring-brand transition"
                 >
             </div>
 
-            <div class="relative w-full sm:w-40 flex-shrink-0">
-                <select id="sortOrder" class="appearance-none w-full bg-transparent border border-white/20 rounded-lg text-sm py-2 px-3 pr-8 focus:border-brand focus:ring-1 focus:ring-brand transition">
+            <div class="relative w-full sm:w-40 flex-shrink-0 border-white">
+                <select id="sortOrder" class="appearance-none w-full bg-transparent border border-white rounded-lg text-sm py-2 px-3 pr-8 focus:border-brand focus:ring-1 focus:ring-brand transition">
                 <option value="newest" class="bg-bg-dark text-text-primary" selected>Newest</option>
                 <option value="oldest" class="bg-bg-dark text-text-primary">Oldest</option>
                 </select>
@@ -46,12 +50,12 @@
         <p class="text-text-secondary text-center mt-10 italic">No organizations found in this category.</p>
     <?php endif; ?>
 
-    <div id="organizationContainer" class="mt-8 space-y-4">
+    <div id="organizationContainer" class="mt-8 space-y-4 ">
         <?php foreach ($blogs as $b): ?>
             <?php 
                 $excerpt = extractFirstParagraphFromTiptap(json_decode($b['content'], true)); ?>
 
-            <a href="/blog?id=<?= $b['id'] ?>" class="block organization-card" data-date="<?= htmlspecialchars($b['created_at']) ?>"> 
+            <a href="/blog?id=<?= $b['id'] ?>" class="block organization-card border-2 rounded-2xl" data-date="<?= htmlspecialchars($b['created_at']) ?>"> 
                 <div class="bg-card-dark/10 p-5 sm:p-6 rounded-xl border border-white/10 relative 
                             hover:bg-brand-hover/10 hover:border-brand/30 transition-all duration-300 group">
                     

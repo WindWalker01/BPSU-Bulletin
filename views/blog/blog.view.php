@@ -7,10 +7,10 @@
         <div class="text-text-primary lg:col-span-3 min-w-0">
             
             <div class="flex flex-row justify-between items-center mb-4">
-                <span class="ml-1 text-xs font-medium bg-brand/20 text-brand px-2 py-1 rounded-full">
-                    University Updates
+                
+                <span class="ml-1 text-xs font-medium px-2 py-1 rounded-full <?= getBadgeColor($category_name) ?>">
+                    <?= htmlspecialchars($category_name) ?>
                 </span>
-
                 <a href="/home" class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-6 group">
                      <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
                         Back
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="flex gap-6">
-                    <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                    <button class="hidden flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
                         <span class="material-symbols-outlined text-xl">share</span> Share
                     </button>
                     
@@ -96,7 +96,7 @@
                     class='w-full bg-card-dark text-text-primary text-sm p-2 rounded-md focus:outline-none focus:ring-1 focus:ring-brand-hover'
                     placeholder='Write a reply...'
                 ></textarea>
-                <div class='flex justify-end gap-2'>                  
+                <div class='flex justify-end gap-2'>                
                     <button 
                         type='submit'
                         class='bg-brand hover:bg-brand-hover text-text-primary px-3 py-1 rounded-md text-sm'
@@ -111,32 +111,36 @@
                 <?php renderComments(0, $comment_tree, 0, $db); ?>
             </div>
 
-        </div>  <aside class="lg:col-span-1 flex flex-col gap-6  lg:top-8 h-fit">
-            <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
-                <h3 class="text-lg font-bold mb-4 text-text-primary">Related Articles</h3>
-                <div class="space-y-4">
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">BPSU Main Campus Expansion Project Groundbreaking</a>
-                        <p class="text-sm text-text-secondary">October 20, 2023</p>
-                    </div>
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">University Research Symposium Highlights Student Innovations</a>
-                        <p class="text-sm text-text-secondary">October 15, 2023</p>
-                    </div>
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">New Scholarship Opportunities for Engineering Students</a>
-                        <p class="text-sm text-text-secondary">October 10, 2023</p>
-                    </div>
-                </div>
-            </div>
+        </div>  <aside class="lg:col-span-1 flex flex-col gap-6 lg:top-8 h-fit">
+    
+    <?php if (!empty($related_articles)): ?>
+        <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
+            <h3 class="text-lg font-bold mb-4 text-text-primary">You Might Like These</h3>
+            <div class="space-y-4">
 
-            </aside> </div> </div> 
+                <?php foreach ($related_articles as $article): ?>
+                    <div>
+                        <a 
+                            class="font-semibold text-text-primary hover:text-brand transition-colors" 
+                            href="/blog?id=<?= $article['id'] ?>"
+                        >
+                            <?= htmlspecialchars($article['title']) ?>
+                        </a>
+                        <p class="text-sm text-text-secondary">
+                            <?= date('F j, Y', strtotime($article['published_at'])) ?>
+                        </p>
+                    </div>
+                <?php endforeach; ?>
+
+            </div>
+        </div>
+    <?php endif; ?>
+
+</aside></div> </div> 
 
             
-<!-- REPORT MODAL -->
 <div id="reportModal" class="hidden fixed inset-0 bg-overlay-dark/80 backdrop-blur-sm flex items-center justify-center z-50">
   <div class="bg-overlay-dark rounded-2xl shadow-xl w-[90%] max-w-md p-6 border border-card-dark animate-fade-up">
-    <!-- Header -->
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-lg font-semibold text-text-primary">Report</h2>
       <button type="button" onclick="closeReportModal()" class="text-text-secondary hover:text-text-primary transition">
@@ -144,7 +148,6 @@
       </button>
     </div>
 
-    <!-- Title + Info -->
     <p class="text-sm font-medium text-text-primary mb-1">What's going on?</p>
     <p class="text-xs text-text-secondary mb-4">
       We'll check for all Community Guidelines, so don't worry about making the perfect choice.
@@ -156,7 +159,6 @@
       <input type="hidden" name="_method" value="POST">
       <input type="hidden" name="blogId" value="<?= $blog_id ?>">
 
-      <!-- CATEGORY RADIO OPTIONS -->
       <div class="space-y-3">
         <?php
         $categories = [
@@ -183,7 +185,6 @@
         ?>
       </div>
 
-      <!-- ADDITIONAL DETAILS -->
       <div class="mt-5">
         <label class="block text-sm text-text-secondary mb-1">Additional details (optional):</label>
         <textarea 
@@ -194,7 +195,6 @@
         ></textarea>
       </div>
 
-      <!-- ACTION BUTTONS -->
       <div class="flex justify-end mt-5 gap-2">
         <button 
             type="button" 
@@ -216,13 +216,11 @@
 </div>
 
 
-<!-- MODERATION MODAL -->
 <div 
   id="moderationModal" 
   class="hidden fixed inset-0 bg-overlay-dark/80 backdrop-blur-sm flex items-center justify-center z-50 px-4"
 >
   <div class="bg-overlay-dark rounded-2xl shadow-xl w-full max-w-lg p-6 border border-card-dark animate-fade-up max-h-[90vh] overflow-y-auto">
-    <!-- Header -->
     <div class="flex justify-between items-center mb-4 sticky top-0 bg-overlay-dark/90 backdrop-blur-sm z-10 pb-2">
       <h2 class="text-lg font-semibold text-text-primary flex items-center gap-1">
         <span class="material-symbols-outlined text-brand">gavel</span>
@@ -237,7 +235,6 @@
       </button>
     </div>
 
-    <!-- Comment Info -->
     <div class="bg-bg-dark border border-card-dark rounded-md p-3 text-sm text-text-secondary mb-5 overflow-y-auto max-h-[40vh]">
       <div class="flex flex-row items-start gap-3">
         <a href="" id="moderationCommentAccountLink" class="flex-shrink-0">
@@ -252,7 +249,6 @@
       </div>
     </div>
 
-    <!-- Actions -->
     <div class="space-y-2">
       <button 
         type="button"
@@ -273,7 +269,6 @@
       </button>
     </div>
 
-    <!-- Footer -->
     <div class="flex justify-end mt-5">
       <button 
         type="button" 

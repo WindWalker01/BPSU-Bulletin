@@ -1,9 +1,13 @@
 <?php
+
+
+$main_col_class = $show_sidebar ? 'lg:col-span-8' : 'lg:col-span-12';
 ?>
 <div class="flex flex-col min-h-screen">
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-      <div class="lg:col-span-8 space-y-8 order-2 lg:order-1">
+      
+      <div class="<?= $main_col_class ?> space-y-8 order-2 lg:order-1">
 
         <div id="featured-posts-container" class="space-y-8">
             <?php
@@ -38,30 +42,31 @@
 
       </div>
       
+      <?php if ($show_sidebar): ?>
       <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-24 order-1 lg:order-2">
         <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
           <h3 class="text-lg font-bold mb-4 text-text-primary">Trending Topics</h3>
           <div class="space-y-3">
-            <div>
-              <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">#BPSUNewPrograms</a>
-              <p class="text-sm text-text-secondary">1,204 Posts</p>
-            </div>
-            <div>
-              <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">#InnovationFair2023</a>
-              <p class="text-sm text-text-secondary">876 Posts</p>
-            </div>
-            <div>
-              <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">#CSSWorkshop</a>
-              <p class="text-sm text-text-secondary">451 Posts</p>
-            </div>
-            <div>
-              <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">#StudentLife</a>
-              <p class="text-sm text-text-secondary">2.3k Posts</p>
-            </div>
+
+            <?php if (!empty($display_tags)): ?>
+                <?php foreach ($display_tags as $tag): ?>
+                    <div>
+                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="/search?tag=<?= urlencode($tag['tag_name']) ?>">
+                            #<?= htmlspecialchars($tag['tag_name']) ?>
+                        </a>
+                        <p class="text-sm text-text-secondary">
+                            <?= $tag['tag_count'] ?> <?= ($tag['tag_count'] == 1) ? 'Post' : 'Posts' ?>
+                        </p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-sm text-text-secondary">No trending tags found.</p>
+            <?php endif; ?>
+
           </div>
         </div>
       </aside>
-      
+      <?php endif; ?>
       </div>
     </main>
 </div>
@@ -85,7 +90,6 @@
             const M = (data, fallback) => data ?? fallback;
             const excerpt = M(post.excerpt, ''); 
 
-            // This HTML is based on your post-card-featured.php
             return `
             <article class="relative group bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm space-y-4 bg-blur-sm">
                 <div class="flex items-center gap-3">
