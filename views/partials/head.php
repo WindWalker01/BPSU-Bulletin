@@ -363,10 +363,13 @@ if (isUserLoggedIn()) {
     <i class="material-symbols-outlined">category</i>
     Categories
   </a>
+
+  <?php if (getLoggedInRole() === "AUTHOR" || getLoggedInRole() === "ADMIN"): ?>
   <a href="/stats" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
     <i class="material-symbols-outlined">dashboard</i>
     Stats
   </a>
+  <?php endif; ?>
 
   <?php if (getLoggedInRole() === "ADMIN"): ?>
   <a href="/admin" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
