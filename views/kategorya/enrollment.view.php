@@ -1,4 +1,4 @@
-<div class="dark bg-bg-dark/50 min-h-screen">
+<div class=" min-h-screen">
   <div class="w-10xl max-w-[80%] mx-auto md:px-0 pt-8 sm:pt-12 md:pt-16">
 
     <div class="flex items-center justify-between">
@@ -27,12 +27,12 @@
                 type="text" 
                 placeholder="Search enrollment and documents..." 
                 value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
-                class="w-full px-4 py-2 bg-transparent border border-white/20 rounded-lg text-sm placeholder-text-secondary focus:border-brand focus:ring-1 focus:ring-brand transition"
+                class="w-full px-4 py-2 bg-transparent border border-white rounded-lg text-sm placeholder-text-secondary focus:border-brand focus:ring-1 focus:ring-brand transition"
                 >
             </div>
 
             <div class="relative w-full sm:w-40 flex-shrink-0">
-                <select id="sortOrder" class="appearance-none w-full bg-transparent border border-white/20 rounded-lg text-sm py-2 px-3 pr-8 focus:border-brand focus:ring-1 focus:ring-brand transition">
+                <select id="sortOrder" class="appearance-none w-full bg-transparent border border-white rounded-lg text-sm py-2 px-3 pr-8 focus:border-brand focus:ring-1 focus:ring-brand transition">
                 <option value="newest" class="bg-bg-dark text-text-primary" selected>Newest</option>
                 <option value="oldest" class="bg-bg-dark text-text-primary">Oldest</option>
                 </select>
@@ -51,7 +51,7 @@
             <?php 
                 $excerpt = extractFirstParagraphFromTiptap(json_decode($b['content'], true)); ?>
 
-            <a href="/blog?id=<?= $b['id'] ?>" class="block enrollmentDocuments-card" data-date="<?= htmlspecialchars($b['created_at']) ?>"> 
+            <a href="/blog?id=<?= $b['id'] ?>" class="block enrollmentDocuments-card border-2 rounded-2xl" data-date="<?= htmlspecialchars($b['created_at']) ?>"> 
                 <div class="bg-card-dark/10 p-5 sm:p-6 rounded-xl border border-white/10 relative 
                             hover:bg-brand-hover/10 hover:border-brand/30 transition-all duration-300 group">
                     
