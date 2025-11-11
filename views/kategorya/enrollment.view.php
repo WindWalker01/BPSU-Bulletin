@@ -2,9 +2,13 @@
   <div class="w-10xl max-w-[80%] mx-auto md:px-0 pt-8 sm:pt-12 md:pt-16">
 
     <div class="flex items-center justify-between">
-      <a href="/categories" class="text-text-secondary font-normal text-sm md:text-base hover:text-text-primary transition flex items-center gap-1">
-          ← Back to Categories
-      </a>
+            <a
+    href="/categories"
+    class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-6 group">
+    <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1"
+      >arrow_back</span>
+    Back to Categories
+  </a>
 
         <?php if ($page < $totalPages): ?>
             <a href="?page=<?= $page + 1 ?>" 

@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="flex gap-6">
-                    <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                    <button class="hidden flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
                         <span class="material-symbols-outlined text-xl">share</span> Share
                     </button>
                     

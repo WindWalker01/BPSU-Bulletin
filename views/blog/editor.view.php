@@ -94,11 +94,11 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
       <?php if ($editing == "SCHEDULED" || $editing == "ACTIVE"): ?>
       <a 
         href="/stats" 
-        class="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand text-white hover:bg-brand-hover transition-colors"
+        class="flex items-center gap-2 px-3 py-1 rounded-lg bg-brand text-white hover:bg-brand-hover transition-colors"
         title="Save and exit"
       >
         <span class="material-symbols-outlined">exit_to_app</span>
-        <span class="text-sm font-medium">Save & Exit</span>
+        <span class="text-xs font-medium">Save & Exit</span>
       </a>
        <?php endif; ?>
     </div>

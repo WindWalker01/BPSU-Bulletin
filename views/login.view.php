@@ -35,7 +35,7 @@
                 <div>
                     <div class="flex items-center justify-between">
                         <label for="password" class="block text-sm font-medium text-[var(--color-text-secondary)]">Password</label>
-                        <a href="#" class="text-sm text-[var(--color-brand)] hover:text-[var(--color-brand-hover)] hover: un">
+                        <a href="#" class="hidden text-sm text-[var(--color-brand)] hover:text-[var(--color-brand-hover)] hover: un">
                             Forgot password?
                         </a>
                     </div>

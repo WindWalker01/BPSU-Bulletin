@@ -133,20 +133,7 @@
                 </div>
             </div>
             <!-- New slider controls, styled with original theme -->
-            <div class="mt-8 flex justify-center gap-3">
-                <button class="h-10 w-10 flex items-center cursor-pointer justify-center rounded-full border border-card-dark text-text-secondary transition-colors hover:bg-card-dark/50 hover:text-text-primary">
-                    <span class="material-symbols-outlined cursor-pointer">arrow_back</span>
-                </button>
-                <div class="flex items-center justify-center gap-2">
-                    <button class="h-2 w-2 rounded-full bg-brand transition-all"></button>
-                    <button class="h-2 w-2 rounded-full bg-card-dark transition-all hover:bg-overlay"></button>
-                    <button class="h-2 w-2 rounded-full bg-card-dark transition-all hover:bg-overlay"></button>
-                </div>
-                <button class="h-10 w-10 flex items-center cursor-pointer justify-center rounded-full border border-card-dark text-text-secondary transition-colors hover:bg-card-dark/50 hover:text-text-primary">
-                    <span class="material-symbols-outlined cursor-pointer">arrow_forward</span>
-                </button>
-            </div>
-        </div>
+           
     </section>
 
     <!-- "More Connected" Section (New Layout, Original Content) -->

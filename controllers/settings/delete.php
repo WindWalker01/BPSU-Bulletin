@@ -19,6 +19,8 @@ try {
 
     session_destroy();
 
+    setcookie("auth_token", "", time() - 3600, "/", "", true, true);
+
     $params = session_get_cookie_params();
     setcookie(session_name(), '', time() - 42000,
         $params["path"], $params["domain"],
