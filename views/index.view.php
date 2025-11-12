@@ -112,7 +112,7 @@
                     <div class="snap-center shrink-0 w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]">
                         <div class="group flex h-full flex-col overflow-hidden rounded-lg border border-card-dark bg-overlay-dark/50 transition-all duration-300 hover:border-brand/50 hover:bg-card-dark/50">
                             <div class="aspect-h-9 aspect-w-16 overflow-hidden">
-                                <img alt="Coding Challenge" class="h-95 w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWudhyCxrxGsChTCZCdbYWL4IREa_2M4hWEA&s">
+                                <img alt="Coding Challenge" class="h-95 w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://scontent.fceb6-1.fna.fbcdn.net/v/t39.30808-6/518366308_1339825424817560_537232922329434408_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEU37gk_5prQWHZawAlRIvC5tzw1ENgKkPm3PDUQ2AqQ2OZP5DBMbwVG09kl-Vj8b17wtD7yJYdpH9TBrMknMkB&_nc_ohc=ApASBuF2GDwQ7kNvwHK55mW&_nc_oc=AdnN7tN1IWGp7AxJHlURHQPbJl-a19HhWRdZIbTbKIyYx8dIlYHM1jqhQn3uJg4_tCY&_nc_zt=23&_nc_ht=scontent.fceb6-1.fna&_nc_gid=D6mIViwqpjNoTmEM5QEOtg&oh=00_Afh_SF1tfOq4QMeeAkpu0KbUE7-dvg-rDvKQlLbTmr-uGw&oe=6919B512">
                             </div>
                             <div class="flex flex-1 flex-col justify-between p-6">
                                 <div class="flex flex-col gap-3">
