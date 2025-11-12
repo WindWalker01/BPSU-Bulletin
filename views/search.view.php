@@ -25,7 +25,7 @@
 
         </div>
         
-        <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-24 order-1 lg:order-2">
+        <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-24 order-1 lg:order-2 hidden">
           <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
             <h3 class="text-lg font-bold mb-4 text-text-primary">Trending Topics</h3>
             <div class="space-y-3">

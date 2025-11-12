@@ -1,85 +1,42 @@
+<?php
+
 use Core\App;
 use Core\Database;
 use Core\Authenticator;
-
 $db = App::resolve(Database::class);
-$email = $_POST["email"];
-$password = $_POST["password"];
-
-$hashed_pasword = password_hash($password, PASSWORD_ARGON2ID);
 $auth = new Authenticator();
 
+$email = $_POST["email"];
+$password = $_POST["password"];
+$confirm_password = $_POST["confirm-password"];
+$errors = [];
+
+if ($password !== $confirm_password) {
+    $errors["password"] = "Passwords do not match.";
+}
+
 if ($auth->isUserExist($email)) {
-    // TODO: make an error page about this
-    $auth->generateToken($email);
-    redirect("/");
-    exit();
+    $errors["email"] = "An account with this email already exists.";
 }
 
-// create user account
-$id = $db->query(
-    "INSERT INTO `users` (`role`, `username`, `email`, `password`, `account_status`, `created_at`, `auth_provider`) VALUES
-('USER', 'Ruzzel', :email, :password, 'ACTIVE', NOW(), 'LOCAL');",
-    [
-        "email" => $email,
-        "password" => $hashed_pasword,
-    ],
-);
-
-// log in the user
-$auth->generateToken($email);
-
-// gets the registered user id because its the last inserted row
-$id = $db->getLastInsertID();
-
-if (!$signedIn) {
-    redirect("/login");
-
+if (!empty($errors)) {
+    render(
+        "/register/register.view.php",
+        [
+            "title" => "Register Account",
+            "errors" => $errors,
+            "old" => ["email" => $email],
+        ],
+        false,
+    );
     exit();
 }
+$hashed_password = password_hash($password, PASSWORD_ARGON2ID);
 
-$role = $auth->getLoggedInRoleWithEmail($email);
+$_SESSION["registration_data"] = [
+    "email" => $email,
+    "password_hash" => $hashed_password,
+];
 
-$auth->generateToken($email, $role);
-
-redirect("/");
-
-$db->query(
-    "INSERT INTO `user_preferences` (
-    `user_id`, 
-    `theme_preference`, 
-    `email_notification`, 
-    `push_notification`, 
-    `reaction_notification`, 
-    `follow_notification`, 
-    `show_email_public`, 
-    `show_profile_public`, 
-    `created_at`, 
-    `updated_at`
-    ) VALUES(
-    :id, 
-    'DARK', 
-    1, 
-    1, 
-    1, 
-    1, 
-    1, 
-    1, 
-    NOW(), 
-    NOW());",
-    ["id" => $id],
-);
-
-// create profile image of the user
-$db->query(
-    "INSERT INTO profile_images (`user_id`, `secure_url`, `asset_id`) VALUES (:id, :url, :asset)",
-    [
-        "id" => $id,
-        "url" =>
-            "https://res.cloudinary.com/dz4qgnk5v/image/upload/v1760538796/default_profile_xgg15t.jpg",
-        "asset" => "default_profile_xgg15t",
-    ],
-);
-
-redirect("/");
+redirect("/edit-profile");
 exit();

@@ -3,17 +3,20 @@
 use Core\App;
 use Core\Database;
 use Core\Notification;
+use Core\IntelligentSystem;
 
 $blog_id = (int) $_POST["blog_id"];
 $is_schedule = (int) $_POST["is_schedule"];
 $schedule_value = $_POST["schedule"];
 $categorties = $_POST["categories"];
+$text = $_POST["text_content"];
 
 $tags = preg_split("/\s+/", trim($_POST["tags"])); // split by spaces
 
 $followers = [];
 $sender;
 $notification = new Notification();
+$i_s = new IntelligentSystem();
 
 $clean_tags = array_map(function ($tag) {
     return ltrim($tag, "#");
@@ -90,6 +93,30 @@ foreach ($clean_tags as $ct) {
     $db->query(
         "INSERT INTO blog_tags(`tag_id`, `blog_id`) VALUES (:tag, :blog)",
         ["tag" => $id, "blog" => (int) $blog_id],
+    );
+}
+
+$classification = $i_s->classifyText($text);
+
+if (
+    $classification["probability"]["spam"] >= 0.48 ||
+    $classification["probability"]["toxic"] >= 0.48
+) {
+    $category =
+        $classification["probability"]["spam"] >
+        $classification["probability"]["toxic"]
+            ? "SPAM"
+            : "HARASSMENT";
+
+    $db->query(
+        "INSERT INTO comment_reports (`reporter_id`, `comment_id`, `report_type`, `reason`, `status`, `created_at`)
+         VALUES (:user, :comment, :report, :reason, 'PENDING', NOW())",
+        [
+            "user" => getLoggedInUserId(),
+            "comment" => $comment_id,
+            "reason" => "Flagged by the Intelligent System",
+            "report" => $category,
+        ],
     );
 }
 

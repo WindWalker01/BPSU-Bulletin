@@ -7,12 +7,10 @@ use Exception;
 class Middleware
 {
     private const MAP = [
-        "guest" => Guest::class,
-        "auth" => Authenticated::class,
-        "author" => Author::class,
+        "role" => Role::class,
     ];
 
-    public static function resolve($key)
+    public static function resolve($key, $params = [])
     {
         if (!$key) {
             return null;
@@ -25,6 +23,10 @@ class Middleware
         }
 
         $class = self::MAP[$key];
-        return new $class()->handle();
+        $middleware = new $class();
+
+        if (method_exists($middleware, "handle")) {
+            return $middleware->handle($params);
+        }
     }
 }

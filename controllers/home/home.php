@@ -1,32 +1,23 @@
 <?php
-// controllers/home/home.php
-
-// === 1. SETUP ===
-require_once __DIR__ . '/../../Core/Database.php'; 
-require_once __DIR__ . '/../../Core/utils.php'; 
-$config = require __DIR__ . '/../../config/config.php';
+require_once __DIR__ . "/../../Core/Database.php";
+require_once __DIR__ . "/../../Core/utils.php";
+$config = require __DIR__ . "/../../config/config.php";
 $db = new \Core\Database($config);
 
+if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
+    // ... (Your AJAX logic is all good) ...
+    header("Content-Type: application/json");
 
-if (isset($_GET['page']) && is_numeric($_GET['page'])) {
-    
-    // ===============================================
-    // == JOB B: HANDLE "LOAD MORE" (JSON) REQUEST ==
-    // ===============================================
-
-    header('Content-Type: application/json');
-
-    $postsPerPage = 9;   // How many posts to load per click
-    $initialLoad = 10;   // We load 10 posts on the first page (5 featured + 5 grid)
-    $page = (int)$_GET['page'];
+    $postsPerPage = 9; 
+    $initialLoad = 7; 
+    $page = (int) $_GET["page"];
 
     if ($page <= 1) {
-        echo json_encode([]); 
-        exit;
+        echo json_encode([]);
+        exit();
     }
-    // Page 2: (2 - 2) * 9 + 10 = offset 10
-    // Page 3: (3 - 2) * 9 + 10 = offset 19
-    $offset = (($page - 2) * $postsPerPage) + $initialLoad;
+
+    $offset = ($page - 2) * $postsPerPage + $initialLoad;
 
     $sql = "
         SELECT 
@@ -36,7 +27,8 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             ANY_VALUE(bi.secure_url) AS featured_image,
             ANY_VALUE(c.value) AS category_name,
             COALESCE(ANY_VALUE(likes.likes_count), 0) AS likes_count,
-            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count
+            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count,
+            COALESCE(ANY_VALUE(views.view_count), 0) AS view_count
         FROM blogs AS b
         LEFT JOIN users AS u ON b.author_id = u.id
         LEFT JOIN profile_images AS pi ON u.id = pi.user_id
@@ -49,46 +41,50 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         LEFT JOIN (
             SELECT blog_id, COUNT(id) as comments_count FROM comments GROUP BY blog_id
         ) AS comments ON b.id = comments.blog_id
+         LEFT JOIN (
+            SELECT blog_id, COUNT(DISTINCT user_id) as view_count FROM blog_views GROUP BY blog_id
+        ) AS views ON b.id = views.blog_id
         WHERE 
-            b.blog_status = 'ACTIVE' AND b.published_at IS NOT NULL AND b.published_at <= NOW()
+            b.blog_status = 'ACTIVE' AND b.published_at IS NOT NULL AND b.published_at <= NOW() AND u.account_status != 'BANNED'
         GROUP BY b.id
         ORDER BY b.published_at DESC
         LIMIT $postsPerPage
         OFFSET $offset
     ";
-    
+
     $db_posts = $db->query($sql)->get();
 
     // Transform data
     $posts = [];
     foreach ($db_posts as $row) {
-        $category = $row['category_name'] ?? 'General';
+        $category = $row["category_name"] ?? "General";
         $posts[] = [
-            "author" => $row['author_name'] ?? 'Unknown Author',
-            "avatar" => $row['author_avatar'] ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuC9NMh9sGihLlPg4qW0ZVugJwTHWCfx4R7RDdwO_d7fx76hgkqLOmmyzKtt2O1O8PILHK6uoqPNHxjAU1sgIrqeFIT7bwAq8W_h4fUhIjugKbitv6Hfx5fzsP_hHija_6jkQLolfI1gz4YmjBHeRB5kN9DIndJ_nULBMJDkwrNYq2Xq-y97KmDpiVewKZOgl9vJ7lZKVqbnDVZSaZUsbUMZpw98_SEf69VB6JVbLPMOYx3yi33r6BEz33cnDryThk-3Yuno-ul4CfWL',
-            "date" => $row['published_at'] ? timeAgo($row['published_at']) : 'Unknown Date',
+            "author" => $row["author_name"] ?? "Unknown Author",
+            "avatar" =>
+                $row["author_avatar"] ??
+                "https://lh3.googleusercontent.com/aida-public/AB6AXuC9NMh9sGihLlPg4qW0ZVugJwTHWCfx4R7RDdwO_d7fx76hgkqLOmmyzKtt2O1O8PILHK6uoqPNHxjAU1sgIrqeFIT7bwAq8W_h4fUhIjugKbitv6Hfx5fzsP_hHija_6jkQLolfI1gz4YmjBHeRB5kN9DIndJ_nULBMJDkwrNYq2Xq-y97KmDpiVewKZOgl9vJ7lZKVqbnDVZSaZUsbUMZpw98_SEf69VB6JVbLPMOYx3yi33r6BEz33cnDryThk-3Yuno-ul4CfWL",
+            "date" => $row["published_at"]
+                ? timeAgo($row["published_at"])
+                : "Unknown Date",
             "category" => $category,
             "badgeColor" => getBadgeColor($category),
-            "title" => $row['title'],
-            "excerpt" => extractFirstParagraphFromTiptap($row['content']) ?? '',
-            "link" => "/post?id=" . $row['id'],
-            "image" => $row['featured_image'] ?? 'https://via.placeholder.com/640x360?text=No+Image',
-            "likes" => $row['likes_count'],
-            "comments" => $row['comments_count']
+            "title" => $row["title"],
+            "excerpt" => extractFirstParagraphFromTiptap($row["content"]) ?? "",
+            "link" => "/blog?id=" . $row["id"],
+            "image" =>
+                $row["featured_image"] ??
+                "https://via.placeholder.com/640x360?text=No+Image",
+            "likes" => $row["likes_count"],
+            "comments" => $row["comments_count"],
+            "views" => $row["view_count"],
         ];
     }
 
     echo json_encode($posts);
-    exit; // Stop script here, only send JSON
-
+    exit(); 
 } else {
+    $limit = 7;
 
-    // ===============================================
-    // == JOB A: RENDER THE HTML PAGE (Page 1)      ==
-    // ===============================================
-    
-    $limit = 10; // 5 featured + 5 grid
-    
     $sql = "
         SELECT 
             b.id, b.title, b.content, b.published_at,
@@ -97,7 +93,8 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             ANY_VALUE(bi.secure_url) AS featured_image,
             ANY_VALUE(c.value) AS category_name,
             COALESCE(ANY_VALUE(likes.likes_count), 0) AS likes_count,
-            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count
+            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count,
+            COALESCE(ANY_VALUE(views.view_count), 0) AS view_count
         FROM blogs AS b
         LEFT JOIN users AS u ON b.author_id = u.id
         LEFT JOIN profile_images AS pi ON u.id = pi.user_id
@@ -110,42 +107,80 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
         LEFT JOIN (
             SELECT blog_id, COUNT(id) as comments_count FROM comments GROUP BY blog_id
         ) AS comments ON b.id = comments.blog_id
+        LEFT JOIN (
+            SELECT blog_id, COUNT(DISTINCT user_id) as view_count FROM blog_views GROUP BY blog_id
+        ) AS views ON b.id = views.blog_id
         WHERE 
-            b.blog_status = 'ACTIVE' AND b.published_at IS NOT NULL AND b.published_at <= NOW()
+            b.blog_status = 'ACTIVE' AND b.published_at IS NOT NULL AND b.published_at <= NOW() AND u.account_status != 'BANNED'
         GROUP BY b.id
         ORDER BY b.published_at DESC
         LIMIT $limit
     ";
-    
+
     $db_posts = $db->query($sql)->get();
 
-    // Transform data
     $posts_data = [];
     foreach ($db_posts as $row) {
-        $category = $row['category_name'] ?? 'General';
+        $category = $row["category_name"] ?? "General";
         $posts_data[] = [
-            "author" => $row['author_name'] ?? 'Unknown Author',
-            "avatar" => $row['author_avatar'] ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuC9NMh9sGihLlPg4qW0ZVugJwTHWCfx4R7RDdwO_d7fx76hgkqLOmmyzKtt2O1O8PILHK6uoqPNHxjAU1sgIrqeFIT7bwAq8W_h4fUhIjugKbitv6Hfx5fzsP_hHija_6jkQLolfI1gz4YmjBHeRB5kN9DIndJ_nULBMJDkwrNYq2Xq-y97KmDpiVewKZOgl9vJ7lZKVqbnDVZSaZUsbUMZpw98_SEf69VB6JVbLPMOYx3yi33r6BEz33cnDryThk-3Yuno-ul4CfWL',
-            "date" => $row['published_at'] ? timeAgo($row['published_at']) : 'Unknown Date',
+            "author" => $row["author_name"] ?? "Unknown Author",
+            "avatar" =>
+                $row["author_avatar"] ??
+                "https://lh3.googleusercontent.com/aida-public/AB6AXuC9NMh9sGihLlPg4qW0ZVugJwTHWCfx4R7RDdwO_d7fx76hgkqLOmmyzKtt2O1O8PILHK6uoqPNHxjAU1sgIrqeFIT7bwAq8W_h4fUhIjugKbitv6Hfx5fzsP_hHija_6jkQLolfI1gz4YmjBHeRB5kN9DIndJ_nULBMJDkwrNYq2Xq-y97KmDpiVewKZOgl9vJ7lZKVqbnDVZSaZUsbUMZpw98_SEf69VB6JVbLPMOYx3yi33r6BEz33cnDryThk-3Yuno-ul4CfWL",
+            "date" => $row["published_at"]
+                ? timeAgo($row["published_at"])
+                : "Unknown Date",
             "category" => $category,
             "badgeColor" => getBadgeColor($category),
-            "title" => $row['title'],
-            "excerpt" => extractFirstParagraphFromTiptap($row['content']) ?? '',
-            "link" => "/post?id=" . $row['id'], 
-           "image" => $row['featured_image'] ?? extractFirstImageFromTiptap($row['content']) ?? 'https://via.placeholder.com/640x360?text=No+Image',
-            "likes" => $row['likes_count'],
-            "comments" => $row['comments_count']
+            "title" => $row["title"],
+            "excerpt" => extractFirstParagraphFromTiptap($row["content"]) ?? "",
+            "link" => "/blog?id=" . $row["id"],
+            "image" =>
+                $row["featured_image"] ??
+                (extractFirstImageFromTiptap($row["content"]) ??
+                    "https://via.placeholder.com/640x360?text=No+Image"),
+            "likes" => $row["likes_count"],
+            "comments" => $row["comments_count"],
+            "views" => $row["view_count"],
         ];
     }
 
-    // === NEW: Split posts into two groups ===
-    $featured_posts = array_slice($posts_data, 0, 2);
-    $grid_posts = array_slice($posts_data, 2); 
+    $featured_posts = array_slice($posts_data, 0, 3);
+    $grid_posts = array_slice($posts_data, 3);
 
-    // Render the view and pass it the new variables
-    render('home.view.php', [
+    // [MODIFIED] Query for listing the top 5 tags
+    $trending_tags_query = "
+        SELECT
+            t.name AS tag_name,
+            COUNT(bt.blog_id) AS tag_count
+        FROM
+            tags t
+        JOIN
+            blog_tags bt ON t.id = bt.tag_id
+        WHERE
+            t.name IS NOT NULL AND t.name != ''
+        GROUP BY
+            t.name
+        ORDER BY
+            tag_count DESC
+        LIMIT 5; 
+    "; 
+    
+    $display_trending_tags = $db->query($trending_tags_query)->get();
+
+    $top_tag_count = 0;
+    if (!empty($display_trending_tags)) {
+        $top_tag_count = $display_trending_tags[0]['tag_count'];
+    }
+    
+    $show_sidebar = $top_tag_count > 3;
+
+
+    render("home.view.php", [
         "title" => "Home Page",
-        "featured_posts" => $featured_posts, // Pass featured posts
-        "grid_posts" => $grid_posts         // Pass grid posts
+        "featured_posts" => $featured_posts, 
+        "grid_posts" => $grid_posts, 
+        "show_sidebar" => $show_sidebar, 
+        "display_tags" => $display_trending_tags 
     ]);
 }

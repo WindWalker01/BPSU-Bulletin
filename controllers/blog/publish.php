@@ -3,10 +3,12 @@
 use Core\Database;
 use Core\App;
 use Core\TiptapExtension\Youtube;
+use Core\IntelligentSystem;
 
 date_default_timezone_set("Asia/Manila");
 
 $db = App::resolve(Database::class);
+$i_s = new IntelligentSystem();
 
 $blog = $db
     ->query(
@@ -33,10 +35,42 @@ $html = new \Tiptap\Editor([
         new \Tiptap\Nodes\CodeBlockHighlight(),
         new \Tiptap\Nodes\Image(),
         new Youtube(),
+        new \Tiptap\Extensions\TextAlign(["types" => ["heading", "paragraph"]]),
+        new \Tiptap\Marks\Underline(),
+        new \Tiptap\Marks\Highlight(["multicolor" => true]),
+        new \Tiptap\Marks\Link(),
+        new \Tiptap\Marks\Subscript(),
+        new \Tiptap\Marks\Superscript(),
     ],
 ])
-    ->setContent(json_decode($blog["content"]))
+    ->setContent(json_decode(json_decode($blog["content"]), true))
     ->getHTML();
+
+$text = new \Tiptap\Editor([
+    "extensions" => [
+        new \Tiptap\Extensions\StarterKit([
+            "codeBlock" => false,
+        ]),
+        new \Tiptap\Nodes\CodeBlockHighlight(),
+        new \Tiptap\Nodes\Image(),
+        new Youtube(),
+        new \Tiptap\Extensions\TextAlign(["types" => ["heading", "paragraph"]]),
+        new \Tiptap\Marks\Underline(),
+        new \Tiptap\Marks\Highlight(["multicolor" => true]),
+        new \Tiptap\Marks\Link(),
+        new \Tiptap\Marks\Subscript(),
+        new \Tiptap\Marks\Superscript(),
+    ],
+])
+    ->setContent(json_decode(json_decode($blog["content"]), true))
+    ->getText();
+
+$classification = $i_s->classifyText($text);
+
+if ($classification["prediction"] !== "SAFE") {
+    redirect("/blog/editor?blog_id={$_GET["blog_id"]}&error=content_not_safe");
+    exit();
+}
 
 render("blog/publish.view.php", [
     "date_now" => date("'Y-m-d\TH:i'"),
@@ -50,4 +84,5 @@ render("blog/publish.view.php", [
     )->format("F j, Y"),
     "author_profile" => $blog["secure_url"],
     "categories" => $categories,
+    "raw_text_content" => $text,
 ]);

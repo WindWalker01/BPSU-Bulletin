@@ -1,118 +1,207 @@
 
-<div class="min-h-screen bg-bg-dark/80 flex justify-center items-center">
-  <div class="h-[900px] w-[1200px] text-center flex-col justify-center bg-card-dark/20 rounded-lg p-[20px]">
-    <!-- User Profile View -->
-    <img 
-      src="<?php echo $url; ?>" 
-      alt="Profile Picture"
-      class="w-[128px] h-[128px] rounded-full object-cover mb-4 border-2 border-black-700 mx-auto"
-    >
-    <?php
-    echo "<p class='text-white text-xl font-semibold'>" .
-        $_POST["fname"] .
-        "</p>";
-    echo "<p class='text-gray-500 italic'>" . $_POST["mname"] . "</p>";
-    echo "<p class='text-gray-500 underline'>" . $_POST["lname"] . "</p>";
-    ?>
-    <h1 class="text-white text-xl font-semibold"><?php echo $username; ?></h1>
-      <p class="text-gray-50  0 text-base"><?php echo $bio ??
-          "A humble reader 💗"; ?></p>
-        <p class="text-gray-500 text-base">Joined <?php echo $join_date; ?></p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-
-    <?php if (!isset($_GET["id"]) || $isQueryLoggedIn): ?>
-      <a href="/user_profile"
-        class="transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110
-                bg-red-500 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg
-                flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto">
-        Edit Profile
-      </a>
-    <?php elseif ($isAuthor): ?>
-      <?php view("partials/follow-button.php", [
-          "isFollowed" => $isFollowed,
-          "follow_css" =>
-              "transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 bg-red-500 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto",
-          "unfollow_css" =>
-              "transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 bg-gray-500 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg flex justify-center items-center h-[40px] w-[400px] mt-4 mx-auto",
-          "account_id" => $account_id,
-      ]); ?>
-      
-
-    <?php endif; ?>
     
-<!-- Tab Layouts --> 
-<div class="flex gap-[50px] border-b border-gray-200 text-white pl-[40px]">
-  <div class="relative flex gap-8 border-b border-gray-600 text-white">
-  <button 
-    id="post-btn" class="tab-btn py-2 px-6 hover:text-red-500 pl-[30px]">
-    <?php echo $isAuthor ? "Posts" : "Viewed Post"; ?>
-  </button> 
-  <button 
-    id="follow-btn" class="tab-btn py-2 px-6 hover:text-red-500">
-    Followed Authors
-  </button>
-  
-    <span id="tab-underline" 
-      class="flex absolute bottom-0 left-0 h-[3px] bg-white transition-all duration-200 ease-linear">
-    </span>
-  </div>
-</div>
-    <!-- Tab Contents -->
-<div id="post-tab" class="tab-content mt-6">
-    <h3 class="text-lg font-semibold mb-4 text-gray-500 ml-[40px] text-left">Posted 2 days ago</h3>
-      <h1 class="text-xl font-semibold mb-2 text-white ml-[40px] text-left">Title</h1>
-      <!-- Example Content Material -->
-      <div class="flex items-start ml-[40px] gap-6">
-        <p class="text-gray-400 text-left w-[60%]">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-        <img 
-          src="/assets/mayncrap.png" 
-          alt="minecraft-post"
-          class="w-[400px] h-[300px] rounded-lg object-cover border-2 border-black-700 -mt-[80px]">
-      </div>
-    </div>
+        <aside class="lg:col-span-1 lg:sticky lg:top-8 h-fit">
+            <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm text-center">
+                
+                <img 
+                    src="<?php echo $url ?? "/images/default-avatar.png"; ?>" 
+                    alt="Profile Picture"
+                    class="w-32 h-32 rounded-full object-cover mb-4 border-2 border-card-dark mx-auto"
+                >
+                
+                <h1 class="text-text-primary text-xl font-semibold">
+                    <?php
+                    echo htmlspecialchars($fname ?? "");
+                    echo htmlspecialchars($lname ? " " . $lname : "");
+                    ?>
+                </h1>
+                <p class="text-text-brand font-extrabold text-lg break-words"><?php echo htmlspecialchars(
+                    $username,
+                ); ?></p>
+                
+                <p class="text-text-primary text-base mt-4 break-words"><?php echo htmlspecialchars(
+                    $bio ?? "No Bio.",
+                ); ?></p>
+                <p class="text-text-secondary text-sm mt-1">Joined <?php echo $join_date; ?></p>
+                
+                <?php if ($isEmailLocked): ?>
 
-    <div id="follow-tab" class="hidden mt-6">
-      <?php if (count($followed_authors) < 1): ?>
-        <h3 class="text-lg font-semibold mb-4 text-gray-500 ml-[40px] text-left">
-          No following Authors YEET.
-        </h3>
-      <?php else: ?>
-        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-            <!-- Author Card -->
-            <?php foreach ($followed_authors as $author): ?>
-              <a href="/account?id=<?= $author["id"] ?>">
-                <div class="flex items-center gap-3 bg-surface rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-200">
-                  <img 
-                      src="<?= htmlspecialchars(
-                          $author["secure_url"] ?? "/images/default-avatar.png",
-                      ) ?>" 
-                      alt="Profile of <?= htmlspecialchars(
-                          $author["username"],
-                      ) ?>" 
-                      class="w-10 h-10 rounded-full object-cover"
-                  >
+                    <p class="text-text-primary text-sm mt-4 break-words"><?php echo htmlspecialchars(
+                        $email,
+                    ); ?></p>
 
-                  <div class="flex flex-col min-w-0">
-                      <span class="text-sm text-text-secondary truncate">
-                          <?= htmlspecialchars($author["username"]) ?>
-                      </span>
-                  </div>
+                    <p class="text-text-secondary text-sm mt-2">You can reach me out here ☝️</p>
+                <?php else: ?>
+                     <p class="text-text-secondary text-sm mt-2">*************</p>
+                <?php endif; ?>
 
-                  <span class="ml-auto text-xs bg-brand/10 text-brand font-semibold px-2 py-1 rounded-md">
-                      Following
-                  </span>
+                
+
+                <div class="mt-6">
+                <?php if (!isset($_GET["id"]) || $isQueryLoggedIn): ?>
+                    <a href="/user_profile"
+                        class="transition duration-200 ease-in-out 
+                               bg-brand hover:bg-brand-hover text-text-primary font-semibold py-2 px-4 rounded-lg
+                               flex justify-center items-center w-full">
+                        Edit Profile
+                    </a>
+                <?php elseif ($isAuthor): ?>
+                    <?php view("partials/follow-button.php", [
+                        "isFollowed" => $isFollowed,
+                        "follow_css" =>
+                            "transition duration-200 ease-in-out bg-brand hover:bg-brand-hover text-text-primary font-semibold py-2 px-4 rounded-lg flex justify-center items-center w-full",
+                        "unfollow_css" =>
+                            "transition duration-200 ease-in-out bg-gray-600 hover:bg-gray-700 text-text-primary font-semibold py-2 px-4 rounded-lg flex justify-center items-center w-full",
+                        "account_id" => $account_id,
+                    ]); ?>
+                <?php endif; ?>
                 </div>
-              </a>
-            <?php endforeach; ?>
+
+            </div>
+        </aside>
+
+        <div class="lg:col-span-3">
+
+            <div class="border-b border-card-dark text-text-primary">
+                <div class="relative flex gap-8">
+                    <button 
+                        id="post-btn" class="tab-btn py-2 px-4 hover:text-brand">
+                        <?php echo $isAuthor ? "Posts" : "Viewed Post"; ?>
+                    </button> 
+                    <button 
+                        id="follow-btn" class="tab-btn py-2 px-4 hover:text-brand">
+                        Followed Authors
+                    </button>
+                    
+                    <span id="tab-underline" 
+                        class="flex absolute bottom-0 left-0 h-0.5 bg-brand transition-all duration-300 ease-in-out">
+                    </span>
+                </div>
+            </div>
+
+
+
+<div class="mt-6">
+    <div id="post-tab" class="tab-content space-y-6">
+        <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm ">
+            <?php if (!empty($blogs)): ?>
+                <div class="max-h-155 overflow-y-auto space-y-4 custom-scrollbar">
+                    <?php foreach ($blogs as $blog): ?>
+                        <?php
+                        $content = $blog["content"];
+                        $formattedDate = date(
+                            "M j, Y",
+                            strtotime($blog["created_at"]),
+                        );
+                        // dd($content);
+                        $excerpt = extractFirstParagraphFromTiptap($content);
+                        ?>
+
+                        <a href="/blog?id=<?= htmlspecialchars($blog["id"]) ?>" 
+                            class="block group rounded-xl border border-card-dark bg-card-dark/40 p-5 
+                                    hover:border-brand hover:-translate-y-1 hover:shadow-lg 
+                                    transition-all duration-300 ease-in-out
+                                    h-50 max-w-[90%] ml-10"> <div class="flex flex-col justify-between h-full">
+                                
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="<?= htmlspecialchars(
+                                            $blog["author_image_url"],
+                                        ) ?>" 
+                                             alt="<?= htmlspecialchars(
+                                                 $blog["author_name"] ??
+                                                     "Author",
+                                             ) ?>" 
+                                             class="w-8 h-8 rounded-full object-cover">
+                                        <div>
+                                            <p class="text-sm font-semibold text-text-primary"><?= htmlspecialchars(
+                                                $blog["author_name"],
+                                            ) ?></p>
+                                            <p class="text-xs text-gray-400">Published on <?= $formattedDate ?></p>
+                                        </div>
+                                    </div>
+                                    
+                                    <span class="inline-block text-xs font-semibold px-2 py-1 rounded-lg whitespace-nowrap 
+                                        <?= htmlspecialchars(
+                                            $blog["category_color"] ??
+                                                "bg-gray-500/20 text-gray-400",
+                                        ) ?>">
+                                        <?= htmlspecialchars(
+                                            $blog["category_label"] ??
+                                                "Uncategorized",
+                                        ) ?>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-text-primary group-hover:text-brand transition">
+                                        <?= htmlspecialchars(
+                                            $blog["title"] ?? "1",
+                                        ) ?>
+                                    </h2>
+
+                                    <p class="text-text-secondary mt-2 line-clamp-3 leading-relaxed overflow-hidden">
+                                        <?= htmlspecialchars(
+                                            $excerpt ?:
+                                            "Welcome testastestasthu the Simple Editor template! This template integrates open source UI components and Tiptap extensions licensed under MIT.",
+                                        ) ?>
+                                    </p>
+                                </div>
+
+                                </div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="text-center text-gray-400 mt-8">No posts available.</div>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
     </div>
 </div>
-<!-- Tab Script Aesthetic Functions -->
-<script>
+
+
+                <div id="follow-tab" class="hidden mt-6">
+                    <?php if (empty($followed_authors)): ?>
+                        <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
+                            <h3 class="text-lg font-semibold text-text-secondary text-center">
+                                Not following any authors yet.
+                            </h3>
+                        </div>
+                    <?php else: ?>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <?php foreach ($followed_authors as $author): ?>
+                                <a href="/account?id=<?= $author["id"] ?>">
+                                    <div class="flex items-center gap-3 bg-surface rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-200">
+                                        <img 
+                                            src="<?= htmlspecialchars(
+                                                $author["secure_url"] ??
+                                                    "/images/default-avatar.png",
+                                            ) ?>" 
+                                            alt="Profile of <?= htmlspecialchars(
+                                                $author["username"],
+                                            ) ?>" 
+                                            class="w-10 h-10 rounded-full object-cover"
+                                        >
+                                        <div class="flex flex-col min-w-0">
+                                            <span class="text-sm font-medium text-text-primary truncate">
+                                                <?= htmlspecialchars(
+                                                    $author["username"],
+                                                ) ?>
+                                            </span>
+                                        </div>
+                                        <span class="ml-auto text-xs bg-brand/10 text-brand font-semibold px-2 py-1 rounded-md">
+                                            Following
+                                        </span>
+                                    </div>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+            </div> </div> </div> </div>  <script>
   (function() {
     const buttons = document.querySelectorAll('.tab-btn');
     const underline = document.getElementById('tab-underline');
@@ -125,15 +214,16 @@
       underline.style.width = btn.offsetWidth + 'px';
       underline.style.left = btn.offsetLeft + 'px';
     }
+
     function activate(btn) {
       buttons.forEach(b => {
-        b.classList.remove('text-red-500');
-        b.classList.add('text-gray-300');
+        b.classList.remove('text-brand');
+        b.classList.add('text-text-secondary'); // Inactive color
         b.setAttribute('aria-pressed', 'false');
       });
 
-      btn.classList.add('text-red-500');
-      btn.classList.remove('text-gray-300');
+      btn.classList.add('text-brand'); // Active color
+      btn.classList.remove('text-text-secondary');
       btn.setAttribute('aria-pressed', 'true');
 
       if (btn.id === 'post-btn') {
@@ -151,15 +241,34 @@
       btn.addEventListener('click', () => activate(btn));
     });
 
-    window.addEventListener('load', () => {
-      const defaultBtn = document.querySelector('.tab-btn.text-red-500') || buttons[0];
-      activate(defaultBtn);
-    });
-    // keep underline aligned when resizing
+    // Initialize the tab system on page load
+    function initializeTabs() {
+        // Find the currently active button or default to the first
+        let defaultBtn = document.querySelector('.tab-btn[aria-pressed="true"]');
+        if (!defaultBtn) {
+            defaultBtn = buttons[0];
+            // Manually set default text colors for initialization
+            buttons.forEach((b, index) => {
+                if (index === 0) {
+                    b.classList.add('text-brand');
+                    b.classList.remove('text-text-secondary');
+                } else {
+                    b.classList.add('text-text-secondary');
+                    b.classList.remove('text-brand');
+                }
+            });
+        }
+        activate(defaultBtn);
+    }
+
+    window.addEventListener('load', initializeTabs);
+    
+    // Recalculate underline on resize
     window.addEventListener('resize', () => {
-      const active = document.querySelector('.tab-btn.text-red-500') || buttons[0];
+      const active = document.querySelector('.tab-btn[aria-pressed="true"]') || buttons[0];
       moveUnderline(active);
     });
   })();
 </script>
+
 <?php view("partials/footer.php"); ?>

@@ -1,5 +1,10 @@
 <?php
 use Core\Authenticator;
+use Core\App;
+use Core\Database;
+use Core\TiptapExtension\Youtube;
+
+date_default_timezone_set("Asia/Manila");
 
 function dd($value)
 {
@@ -43,9 +48,110 @@ function isUserLoggedIn()
     return false;
 }
 
+function getBlogContent($content)
+{
+    $string_content = "";
+
+    $data = json_decode($content, true);
+
+    if (is_string($data)) {
+        $data = json_decode($data, true); // Second decode
+    }
+    dd($data);
+
+    $first_paragraph = null;
+
+    foreach ($data["content"] ?? [] as $node) {
+        if (
+            !$first_paragraph &&
+            $node["type"] === "paragraph" &&
+            isset($node["content"])
+        ) {
+            $texts = array_map(fn($c) => $c["text"] ?? "", $node["content"]);
+            $first_paragraph = trim(implode(" ", $texts));
+        }
+
+        if ($first_paragraph) {
+            break;
+        }
+    }
+
+    return $first_paragraph;
+}
+
 function getLoggedInRole()
 {
     return new Authenticator()->getLoggedInRole();
+}
+
+function getLoggedInUserId()
+{
+    return new Authenticator()->getLoggedInUserId();
+}
+
+function isUserBanned()
+{
+    return new Authenticator()->getLoggedInAccountStatus() === "BANNED";
+}
+
+function getTextFromTitapHtml($content)
+{
+    return new \Tiptap\Editor([
+        "extensions" => [
+            new \Tiptap\Extensions\StarterKit([
+                "codeBlock" => false,
+            ]),
+            new \Tiptap\Nodes\CodeBlockHighlight(),
+            new \Tiptap\Nodes\Image(),
+            new Youtube(),
+            new \Tiptap\Extensions\TextAlign([
+                "types" => ["heading", "paragraph"],
+            ]),
+            new \Tiptap\Marks\Underline(),
+            new \Tiptap\Marks\Highlight(["multicolor" => true]),
+            new \Tiptap\Marks\Link(),
+            new \Tiptap\Marks\Subscript(),
+            new \Tiptap\Marks\Superscript(),
+        ],
+    ])
+        ->setContent(json_decode(json_decode($content), true))
+        ->getText();
+}
+
+function analyzeReports($reports)
+{
+    $containsSpam = false;
+    $containsOther = false;
+
+    foreach ($reports as $report) {
+        $type = strtoupper($report["report_type"]); // normalize case
+        if ($type === "SPAM") {
+            $containsSpam = true;
+        } else {
+            $containsOther = true;
+        }
+    }
+
+    return [
+        "toxic" => $containsOther ? 1 : 0,
+        "spam" => $containsSpam ? 1 : 0,
+    ];
+}
+
+function handleBannedUsers()
+{
+    $db = App::resolve(Database::class);
+
+    $as = $db
+        ->query("SELECT account_status FROM users WHERE id = :id", [
+            "id" => getLoggedInUserId(),
+        ])
+        ->find()["account_status"];
+
+    if ($as === "BANNED") {
+        redirect("/banned");
+        exit();
+    }
 }
 
 function timeAgo($datetime)
@@ -121,13 +227,17 @@ function extractFirstImageFromTiptap($content)
         $data = json_decode($data, true); // Second decode
     }
 
-    if (empty($data) || !isset($data['content']) || !is_array($data['content'])) {
+    if (
+        empty($data) ||
+        !isset($data["content"]) ||
+        !is_array($data["content"])
+    ) {
         return null; // No valid content found
     }
 
-    foreach ($data['content'] as $node) {
-        if ($node['type'] === 'image' && isset($node['attrs']['src'])) {
-            return $node['attrs']['src']; // Return the src of the first image
+    foreach ($data["content"] as $node) {
+        if ($node["type"] === "image" && isset($node["attrs"]["src"])) {
+            return $node["attrs"]["src"]; // Return the src of the first image
         }
     }
 
@@ -137,22 +247,17 @@ function extractFirstImageFromTiptap($content)
 function getBadgeColor($categoryValue)
 {
     switch ($categoryValue) {
-        case 'University Annoucements':
-            return 'bg-brand/20 text-brand';
-        case 'Organizations':
-            return 'bg-green-500/20 text-green-300';
-        case 'Scholarship':
-            return 'bg-yellow-500/20 text-yellow-300';
-        case 'Achievement':
-            return 'bg-pink-500/20 text-pink-300';
-        case 'Enrollment & Documents':
-            return 'bg-blue-500/20 text-blue-300';
-        // case 'Campus Life':
-        //     return 'bg-teal-500/20 text-teal-300';
-        // case 'Opportunities':
-        //     return 'bg-indigo-500/20 text-indigo-300';
-      
+        case "University Announcements":
+            return "bg-badge-university-bg text-badge-university-text";
+        case "Organizations":
+            return "bg-badge-organizations-bg text-badge-organizations-text";
+        case "Scholarship":
+            return "bg-badge-scholarship-bg text-badge-scholarship-text";
+        case "Achievement":
+            return "bg-badge-achievement-bg text-badge-achievement-text";
+        case "Enrollment & Documents":
+            return "bg-badge-enrollment-bg text-badge-enrollment-text";
         default:
-            return 'bg-brand/20 text-brand'; // Default color
+            return "bg-badge-university-bg text-badge-university-text";
     }
 }

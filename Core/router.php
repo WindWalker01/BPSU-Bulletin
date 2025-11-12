@@ -39,14 +39,30 @@ class Router
         return $this;
     }
 
+    public function onlyRoles($key, $roles)
+    {
+        $this->routes[array_key_last($this->routes)]["middleware"] = [
+            "key" => $key,
+            "params" => $roles,
+        ];
+        return $this;
+    }
+
     public function route($uri, $method)
     {
+        if (isUserBanned() && $uri !== "/banned") {
+            redirect("/banned");
+            exit();
+        }
+
         foreach ($this->routes as $route) {
             if (
                 $route["uri"] === $uri &&
                 strtoupper($method) === $route["method"]
             ) {
-                Middleware::resolve($route["middleware"]);
+                $middleware = $route["middleware"];
+                Middleware::resolve($middleware["key"], $middleware["params"]);
+
                 return require base_path($route["controller"]);
             }
         }
@@ -66,16 +82,15 @@ class Router
     }
 
     protected function abort($code)
-{
-    http_response_code($code);
-    $view = base_path("views/{$code}.view.php");
+    {
+        http_response_code($code);
+        $view = base_path("views/{$code}.view.php");
 
-    if (file_exists($view)) {
-        require $view;
-    } else {
-        echo "Error {$code}";
+        if (file_exists($view)) {
+            require $view;
+        } else {
+            echo "Error {$code}";
+        }
+        die();
     }
-    die();
-}
-
 }

@@ -1,7 +1,8 @@
 <?php
+// views/partials/post-card.php
 ?>
 <article
-  class="bg-overlay-dark/50 border border-card-dark rounded-xl backdrop-blur-sm flex flex-col md:flex-row overflow-hidden md:max-h-50"
+  class="relative group bg-overlay-dark/50 border border-card-dark rounded-xl backdrop-blur-sm flex flex-col md:flex-row overflow-hidden md:max-h-50"
 >
   <div class="w-full md:w-20 lg:w-30 h-48 md:h-auto flex-shrink-0">
     <img
@@ -19,20 +20,19 @@
         <?= htmlspecialchars($category ?? 'General') ?>
       </span>
       <p class="text-[11px] md:text-xs text-text-secondary">
-         <?= htmlspecialchars($date ?? 'Unknown Date') ?>
+          <?= htmlspecialchars($date ?? 'Unknown Date') ?>
       </p>
     </div>
 
-    <a class="block flex-grow" href="<?= htmlspecialchars($link ?? '#') ?>">
+    <a class="block flex-grow after:absolute after:inset-0 after:z-0" href="<?= htmlspecialchars($link ?? '#') ?>">
       <h2
-        class="text-base sm:text-base md:text-lg font-bold tracking-tight text-text-primary hover:text-brand transition-colors line-clamp-2"
+        class="text-base sm:text-base md:text-lg font-bold tracking-tight text-text-primary group-hover:text-brand transition-colors line-clamp-2"
       >
         <?= htmlspecialchars($title ?? 'Untitled Post') ?>
       </h2>
       <p
         class="mt-2 text-xs md:text-xs text-text-secondary leading-relaxed line-clamp-2 md:line-clamp-3" >
         <?php
-          // Your excerpt logic is fine, let's keep it concise
           $excerptText = $excerpt ?? '';
           echo htmlspecialchars(strlen($excerptText) > 100 ? substr($excerptText, 0, 100) . '...' : $excerptText);
         ?>
@@ -40,7 +40,7 @@
     </a>
 
     <div
-      class="pt-2 border-t border-card-dark flex items-center justify-between text-xs md:text-sm"
+      class="relative z-10 pt-2 border-t border-card-dark flex items-center justify-between text-xs md:text-sm"
     >
       <div class="flex items-center gap-3">
         <button
@@ -55,9 +55,15 @@
           <span class="material-symbols-outlined text-base md:text-base">chat_bubble</span>
           <?= htmlspecialchars($comments ?? 0) ?>
         </button>
+
+        <button class="flex items-center gap-1 text-text-secondary">
+          <span class="material-symbols-outlined text-base md:text-base">visibility</span>
+          <?= htmlspecialchars($views ?? 0) ?>
+        </button>
+
       </div>
       <button
-        class="flex items-center md:text-xs gap-1 text-text-secondary hover:text-brand transition-colors cursor-pointer"
+        class="hidden flex items-center md:text-xs gap-1 text-text-secondary hover:text-brand transition-colors cursor-pointer"
       >
         <span class="material-symbols-outlined text-base md:text-base">share</span> Share
       </button>

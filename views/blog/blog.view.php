@@ -1,19 +1,20 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
-<div class="flex flex-row justify-center px-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <!-- Main Content -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 gap-4">
-        <div class="text-text-primary ml-4 col-span-1 md:col-span-3">
-            <!-- Category and Back button -->
-            <div class="flex flex-row justify-between">
-                <span class="ml-1 text-xs font-medium bg-brand/20 text-brand px-2 py-1 rounded-full">
-                    University Updates
+    <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 gap-8">
+    
+        <div class="text-text-primary lg:col-span-3 min-w-0">
+            
+            <div class="flex flex-row justify-between items-center mb-4">
+                
+                <span class="ml-1 text-xs font-medium px-2 py-1 rounded-full <?= getBadgeColor($category_name) ?>">
+                    <?= htmlspecialchars($category_name) ?>
                 </span>
-
-                <span class="mr-1 text-xs font-medium bg-brand/20 text-brand px-2 py-1 rounded-full">
-                    Go back
-                </span>
+                <a href="/home" class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-6 group">
+                     <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back</span>
+                        Back
+                </a>
             </div>
 
             <?php view("partials/blog-content.php", [
@@ -29,7 +30,6 @@
 
             <hr class="text-text-secondary my-6">
 
-            <!-- Reactions and Share -->
             <div class="flex flex-row justify-between my-6">
                 <div class="flex flex-row gap-4 <?= isUserLoggedIn()
                     ? ""
@@ -44,9 +44,42 @@
                     </button>   
                 </div>
 
-                <button class="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
-                    <span class="material-symbols-outlined text-xl">share</span> Share
-                </button>
+                <div class="flex gap-6">
+                    <button class="hidden flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer">
+                        <span class="material-symbols-outlined text-xl">share</span> Share
+                    </button>
+                    
+                    <?php if (getLoggedInRole() !== "ADMIN"): ?>
+                    <button 
+                        type="button"
+                        class="flex items-center gap-1 text-text-secondary hover:text-brand <?= isUserLoggedIn()
+                            ? ""
+                            : "hidden" ?>"
+                        onclick='openReportModal(<?= $blog_id ?>, "BLOG")'
+                    >
+                        <span class="material-symbols-outlined text-base">flag</span>
+                        Report
+                    </button>
+                    <?php else: ?>
+                      <button 
+                        type="button"
+                        class="flex items-center gap-1 text-text-secondary hover:text-yellow-500 <?= isUserLoggedIn()
+                            ? ""
+                            : "hidden" ?>"
+                        onclick="openModerationPanel(
+                                'blog',
+                                <?= $blog_id ?>, 
+                                '<?= htmlspecialchars($title) ?>', 
+                                '<?= htmlspecialchars($author_name) ?>', 
+                                '<?= htmlspecialchars($author_profile) ?>', 
+                                '<?= $author_id ?>'
+                            )">
+                        <span class="material-symbols-outlined text-base">gavel</span>
+                        Moderate
+                    </button>
+                    <?php endif; ?>
+                </div>
+
             </div>
 
             <hr class="text-text-secondary my-6">
@@ -63,69 +96,195 @@
                     class='w-full bg-card-dark text-text-primary text-sm p-2 rounded-md focus:outline-none focus:ring-1 focus:ring-brand-hover'
                     placeholder='Write a reply...'
                 ></textarea>
-                <div class='flex justify-end gap-2'>                    
+                <div class='flex justify-end gap-2'>                
                     <button 
                         type='submit'
                         class='bg-brand hover:bg-brand-hover text-text-primary px-3 py-1 rounded-md text-sm'
                     >
-                        Post
+                        Comment
                     </button>
                 </div>
             </form>
 
-             <!-- Comments -->
             <div>
                 <h2 class="text-2xl font-semibold mb-6 text-text-primary" id="comments">Comments (<?= $comment_count ?>)</h2>
                 <?php renderComments(0, $comment_tree, 0, $db); ?>
             </div>
 
-        </div>  
+        </div>  <aside class="lg:col-span-1 flex flex-col gap-6 lg:top-8 h-fit">
+    
+    <?php if (!empty($related_articles)): ?>
+        <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
+            <h3 class="text-lg font-bold mb-4 text-text-primary">You Might Like These</h3>
+            <div class="space-y-4">
 
-        <aside class="flex flex-col gap-4">
-            <div class="lg:col-span-4 space-y-8 lg:top-24 order-1 lg:order-2">
-                <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
-                    <h3 class="text-lg font-bold mb-4 text-text-primary">Related Arcticles</h3>
-                    <div class="space-y-3">
+                <?php foreach ($related_articles as $article): ?>
                     <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">BPSU Main Campus Expansion Project Groundbreaking</a>
-                        <p class="text-sm text-text-secondary">October 20, 2023</p>
+                        <a 
+                            class="font-semibold text-text-primary hover:text-brand transition-colors" 
+                            href="/blog?id=<?= $article['id'] ?>"
+                        >
+                            <?= htmlspecialchars($article['title']) ?>
+                        </a>
+                        <p class="text-sm text-text-secondary">
+                            <?= date('F j, Y', strtotime($article['published_at'])) ?>
+                        </p>
                     </div>
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">University Research Symposium Highlights Student Innovations</a>
-                        <p class="text-sm text-text-secondary">October 15, 2023</p>
-                    </div>
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">New Scholarship Opportunities for Engineering Students</a>
-                        <p class="text-sm text-text-secondary">October 10, 2023</p>
-                    </div>
-                    </div>
-                </div>
-            </div>
+                <?php endforeach; ?>
 
-            <div class="lg:col-span-4 space-y-8 lg:top-24 order-1 lg:order-2">
-                <div class="bg-overlay-dark/50 border border-card-dark rounded-xl p-6 backdrop-blur-sm">
-                    <h3 class="text-lg font-bold mb-4 text-text-primary">Related Arcticles</h3>
-                    <div class="space-y-3">
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">BPSU Main Campus Expansion Project Groundbreaking</a>
-                        <p class="text-sm text-text-secondary">October 20, 2023</p>
-                    </div>
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">University Research Symposium Highlights Student Innovations</a>
-                        <p class="text-sm text-text-secondary">October 15, 2023</p>
-                    </div>
-                    <div>
-                        <a class="font-semibold text-text-primary hover:text-brand transition-colors" href="#">New Scholarship Opportunities for Engineering Students</a>
-                        <p class="text-sm text-text-secondary">October 10, 2023</p>
-                    </div>
-                    </div>
-                </div>
             </div>
-        </aside>
+        </div>
+    <?php endif; ?>
+
+</aside></div> </div> 
+
+            
+<div id="reportModal" class="hidden fixed inset-0 bg-overlay-dark/80 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="bg-overlay-dark rounded-2xl shadow-xl w-[90%] max-w-md p-6 border border-card-dark animate-fade-up">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold text-text-primary">Report</h2>
+      <button type="button" onclick="closeReportModal()" class="text-text-secondary hover:text-text-primary transition">
+        <span class="material-symbols-outlined">close</span>
+      </button>
     </div>
+
+    <p class="text-sm font-medium text-text-primary mb-1">What's going on?</p>
+    <p class="text-xs text-text-secondary mb-4">
+      We'll check for all Community Guidelines, so don't worry about making the perfect choice.
+    </p>
+
+    <form action="/report" method="POST" class="space-y-4">
+      <input type="hidden" id="reportId" name="id">
+      <input type="hidden" id="reportType" name="reportType">
+      <input type="hidden" name="_method" value="POST">
+      <input type="hidden" name="blogId" value="<?= $blog_id ?>">
+
+      <div class="space-y-3">
+        <?php
+        $categories = [
+            "SEXUAL" => "Sexual content",
+            "VIOLENT" => "Violent or repulsive content",
+            "HARMFUL" => "Harmful or dangerous acts",
+            "HARASSMENT" => "Harassment or bullying",
+            "SELF_HARM" => "Suicide or self-harm content",
+            "SPAM" =>
+                "Irrelevant or repetitive content intended to promote or clutter discussions.",
+        ];
+        foreach ($categories as $value => $label): ?>
+        <label class="flex items-start gap-3 cursor-pointer group p-2 rounded-md hover:bg-overlay-dark/40 transition">
+          <input 
+            type="radio" 
+            name="category" 
+            value="<?= $value ?>" 
+            required
+            class="mt-1.5 appearance-none w-4 h-4 rounded-full border border-text-secondary checked:border-[5px] checked:border-brand checked:bg-transparent transition"
+          >
+          <span class="text-sm text-text-secondary group-hover:text-text-primary transition"><?= $label ?></span>
+        </label>
+        <?php endforeach;
+        ?>
+      </div>
+
+      <div class="mt-5">
+        <label class="block text-sm text-text-secondary mb-1">Additional details (optional):</label>
+        <textarea 
+          name="reason"
+          rows="3"
+          class="w-full bg-bg-dark border border-brand/30 rounded-md p-2 text-sm text-text-primary focus:ring-1 focus:ring-brand-hover focus:outline-none placeholder:text-text-gray"
+          placeholder="Add any extra context..."
+        ></textarea>
+      </div>
+
+      <div class="flex justify-end mt-5 gap-2">
+        <button 
+            type="button" 
+            onclick="closeReportModal()" 
+            class="px-3 py-1.5 text-sm rounded-md text-text-secondary hover:text-text-primary transition"
+        >
+          Cancel
+        </button>
+        <button
+            disabled
+            type="submit" 
+            class="px-4 py-1.5 rounded-md text-sm text-text-primary bg-brand hover:bg-brand-hover transition"
+        >
+          Report
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
 
+<div 
+  id="moderationModal" 
+  class="hidden fixed inset-0 bg-overlay-dark/80 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+>
+  <div class="bg-overlay-dark rounded-2xl shadow-xl w-full max-w-lg p-6 border border-card-dark animate-fade-up max-h-[90vh] overflow-y-auto">
+    <div class="flex justify-between items-center mb-4 sticky top-0 bg-overlay-dark/90 backdrop-blur-sm z-10 pb-2">
+      <h2 class="text-lg font-semibold text-text-primary flex items-center gap-1">
+        <span class="material-symbols-outlined text-brand">gavel</span>
+        Moderate Content
+      </h2>
+      <button 
+        type="button" 
+        onclick="closeModerationModal()" 
+        class="text-text-secondary hover:text-text-primary transition"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="bg-bg-dark border border-card-dark rounded-md p-3 text-sm text-text-secondary mb-5 overflow-y-auto max-h-[40vh]">
+      <div class="flex flex-row items-start gap-3">
+        <a href="" id="moderationCommentAccountLink" class="flex-shrink-0">
+          <img src="" class="w-9 h-9 rounded-full" alt="Avatar" id="moderationCommentAvatar">
+        </a>
+        <div class="flex-1 space-y-1">
+          <span class="font-semibold text-text-primary block" id="moderationCommentUsername"></span>
+          <p id="moderationCommentText" class="leading-relaxed break-words">
+            Loading content details...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <button 
+        type="button"
+        onclick="deleteComment()"
+        class="w-full px-4 py-2 rounded-md bg-brand hover:bg-brand-hover text-sm text-white transition flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined text-base">delete</span>
+        Delete Content
+      </button>
+
+      <button 
+        type="button"
+        onclick="banUser()"
+        class="w-full px-4 py-2 rounded-md bg-yellow-500 hover:bg-yellow-600 text-sm text-black transition flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined text-base">block</span>
+        Ban User
+      </button>
+    </div>
+
+    <div class="flex justify-end mt-5">
+      <button 
+        type="button" 
+        onclick="closeModerationModal()" 
+        class="px-3 py-1.5 text-sm rounded-md text-text-secondary hover:text-text-primary transition"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<?php view("partials/intelligent-system-modal.php"); ?>
+
+
+            
 <script>
 lucide.createIcons();
 
@@ -245,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (clickedButton) {
             const wrapper = clickedButton.closest('.reaction-wrapper');
             
-            // ❌ FIX 1: Retrieve commentId correctly from the hidden element
+            // Retrieve commentId correctly from the hidden element
             const commentIdElement = wrapper.querySelector('.comment-id');
             // If you used the data attribute method:
             // const commentId = wrapper.dataset.commentId; 
@@ -316,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else dislikeChange = 1;
         }
         
-        // ❌ FIX 2: Apply the immediate (fake) count update correctly
+        // Apply the immediate (fake) count update correctly
         likeCountEl.textContent = parseInt(likeCountEl.textContent) + likeChange;
         dislikeCountEl.textContent = parseInt(dislikeCountEl.textContent) + dislikeChange;
 
@@ -334,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData
             });
 
-           
+            
             const result = await response.json();
             
 
@@ -344,5 +503,77 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
+<script>
+document.querySelectorAll('input[name="category"]').forEach(input => {
+    input.addEventListener('change', () => {
+        document.querySelector('#reportModal button[type="submit"]').disabled = false;
+    });
+});
+function openReportModal(id, reportType) {
+    document.getElementById('reportModal').classList.remove('hidden');
+    document.getElementById('reportId').value = id;
+    document.getElementById('reportType').value = reportType;
+
+    console.log(id);
+
+}
+function closeReportModal() {
+    document.getElementById('reportModal').classList.add('hidden');
+}
+</script>
+
+
+<script>
+let selectedId = null;
+let moderationType = null;
+
+function openModerationPanel(moderation, commentId, content, username, avatar, accountId) {
+  selectedId = commentId;
+  moderationType = moderation;
+
+  console.log(moderationType);
+
+  document.getElementById("moderationCommentText").textContent = content;
+  document.getElementById("moderationCommentUsername").textContent = `${username}: `;
+  document.getElementById("moderationCommentAvatar").src = avatar;
+  document.getElementById("moderationCommentAccountLink").href = `/account?id=${accountId}`;
+  
+  document.getElementById("moderationModal").classList.remove("hidden");
+}
+
+function closeModerationModal() {
+  document.getElementById("moderationModal").classList.add("hidden");
+}
+
+function deleteComment() {
+  console.log(moderationType);
+  if (!confirm("Are you sure you want to delete this content?")) return;
+
+  let uri = moderationType === "comment" ? `/admin/ban_comment?commentId=${selectedId}` : `/admin/ban_blog?blogId=${selectedId}&authorId=${<?= $author_id ?>}`; 
+
+  fetch(`${uri}`, { method: 'PATCH' })
+    .then(res => res.json())
+    .then(data => alert(data.message || "Comment deleted."))
+    .finally(closeModerationModal);
+
+    // window.location.reload();
+}
+
+function banUser() {
+  if (!confirm("Ban the user who posted this content?")) return;
+  
+  let uri = moderationType === "comment" ? `/admin/ban_user?id=${selectedId}&by=comment` : `/admin/ban_user?id=${<?= $author_id ?>}`; 
+  
+  fetch(`${uri}`, { method: 'PATCH' })
+    .then(res => res.json())
+    .then(data => alert(data.message || "User banned."))
+    .finally(closeModerationModal);
+
+    window.location.reload();
+}
+</script>
+
+
 
 <?php view("partials/footer.php"); ?>

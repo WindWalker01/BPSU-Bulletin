@@ -3,10 +3,10 @@ use Core\Database;
 use Core\App;
 use Core\Authenticator;
 
+$theme = "SYSTEM"; // Default theme if user is not logged in
+
 if (isUserLoggedIn()) {
     $auth = new Authenticator();
-    $read_imporant_count = 0;
-
     $db = App::resolve(Database::class);
 
     $profile_image = $db
@@ -15,30 +15,43 @@ if (isUserLoggedIn()) {
         ])
         ->find();
 
+    // --- FIX 1: Fetch the user's theme preference ---
+    $user_prefs = $db
+        ->query(
+            "SELECT theme_preference FROM user_preferences WHERE user_id = :id",
+            ["id" => (int) $auth->getLoggedInUserId()],
+        )
+        ->find();
+
+    if ($user_prefs && $user_prefs["theme_preference"]) {
+        $theme = $user_prefs["theme_preference"]; // e.g., 'DARK', 'LIGHT', 'SYSTEM'
+    }
+
     // fetch notifications
     $notifications = $db
         ->query(
             "SELECT
-            notifications.id, 
-            notifications.title,
-            profile_images.secure_url,
-            notifications.blog_id,
-            users.username,
-            notifications.sender_id,
-            notifications.is_read,
-            notifications.description,
-            notifications.created_at,
-            notifications.category 
-        FROM notifications
-        INNER JOIN users ON users.id = notifications.sender_id
-        INNER JOIN profile_images ON profile_images.user_id = notifications.sender_id
-        WHERE notifications.receiver_id = :receiver_id
-        ORDER BY notifications.is_read ASC, notifications.created_at DESC",
+                notifications.id, 
+                notifications.title,
+                profile_images.secure_url,
+                notifications.blog_id,
+                users.username,
+                notifications.sender_id,
+                notifications.is_read,
+                notifications.description,
+                notifications.created_at,
+                notifications.category 
+            FROM notifications
+            INNER JOIN users ON users.id = notifications.sender_id
+            INNER JOIN profile_images ON profile_images.user_id = notifications.sender_id
+            WHERE notifications.receiver_id = :receiver_id
+            ORDER BY notifications.is_read ASC, notifications.created_at DESC",
             [
                 "receiver_id" => $auth->getLoggedInUserId(),
             ],
         )
         ->get();
+
     $unread_count = $db
         ->query(
             "SELECT COUNT(*) AS unread_count
@@ -60,13 +73,18 @@ if (isUserLoggedIn()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $data["title"] ?? "BPSU Bulletin" ?></title>
+    <link rel="icon" type="image/x-icon" href="/assets/tablogo.png">
     
     <script>
         (function() {
-            // This function applies the theme to the <html> tag
+            const savedTheme = '<?= $theme ?>' || 'SYSTEM';
+            
+            localStorage.setItem('theme', savedTheme);
+
             function applyTheme(theme) {
-                let effectiveTheme = theme;
-                if (theme === 'system') {
+                let effectiveTheme = theme.toLowerCase(); 
+
+                if (theme === 'SYSTEM') {
                     effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                 }
 
@@ -77,21 +95,20 @@ if (isUserLoggedIn()) {
                 }
             }
 
-            // Get the saved theme or default to 'system'
-            const savedTheme = localStorage.getItem('theme') || 'system';
             applyTheme(savedTheme);
 
-            // Add a listener to update the theme if the system preference changes
-            // This is only needed if the user's saved choice is 'system'
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-                if (localStorage.getItem('theme') === 'system') {
-                    applyTheme('system');
+                if (localStorage.getItem('theme') === 'SYSTEM') {
+                    applyTheme('SYSTEM');
                 }
             });
         })();
     </script>
     <link href="/css/tailwind.css" rel="stylesheet">
     <link href="/css/tiptap.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 </head>
@@ -111,7 +128,7 @@ if (isUserLoggedIn()) {
 
       <!-- Logo -->
       <a href="/" class="flex items-center max-sm:absolute max-sm:left-1/2 max-sm:transform max-sm:-translate-x-1/2">
-        <img src="/assets/logo.webp" class="w-18 sm:w-23" alt="BPSU Bulletin">
+        <img src="/assets/logo.webp" class="w-15 sm:w-20" alt="BPSU Bulletin">
       </a>
 
       <!-- Search bar for desktop only -->
@@ -346,18 +363,20 @@ if (isUserLoggedIn()) {
     <i class="material-symbols-outlined">category</i>
     Categories
   </a>
+
+  <?php if (getLoggedInRole() === "AUTHOR" || getLoggedInRole() === "ADMIN"): ?>
   <a href="/stats" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
     <i class="material-symbols-outlined">dashboard</i>
     Stats
   </a>
-  <a href="/following" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
-    <i class="material-symbols-outlined">group</i>
-    Following
-  </a>
+  <?php endif; ?>
+
+  <?php if (getLoggedInRole() === "ADMIN"): ?>
   <a href="/admin" class="nav-link flex items-center gap-2 p-3 rounded-2xl">
     <i class="material-symbols-outlined">admin_panel_settings</i>
     Admin Panel
   </a>
+  <?php endif; ?>
 </nav>
 </aside>
 

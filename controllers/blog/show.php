@@ -19,15 +19,82 @@ date_default_timezone_set("Asia/Manila");
 
 $db = App::resolve(Database::class);
 
+$auth = new Authenticator();
+$user_id = $auth->getLoggedInUserId();
+$blog_id = $_GET["id"];
+
+// Only track if user is logged in
+if ($user_id) {
+    $existingView = $db
+        ->query(
+            "SELECT id FROM blog_views WHERE user_id = :user_id AND blog_id = :blog_id",
+            [
+                "user_id" => $user_id,
+                "blog_id" => $blog_id,
+            ],
+        )
+        ->find();
+
+    if (!$existingView) {
+        // Insert new view
+        $db->query(
+            "INSERT INTO blog_views (user_id, blog_id, viewed_at)
+             VALUES (:user_id, :blog_id, :viewed_at)",
+            [
+                "user_id" => $user_id,
+                "blog_id" => $blog_id,
+                "viewed_at" => date("Y-m-d H:i:s"),
+            ],
+        );
+    }
+}
+
+// [MODIFIED] Added LEFT JOINs to get category_id and category_name
 $blog = $db
     ->query(
-        "SELECT * FROM blogs 
-        INNER JOIN users ON blogs.author_id = users.id 
-        INNER JOIN profile_images ON profile_images.user_id = users.id
-        WHERE blogs.id = :id",
+        "SELECT *, c.value as category_name, bc.category_id FROM blogs 
+         INNER JOIN users ON blogs.author_id = users.id 
+         INNER JOIN profile_images ON profile_images.user_id = users.id
+         LEFT JOIN blog_categories AS bc ON bc.blog_id = blogs.id
+         LEFT JOIN categories AS c ON c.id = bc.category_id
+         WHERE blogs.id = :id",
         ["id" => $id],
     )
     ->find();
+
+if ($blog["blog_status"] === "BANNED" && getLoggedInRole() !== "ADMIN") {
+    redirect("/appeal");
+    exit();
+}
+
+if ($blog["account_status"] === "BANNED") {
+    redirect("/404");
+    exit();
+}
+
+
+// [MODIFIED] Query for Random Articles
+// This new query gets 3 random, active, published blogs that are not the current one.
+$related_articles_query = "
+    SELECT 
+        id, 
+        title, 
+        published_at 
+    FROM blogs
+    WHERE 
+        blog_status = 'ACTIVE' 
+        AND published_at IS NOT NULL 
+        AND published_at <= NOW()
+        AND id != :current_blog_id  -- Exclude the current blog
+    ORDER BY 
+        RAND() -- Order randomly
+    LIMIT 3
+";
+$related_articles = $db->query($related_articles_query, [
+    'current_blog_id' => $id
+])->get();
+// [END MODIFIED]
+
 
 $html = new \Tiptap\Editor([
     "extensions" => [
@@ -37,9 +104,15 @@ $html = new \Tiptap\Editor([
         new \Tiptap\Nodes\CodeBlockHighlight(),
         new \Tiptap\Nodes\Image(),
         new Youtube(),
+        new \Tiptap\Extensions\TextAlign(["types" => ["heading", "paragraph"]]),
+        new \Tiptap\Marks\Underline(),
+        new \Tiptap\Marks\Highlight(["multicolor" => true]),
+        new \Tiptap\Marks\Link(),
+        new \Tiptap\Marks\Subscript(),
+        new \Tiptap\Marks\Superscript(),
     ],
 ])
-    ->setContent(json_decode($blog["content"]))
+    ->setContent(json_decode(json_decode($blog["content"]), true))
     ->getHTML();
 
 // Query all the comments and replies
@@ -55,8 +128,10 @@ $comments = $db
         c.like_count,
         c.created_at,
         c.dislike_count,
+        c.status,
         u.username,
         u.role,
+        u.account_status,
         COALESCE(pi.secure_url, 'https://res.cloudinary.com/dz4qgnk5v/image/upload/v1760538796/default_profile_xgg15t.jpg') AS avatar_url
     FROM comments c
     JOIN users u ON c.user_id = u.id
@@ -112,6 +187,15 @@ $isFollowed = $db
     )
     ->findOrFail();
 
+$totalViews = $db
+    ->query(
+        "SELECT COUNT(*) AS total FROM blog_views WHERE blog_id = :blog_id",
+        ["blog_id" => $id],
+    )
+    ->find();
+
+$viewCount = $totalViews["total"] ?? 0;
+
 // Render the page
 render("blog/blog.view.php", [
     "blog_html" => $html,
@@ -121,7 +205,7 @@ render("blog/blog.view.php", [
     "comment_count" => count($comments),
     "like_count" => $like_count,
     "dislike_count" => $dislike_count,
-    "current_user_reaction" => (int) $current_user_reaction["reaction_id"],
+    "current_user_reaction" => (int) ($current_user_reaction["reaction_id"] ?? 0),
     "db" => $db,
     "published_at" => DateTime::createFromFormat(
         "Y-m-d H:i:s",
@@ -133,6 +217,9 @@ render("blog/blog.view.php", [
     "isOwner" =>
         $blog["author_id"] === new Authenticator()->getLoggedInUserId(),
     "isFollowed" => $isFollowed === null ? 0 : 1,
+    "view_count" => $viewCount,
+    "category_name" => $blog["category_name"] ?? "General",
+    "related_articles" => $related_articles, 
 ]);
 
 // Recursive render
@@ -160,19 +247,20 @@ function renderComments($parent_id, $tree, $level = 0, $db)
             "indent" => $indent,
             "username" => $c["username"],
             "avatar" => $c["avatar_url"],
-            "content" => $c["content"],
+            "content" => trim($c["content"]),
             "like_count" => $c["like_count"],
             "dislike_count" => $c["dislike_count"],
             "created_at" => timeAgo($c["created_at"]),
             "blog_id" => $c["blog_id"],
             "reply_parent_id" => $c["id"],
-            "user_reaction" => $reaction["reaction_id"],
+            "user_reaction" => $reaction["reaction_id"] ?? 0,
             "user_id" => $c["user_id"],
+            "status" => $c["status"],
+            "user_status" => $c["account_status"],
         ]);
 
-        // Recursive call
         renderComments($c["id"], $tree, $level + 1, $db);
 
-        echo "</div></div>"; // close both divs
+        echo "</div></div>"; 
     }
 }
