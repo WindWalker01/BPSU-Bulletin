@@ -151,8 +151,10 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
   window.__APP_DATA__ = {
     blogId: <?php echo json_encode($blog_id); ?>,
     draftContent: <?php echo json_encode($draft_content); ?>,
-    authorId: <?php echo json_encode($author_id); ?>
+    authorId: <?php echo json_encode($author_id); ?>,
+    websiteUrl: <?php echo json_encode(getConfig()["website_url"]); ?>
   };
+  let website_url = "<?= getConfig()["webiste_url"] ?>";
 
   const titleInput = document.getElementById("title");
   const saveStatus = document.getElementById("saveStatus");
@@ -177,7 +179,7 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
     formData.append("author_id", <?php echo $author_id; ?>);
 
     try {
-      const res = await fetch("http://localhost:8069/blog/editor", {
+      const res = await fetch(website_url + "/blog/editor", {
         method: "POST",
         body: formData
       });
@@ -221,7 +223,7 @@ $user_name = implode(" ", array_slice(explode(" ", trim($user_name)), 0, 2)); ?>
       formData.append("author_id", <?php echo $author_id; ?>);
 
       try {
-        const res = await fetch("http://localhost:8069/blog/editor", {
+        const res = await fetch(website_url + "/blog/editor", {
           method: "POST",
           body: formData,
           credentials: "same-origin"

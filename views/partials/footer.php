@@ -1,4 +1,6 @@
+
 <script>
+  let website_url = "<?= getConfig()["website_url"] ?>"
 document.addEventListener('DOMContentLoaded', () => {
 
   const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -67,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     timeout = setTimeout(() => {
       if (query.length >= 2) {
-        fetch(`http://localhost:8069/search?query=${encodeURIComponent(query)}`, {headers: { "X-Search-Source": "dropdown" }})
+        fetch(website_url + `/search?query=${encodeURIComponent(query)}`, {headers: { "X-Search-Source": "dropdown" }})
           .then((res) => res.json())
           .then((data) => renderSearchResults(data))
           .catch((err) => console.error("Search error:", err));
@@ -203,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Fetch results from backend
-      fetch(`http://localhost:8069/search?query=${encodeURIComponent(query)}`, {headers: { "X-Search-Source": "dropdown" }})
+      fetch(website_url + `/search?query=${encodeURIComponent(query)}`, {headers: { "X-Search-Source": "dropdown" }})
         .then((res) => res.json())
         .then((data) => renderMobileSearchResults(data))
         .catch((err) => console.error("Mobile search error:", err));
