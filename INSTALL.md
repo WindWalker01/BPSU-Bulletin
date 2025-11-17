@@ -52,23 +52,11 @@ npm run dev
 
 ## 4) Configure application settings
 
-1. Copy the configuration template
-
-```pwsh
-# Windows PowerShell
-cp .\config\config.template.php .\config\config.php
-```
+1. The config file is already setup on the provided project folder called "BPSU-Bulletin" so just skip that step except for the MYSQL DSN.
 
 2. Open `config/config.php` and update the following keys:
 
 - `database.host`, `database.port`, `database.dbname`, `database.user`, `database.password`
-- `service.google-auth.client_id`, `client_secret`, and `redirect_uris` (if using Google OAuth)
-- `service.cloudinary` keys for image upload
-- `jwt-secret-key` for authentication tokens
-- `domain` and `website_url` (set website URL used by external services)
-- `email_app_password` (for outgoing emails if configured)
-
-> Important: Do not commit `config/config.php` with credentials into version control. Use environment secrets or CI settings in production.
 
 ---
 
@@ -93,6 +81,8 @@ mysql -u your_username -p bulletin < .\public\bulletin.sql
 This creates all tables used by the app (users, blogs, comments, notifications, etc.).
 
 > Tip: If you prefer a GUI, use phpMyAdmin or MySQL Workbench to import `public/bulletin.sql`.
+
+> Important: Please make sure to change the user, password, db name, port, and host according to your MySQL local account in the config.php file.
 
 ---
 
@@ -140,7 +130,3 @@ npm run dev
 - Use environment variables or secrets management in production; do not commit `config/config.php` with real credentials.
 - Use HTTPS in production; update `website_url` to the real HTTPS domain.
 - Secure your database and restrict access by IP where possible.
-
----
-
-If you'd like, I can add a small `Makefile` or PowerShell script to automate these steps or update the existing `README.md` with a shorter installation summary.
