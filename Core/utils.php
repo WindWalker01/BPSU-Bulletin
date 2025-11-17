@@ -6,6 +6,11 @@ use Core\TiptapExtension\Youtube;
 
 date_default_timezone_set("Asia/Manila");
 
+function getConfig()
+{
+    return require base_path("config/config.php");
+}
+
 function dd($value)
 {
     echo "<pre>";

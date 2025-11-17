@@ -8,7 +8,9 @@
             
             <div class="flex flex-row justify-between items-center mb-4">
                 
-                <span class="ml-1 text-xs font-medium px-2 py-1 rounded-full <?= getBadgeColor($category_name) ?>">
+                <span class="ml-1 text-xs font-medium px-2 py-1 rounded-full <?= getBadgeColor(
+                    $category_name,
+                ) ?>">
                     <?= htmlspecialchars($category_name) ?>
                 </span>
                 <a href="/home" class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary mb-6 group">
@@ -122,12 +124,15 @@
                     <div>
                         <a 
                             class="font-semibold text-text-primary hover:text-brand transition-colors" 
-                            href="/blog?id=<?= $article['id'] ?>"
+                            href="/blog?id=<?= $article["id"] ?>"
                         >
-                            <?= htmlspecialchars($article['title']) ?>
+                            <?= htmlspecialchars($article["title"]) ?>
                         </a>
                         <p class="text-sm text-text-secondary">
-                            <?= date('F j, Y', strtotime($article['published_at'])) ?>
+                            <?= date(
+                                "F j, Y",
+                                strtotime($article["published_at"]),
+                            ) ?>
                         </p>
                     </div>
                 <?php endforeach; ?>
@@ -286,6 +291,8 @@
 
             
 <script>
+
+let website_url = "<?= getConfig()["website_url"] ?>";
 lucide.createIcons();
 
 
@@ -372,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3. Send the request to the PHP endpoint
         try {
-            const response = await fetch('http://localhost:8069/react', {
+            const response = await fetch(website_url + "/react", {
                 method: 'POST',
                 body: formData
             });
@@ -488,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('action', action);
         
         try {
-            const response = await fetch('http://localhost:8069/comment/react', {
+            const response = await fetch(website_url + 'comment/react', {
                 method: 'POST',
                 body: formData
             });

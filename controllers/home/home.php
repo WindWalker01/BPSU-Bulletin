@@ -8,8 +8,8 @@ if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
     // ... (Your AJAX logic is all good) ...
     header("Content-Type: application/json");
 
-    $postsPerPage = 9; 
-    $initialLoad = 7; 
+    $postsPerPage = 9;
+    $initialLoad = 7;
     $page = (int) $_GET["page"];
 
     if ($page <= 1) {
@@ -22,13 +22,13 @@ if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
     $sql = "
         SELECT 
             b.id, b.title, b.content, b.published_at,
-            ANY_VALUE(u.username) AS author_name,
-            ANY_VALUE(pi.secure_url) AS author_avatar,
-            ANY_VALUE(bi.secure_url) AS featured_image,
-            ANY_VALUE(c.value) AS category_name,
-            COALESCE(ANY_VALUE(likes.likes_count), 0) AS likes_count,
-            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count,
-            COALESCE(ANY_VALUE(views.view_count), 0) AS view_count
+            u.usernam) AS author_name,
+            pi.secure_ur) AS author_avatar,
+            bi.secure_ur) AS featured_image,
+            c.valu) AS category_name,
+            COALESCE(likes.likes_count, 0) AS likes_count,
+            COALESCE(comments.comments_count, 0) AS comments_count,
+            COALESCE(views.view_count, 0) AS view_count
         FROM blogs AS b
         LEFT JOIN users AS u ON b.author_id = u.id
         LEFT JOIN profile_images AS pi ON u.id = pi.user_id
@@ -81,20 +81,20 @@ if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
     }
 
     echo json_encode($posts);
-    exit(); 
+    exit();
 } else {
     $limit = 7;
 
     $sql = "
         SELECT 
             b.id, b.title, b.content, b.published_at,
-            ANY_VALUE(u.username) AS author_name,
-            ANY_VALUE(pi.secure_url) AS author_avatar,
-            ANY_VALUE(bi.secure_url) AS featured_image,
-            ANY_VALUE(c.value) AS category_name,
-            COALESCE(ANY_VALUE(likes.likes_count), 0) AS likes_count,
-            COALESCE(ANY_VALUE(comments.comments_count), 0) AS comments_count,
-            COALESCE(ANY_VALUE(views.view_count), 0) AS view_count
+            u.username AS author_name,
+            pi.secure_url AS author_avatar,
+            bi.secure_url AS featured_image,
+            c.value AS category_name,
+            COALESCE(likes.likes_count, 0) AS likes_count,
+            COALESCE(comments.comments_count, 0) AS comments_count,
+            COALESCE(views.view_count, 0) AS view_count
         FROM blogs AS b
         LEFT JOIN users AS u ON b.author_id = u.id
         LEFT JOIN profile_images AS pi ON u.id = pi.user_id
@@ -164,23 +164,22 @@ if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
         ORDER BY
             tag_count DESC
         LIMIT 5; 
-    "; 
-    
+    ";
+
     $display_trending_tags = $db->query($trending_tags_query)->get();
 
     $top_tag_count = 0;
     if (!empty($display_trending_tags)) {
-        $top_tag_count = $display_trending_tags[0]['tag_count'];
+        $top_tag_count = $display_trending_tags[0]["tag_count"];
     }
-    
-    $show_sidebar = $top_tag_count > 3;
 
+    $show_sidebar = $top_tag_count > 3;
 
     render("home.view.php", [
         "title" => "Home Page",
-        "featured_posts" => $featured_posts, 
-        "grid_posts" => $grid_posts, 
-        "show_sidebar" => $show_sidebar, 
-        "display_tags" => $display_trending_tags 
+        "featured_posts" => $featured_posts,
+        "grid_posts" => $grid_posts,
+        "show_sidebar" => $show_sidebar,
+        "display_tags" => $display_trending_tags,
     ]);
 }
