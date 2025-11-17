@@ -140,7 +140,3 @@ npm run dev
 - Use environment variables or secrets management in production; do not commit `config/config.php` with real credentials.
 - Use HTTPS in production; update `website_url` to the real HTTPS domain.
 - Secure your database and restrict access by IP where possible.
-
----
-
-If you'd like, I can add a small `Makefile` or PowerShell script to automate these steps or update the existing `README.md` with a shorter installation summary.
